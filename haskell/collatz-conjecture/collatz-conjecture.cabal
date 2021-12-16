@@ -1,0 +1,56 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: eff2f20567bc37bffc81bb1189e16e88a76361b94c0714989bfc70216be3a17f
+
+name:           collatz-conjecture
+version:        1.2.1.4
+build-type:     Simple
+
+library
+  exposed-modules:
+      CollatzConjecture
+      CollatzConjectureRecursive
+      CollatzConjectureHigherOrder
+  other-modules:
+      Paths_collatz_conjecture
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -O2
+  build-depends:
+      base
+    , extra
+    , mtl
+  default-language: Haskell2010
+
+executable collatz-bench
+  main-is: Main.hs
+  other-modules:
+      Paths_collatz_conjecture
+  hs-source-dirs:
+      app
+  ghc-options: -O2
+  build-depends:
+      base
+    , collatz-conjecture
+    , extra
+    , mtl
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: Tests.hs
+  other-modules:
+      Paths_collatz_conjecture
+  hs-source-dirs:
+      test
+  build-depends:
+      base
+    , collatz-conjecture
+    , extra
+    , hspec
+    , mtl
+  default-language: Haskell2010
