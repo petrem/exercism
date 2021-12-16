@@ -1,0 +1,9 @@
+https://www.red-bean.com/sgf/sgf4.html
+
+
+  "..." : terminal symbols
+  [...] : option: occurs at most once
+  {...} : repetition: any number of times, including zero
+  (...) : grouping
+    |   : exclusive or
+ italics: parameter explained at some other place
