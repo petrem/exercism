@@ -1,0 +1,15 @@
+# By default, list available recipes
+_default:
+    @just --list
+
+# Clean up
+clean:
+    find . -name \*.pyc -delete
+    find . -name __pycache__ -delete
+    find . -name .pytest_cache -delete
+
+# Run linters, static analysers and so on
+check target:
+    @echo 'Checking {{invocation_directory()}}/{{target}}...'
+    prospector {{invocation_directory()}}/{{target}}
+
