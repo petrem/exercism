@@ -6,7 +6,7 @@ def capitalize_title(title):
     :param title: str title string that needs title casing
     :return:  str title string in title case (first letters capitalized)
     """
-    return title.capitalize()
+    return title.title()
 
 
 def check_sentence_ending(sentence):
@@ -20,7 +20,8 @@ def check_sentence_ending(sentence):
 def clean_up_spacing(sentence):
     """
     :param sentence: str a sentence to clean of leading and trailing space characters.
-    :return: str a sentence that has been cleaned of leading and trailing space characters.
+    :return: str a sentence that has been cleaned of leading
+             and trailing space characters.
     """
     return sentence.strip()
 
