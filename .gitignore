@@ -24,3 +24,4 @@ venv
 .benchmarks
 fil-result
 TAGS
+.python-version

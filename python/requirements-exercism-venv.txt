@@ -4,3 +4,5 @@ pytest-subtests
 pytest-pylint
 mypy
 pylint
+ipython
+rich

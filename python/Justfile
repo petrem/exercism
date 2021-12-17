@@ -12,4 +12,30 @@ clean:
 check target:
     @echo 'Checking {{invocation_directory()}}/{{target}}...'
     prospector {{invocation_directory()}}/{{target}}
+    mypy {{invocation_directory()}}/{{target}}
 
+# Auto-format code file
+style target:
+    @echo 'Styling {{invocation_directory()}}/{{target}}...'
+    black {{invocation_directory()}}/{{target}}
+    isort {{invocation_directory()}}/{{target}}
+
+# Auto-format and check code file(s)
+prep +targets:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    echo 'Preparing {{invocation_directory()}}/{{targets}}...'
+    cd {{invocation_directory()}}
+    just style {{targets}}
+    just check {{targets}}
+    pytest .
+
+submit +targets:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    echo 'Preparing {{invocation_directory()}}/{{targets}}...'
+    cd {{invocation_directory()}}
+    just prep {{targets}}
+    exercism submit {{targets}}
+    git add .
+    git commit -m 'python:{{file_name(invocation_directory())}}'
