@@ -1,8 +1,12 @@
+# testing
 pytest
 pytest-cache
 pytest-subtests
 pytest-pylint
-mypy
-pylint
+
+# linting and analyzing
+prospector[with_vulture, with_mypy, with_bandit]
+
+# for REPL and debugging
 ipython
 rich

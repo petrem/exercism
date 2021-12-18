@@ -10,20 +10,24 @@ clean:
 
 # Run linters, static analysers and so on
 check target:
-    @echo 'Checking {{invocation_directory()}}/{{target}}...'
-    prospector {{invocation_directory()}}/{{target}}
-    mypy {{invocation_directory()}}/{{target}}
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Checking {{invocation_directory()}}/{{target}} ..'
+    profile_args='--profile-path={{justfile_directory()}} --profile=exercism'
+    [ -e '{{invocation_directory()}}/.prospector.yaml' ] && \
+      profile_args='--profile={{invocation_directory()}}/.prospector.yaml'
+    prospector --no-external-config "$profile_args" '{{invocation_directory()}}/{{target}}'
 
 # Auto-format code file
 style target:
     @echo 'Styling {{invocation_directory()}}/{{target}}...'
-    black {{invocation_directory()}}/{{target}}
+    black --target-version py310 {{invocation_directory()}}/{{target}}
     isort {{invocation_directory()}}/{{target}}
 
 # Auto-format and check code file(s)
 prep +targets:
     #!/usr/bin/env bash
-    set -euxo pipefail
+    set -euo pipefail
     echo 'Preparing {{invocation_directory()}}/{{targets}}...'
     cd {{invocation_directory()}}
     just style {{targets}}
@@ -32,7 +36,7 @@ prep +targets:
 
 submit +targets:
     #!/usr/bin/env bash
-    set -euxo pipefail
+    set -euo pipefail
     echo 'Preparing {{invocation_directory()}}/{{targets}}...'
     cd {{invocation_directory()}}
     just prep {{targets}}

@@ -1,0 +1,73 @@
+output-format: text
+
+strictness: veryhigh
+test-warnings: false
+doc-warnings: true
+member-warnings: false
+autodetect: false
+ignore-paths:
+  - .exercism
+max-line-length: 88
+
+bandit:
+  run: true
+
+dodgy:
+  run: true
+
+mccabe:
+  run: true
+  options:
+    max-complexity: 10
+
+pep8:
+  disable:
+    - W602
+    - W603
+  enable:
+    - W601
+
+# note this is quite old and un-maintained...
+pep257:
+  run: true
+  disable:
+    - D100
+    - D101
+    - D213  # Mutually exclusive with D212
+    - D400  # Leaving D415 (end docstring first line with [.?!])
+
+pylint:
+  disable:
+    - bad-builtin
+    - too-few-public-methods
+  options:
+    max-locals: 15
+    max-returns: 6
+    max-branches: 15
+    max-statements: 60
+    max-parents: 3
+    max-attributes: 7
+    min-public-methods: 1
+    max-public-methods: 20
+    max-module-lines: 1000
+    max-line-length: 88
+
+mypy:
+  run: true
+  options:
+    ignore-missing-imports: true
+    follow-imports: skip
+    show-error-codes: true
+
+# pyflakes is not (yet) fully compatible with python3.10
+pyflakes:
+  run: false
+  disable:
+    - F403
+    - F810
+
+pyroma:
+  run: false
+
+vulture:
+  run: false
