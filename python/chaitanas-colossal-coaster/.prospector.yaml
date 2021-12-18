@@ -1,0 +1,9 @@
+# disable mypy for lack of support on match statements
+inherits:
+  - exercism
+
+mypy:
+  run: false
+
+pyflakes:
+  run: false
