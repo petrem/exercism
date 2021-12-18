@@ -9,15 +9,26 @@ def add_me_to_the_queue(express_queue, normal_queue, ticket_type, person_name):
     :param person_name: str - name of person to add to a queue.
     :return: list - the (updated) queue the name was added to.
     """
-    match ticket_type:  # type: ignore
-        case 0:
-            queue = normal_queue
-        case 1:
-            queue = express_queue
-        case int(x):
-            raise ValueError(f"ticket_type {x} is not one of 0 or 1.")
-        case _:
-            raise TypeError("ticket_type must be int")
+    # The 2020s called, they want their match-case-lessness back...
+
+    # match ticket_type:
+    #     case 0:
+    #         queue = normal_queue
+    #     case 1:
+    #         queue = express_queue
+    #     case int(x):
+    #         raise ValueError(f"ticket_type {x} is not one of 0 or 1.")
+    #     case _:
+    #         raise TypeError("ticket_type must be int")
+
+    if ticket_type == 0:
+        queue = normal_queue
+    elif ticket_type == 1:
+        queue = express_queue
+    elif isinstance(ticket_type, int):
+        raise ValueError(f"ticket_type {ticket_type} is not one of 0 or 1.")
+    else:
+        raise TypeError("ticket_type must be int")
 
     if person_name not in queue:
         queue.append(person_name)
