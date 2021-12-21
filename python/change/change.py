@@ -12,7 +12,7 @@ def find_fewest_coins(coins: TCoins, target: int) -> TCoins:
     """Find fewest items from `coins` adding up to `target`."""
     if target < 0:
         raise ValueError("target can't be negative")
-    n_coins, change = _find_fewest_coins(coins, target)
+    n_coins, change = _find_fewest_coins(sorted(coins), target)
     if n_coins is Largest():
         raise ValueError("can't make target with given coins")
     return change
