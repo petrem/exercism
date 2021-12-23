@@ -10,3 +10,4 @@ prospector[with_vulture, with_mypy, with_bandit]
 # for REPL and debugging
 ipython
 rich
+icecream
