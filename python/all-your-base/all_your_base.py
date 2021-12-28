@@ -1,6 +1,5 @@
 """Exercism: all your base."""
 from collections import deque
-from itertools import dropwhile
 from typing import Any, List, NewType
 
 TBase = NewType("TBase", int)
@@ -35,7 +34,7 @@ def to_base(base: TBase, number: int) -> TDigits:
     while number > 0:
         number, r = divmod(number, base)
         digits.appendleft(TDigit(r))
-    return TDigits(list(dropwhile(lambda x: x == 0, digits)) or [TDigit(0)])
+    return TDigits(list(digits) or [TDigit(0)])
 
 
 def from_base(base: TBase, digits: TDigits) -> int:
