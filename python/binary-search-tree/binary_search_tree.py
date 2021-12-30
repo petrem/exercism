@@ -16,6 +16,7 @@ import operator
 from collections import namedtuple
 from functools import partial, reduce
 from itertools import repeat
+from typing import Optional
 
 
 class TreeNode:
@@ -38,7 +39,9 @@ class BinarySearchTree:
     def __init__(self, tree_data: list):
         self._bst = BST(tree_data)
 
-    def data(self) -> TreeNode | None:
+    # previous iteration typing annotation failed as foo|bar isn't yet valid
+    # in Exercism's world. Upgrade, we're almost in 2022! ;-)
+    def data(self) -> Optional[TreeNode]:
         """Build a TreeNode out of the underlying BST.
 
         This requirement makes the current approach rather ridiculous, but
