@@ -10,7 +10,7 @@ library:
   ghc-options: -Wall
   dependencies:
   - mtl
-  - dlist
+  - containers
 
 tests:
   test:
