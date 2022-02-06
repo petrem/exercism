@@ -1,31 +1,35 @@
-module Phone (number) where
+module Phone
+  ( number
+  ) where
 
-import qualified Data.Char as C
 import Control.Applicative
-
-
-maybeDigit :: Int -> Int -> Char -> Maybe Char
-maybeDigit from to c
-  | C.isDigit c = if (&&) <$> (>= from) <*> (<= to) $ C.digitToInt c then Just c else Nothing
-  | otherwise   = Nothing
-
-
-phoneNumberFormat :: [Char -> Maybe Char]
-phoneNumberFormat = [maybeN, maybeX, maybeX, maybeN] ++ replicate 6 maybeX
-  where maybeX = maybeDigit 0 9
-        maybeN = maybeDigit 2 9
-
-phoneNumberFormatWithCountry :: [Char -> Maybe Char]
-phoneNumberFormatWithCountry = maybeOne : phoneNumberFormat
-  where maybeOne = maybeDigit 1 1
-
-checkNumber :: [Char -> Maybe Char] -> String -> Maybe String
-checkNumber format xs = sequenceA . getZipList $ ZipList format <*> ZipList xs
+import Text.Trifecta
 
 number :: String -> Maybe String
-number xs = do
-  let onlyDigits = filter C.isDigit xs
-  case length onlyDigits of
-    11 -> tail <$> checkNumber phoneNumberFormatWithCountry onlyDigits
-    10 -> checkNumber phoneNumberFormat onlyDigits
-    _  -> Nothing
+number s =
+  case parseString parsePhoneNumber mempty s of
+    (Success parsedNumber) -> Just parsedNumber
+    _ -> Nothing
+
+parsePhoneNumber :: (CharParsing f, Monad f) => f String
+parsePhoneNumber = try (skipCountry >> skipMany space >> nanp) <|> nanp
+
+nanp :: (CharParsing f, Monad f) => f String
+nanp = do
+  area <- paranthesized areaOrExchange
+  skipMany $ oneOf " -."
+  exc <- areaOrExchange
+  skipMany $ oneOf " -."
+  line <- count 4 digit
+  skipMany space
+  eof
+  return $ concat [area, exc, line]
+
+skipCountry :: (CharParsing f, Monad f) => f ()
+skipCountry = skipOptional (char '+') >> skipMany space >> char '1' >> return ()
+
+areaOrExchange :: CharParsing f => f String
+areaOrExchange = (:) <$> oneOf ['2' .. '9'] <*> count 2 digit
+
+paranthesized :: CharParsing f => f a -> f a
+paranthesized p = skipOptional (char '(') *> p <* skipOptional (char ')')

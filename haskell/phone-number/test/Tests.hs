@@ -12,7 +12,7 @@ main = hspecWith defaultConfig {configFastFail = True} specs
 specs :: Spec
 specs = describe "number" $ for_ cases test
   where
-    test Case{..} = it description $ number input `shouldBe` expected
+    test Case{..} = it (description ++ ": " ++ input) $ number input `shouldBe` expected
 
 data Case = Case { description ::       String
                  , input       ::       String
