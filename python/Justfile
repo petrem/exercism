@@ -13,7 +13,7 @@ check target:
     #!/usr/bin/env bash
     set -euo pipefail
     echo 'Checking {{invocation_directory()}}/{{target}} ..'
-    profile_args='--profile-path={{justfile_directory()}} --profile=exercism'
+    profile_args='--profile={{justfile_directory()}}/.prospector/exercism.yaml'
     [ -e '{{invocation_directory()}}/.prospector.yaml' ] && \
       profile_args='--profile={{invocation_directory()}}/.prospector.yaml'
     prospector --no-external-config "$profile_args" '{{invocation_directory()}}/{{target}}'
@@ -32,12 +32,12 @@ prep +targets:
     cd {{invocation_directory()}}
     just style {{targets}}
     just check {{targets}}
-    pytest .
+    pytest -q .
 
 submit +targets:
     #!/usr/bin/env bash
     set -euo pipefail
-    echo 'Preparing {{invocation_directory()}}/{{targets}}...'
+    echo 'Submitting {{invocation_directory()}}/{{targets}}...'
     cd {{invocation_directory()}}
     just prep {{targets}}
     exercism submit {{targets}}

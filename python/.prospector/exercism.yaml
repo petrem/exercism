@@ -9,8 +9,9 @@ ignore-paths:
   - .exercism
 max-line-length: 88
 
+# disabling as I cannot disable B101 (use of assert detected).
 bandit:
-  run: true
+  run: false
 
 dodgy:
   run: true
@@ -33,6 +34,9 @@ pep257:
   disable:
     - D100
     - D101
+    - D105  # Missing docstring in magic method
+    - D107  # Missing docstring in __init__
+    - D211  # No blank lines allowed before class docstring. Mutually exclusive with D203.
     - D213  # Mutually exclusive with D212
     - D400  # Leaving D415 (end docstring first line with [.?!])
 
@@ -40,6 +44,7 @@ pylint:
   disable:
     - bad-builtin
     - too-few-public-methods
+    - no-else-return
   options:
     max-locals: 15
     max-returns: 6

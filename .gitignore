@@ -1,6 +1,8 @@
 *.orig
 *~
-*.#*
+*.\#*
+\#*
+.DS_Store
 *.pyc
 .apikey
 .coverage
