@@ -4,6 +4,7 @@ As usual, an over-engineered solution -- having fun modelling with Enums and wha
 
 *Warnings*:
 
+  * This solution uses python 3.11 features! This is why it fails the tests.
   * This solution is, to some degree, based on pitch-class set theory, of which I
     know practically nothing. Don't learn from me.
   * It only makes sense in equal temparament (as the exercise itself).
