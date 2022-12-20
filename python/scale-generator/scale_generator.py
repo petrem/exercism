@@ -22,7 +22,6 @@ from model import (
     Interval,
     Note,
     NoteName,
-    PitchClass,
     UseNaturalOrFlatsStrategy,
     UseNaturalOrSharpsStrategy,
     m2,
@@ -51,20 +50,17 @@ class Scale:
 
     def chromatic(self) -> list[str]:
         """Generate chromatic scale."""
-        return [
-            self._strategy.get_note(pc).__ascii__()
-            for pc in self._make_scale(repeat(m2, 12))
-        ][:-1]
+        return list(self._make_scale(repeat(m2, 11)))
 
     def interval(self, intervals: str) -> list[str]:
         """Generate scale based on provided intervals."""
-        return [
-            self._strategy.get_note(pc).__ascii__()
-            for pc in self._make_scale(map(self._to_interval, intervals))
-        ][:-1]
+        return list(self._make_scale(map(self._to_interval, intervals)))
 
-    def _make_scale(self, intervals: Iterable[Interval]) -> Iterable[PitchClass]:
-        yield from accumulate(intervals, initial=self.tonic.pitch_class)
+    def _make_scale(self, intervals: Iterable[Interval]) -> Iterable[str]:
+        yield from (
+            self._strategy.get_note(pc).__ascii__()
+            for pc in accumulate(intervals, initial=self.tonic.pitch_class)
+        )
 
     @staticmethod
     def _to_interval(interval: str) -> Interval:
