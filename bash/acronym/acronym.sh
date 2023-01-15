@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 echo "$1" | \
-    tr -c "a-zA-Z'" ' ' | \
+    tr -c "[:alpha:]'" ' ' | \
     tr -s ' ' | \
     (
-        while read -d ' ' word ; do
+        while read -r -d ' ' word ; do
             head -c1 <<< "$word"
         done
     ) | \
-    tr a-z A-Z
+    tr '[:lower:]' '[:upper:]'
