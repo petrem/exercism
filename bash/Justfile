@@ -1,0 +1,34 @@
+# By default, list available recipes
+_default:
+    @just --list
+
+# Clean up
+clean:
+        echo > /dev/null
+
+# check code file(s)
+test:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Testing {{invocation_directory()}} ...'
+    cd {{invocation_directory()}}
+    BATS_RUN_SKIPPED=true bats *.bats
+
+# lint shell files with shellcheck
+lint +targets:
+    echo 'Linting {{invocation_directory()}}/{{targets}}'
+    shellcheck {{invocation_directory()}}/{{targets}}
+
+# run tests, lint, and submit targets to exercism
+submit +targets:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Submitting {{invocation_directory()}}/{{targets}}...'
+    cd {{invocation_directory()}}
+    just test
+    shellcheck {{targets}}
+    exercism submit {{targets}}
+    git add .
+    git commit -m 'exercism:bash:{{file_name(invocation_directory())}}'
+
+

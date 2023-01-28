@@ -1,0 +1,27 @@
+# By default, list available recipes
+_default:
+    @just --list
+
+# Clean up
+clean:
+        echo > /dev/null
+
+# check code file(s)
+test:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Testing {{invocation_directory()}} ...'
+    cd {{invocation_directory()}}
+    BATS_RUN_SKIPPED=true bats *.bats
+
+submit +targets:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Submitting {{invocation_directory()}}/{{targets}}...'
+    cd {{invocation_directory()}}
+    just test
+    exercism submit {{targets}}
+    git add .
+    git commit -m 'exercism:awk:{{file_name(invocation_directory())}}'
+
+
