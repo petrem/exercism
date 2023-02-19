@@ -16,8 +16,9 @@ bandit:
 dodgy:
   run: true
 
+# disabling because I cannot disable in specific code lines
 mccabe:
-  run: true
+  run: false
   options:
     max-complexity: 10
 
@@ -32,8 +33,8 @@ pep8:
 pep257:
   run: true
   disable:
-    - D100
-    - D101
+    - D100  # Missing docstring in public module
+    - D101  # Missing docstring in public class
     - D105  # Missing docstring in magic method
     - D107  # Missing docstring in __init__
     - D211  # No blank lines allowed before class docstring. Mutually exclusive with D203.
@@ -41,6 +42,7 @@ pep257:
     - D400  # Leaving D415 (end docstring first line with [.?!])
 
 pylint:
+  run: false
   disable:
     - bad-builtin
     - too-few-public-methods
@@ -56,13 +58,17 @@ pylint:
     max-public-methods: 20
     max-module-lines: 1000
     max-line-length: 88
+    good-names: ['e', 'i', 'j', 'k', 'ex', 'Run', '_']
+    include-naming-hint: true
+    # override default snake_case to allow one-letter variables
+    variable-rgx: '([^\\W\\dA-Z][^\\WA-Z]*|_[^\\WA-Z]*|__[^\\WA-Z\\d_][^\\WA-Z]+__)$'
 
 mypy:
   run: true
   options:
     ignore-missing-imports: true
     follow-imports: skip
-    show-error-codes: true
+    # show-error-codes: true
 
 # pyflakes is not (yet) fully compatible with python3.10
 pyflakes:

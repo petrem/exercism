@@ -42,4 +42,4 @@ submit +targets:
     just prep {{targets}}
     exercism submit {{targets}}
     git add .
-    git commit -m 'python:{{file_name(invocation_directory())}}'
+    git commit -m 'exercism:python:{{file_name(invocation_directory())}}'
