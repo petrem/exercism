@@ -1,0 +1,9 @@
+{application, roman_numerals,
+  [{description, "exercism.org - roman-numerals"},
+    {vsn, "0.0.1"},
+    {modules, []},
+    {registered, []},
+    {applications, [kernel,
+      stdlib]},
+    {env, []}
+  ]}.

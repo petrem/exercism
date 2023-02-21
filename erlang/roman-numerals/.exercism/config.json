@@ -1,0 +1,29 @@
+{
+  "authors": [
+    "ksyu"
+  ],
+  "contributors": [
+    "ErikSchierboom",
+    "iHiD",
+    "JordanAdams",
+    "juhlig",
+    "kytrinyx",
+    "NobbZ",
+    "paulmr",
+    "xymbol"
+  ],
+  "files": {
+    "solution": [
+      "src/roman_numerals.erl"
+    ],
+    "test": [
+      "test/roman_numerals_tests.erl"
+    ],
+    "example": [
+      ".meta/example.erl"
+    ]
+  },
+  "blurb": "Write a function to convert from normal numbers to Roman Numerals.",
+  "source": "The Roman Numeral Kata",
+  "source_url": "http://codingdojo.org/cgi-bin/index.pl?KataRomanNumerals"
+}
