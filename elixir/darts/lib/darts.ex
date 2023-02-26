@@ -6,14 +6,14 @@ defmodule Darts do
   """
   @spec score(position) :: integer
   def score({x, y}) do
-    d = distance(x, y)
+    r = distance_from_origin({x, y})
     cond do
-      d <= 1 -> 10
-      d <= 5 -> 5
-      d <= 10 -> 1
+      r <= 1 -> 10
+      r <= 5 -> 5
+      r <= 10 -> 1
       true -> 0
     end
   end
 
-  defp distance(x, y), do: (x * x + y * y) ** 0.5
+  defp distance_from_origin({x, y}), do: :math.sqrt(x * x + y * y)
 end
