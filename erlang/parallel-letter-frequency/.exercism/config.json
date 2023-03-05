@@ -1,0 +1,25 @@
+{
+  "authors": [],
+  "contributors": [
+    "ErikSchierboom",
+    "iHiD",
+    "JordanAdams",
+    "juhlig",
+    "kytrinyx",
+    "NobbZ",
+    "tmcgilchrist",
+    "xymbol"
+  ],
+  "files": {
+    "solution": [
+      "src/parallel_letter_frequency.erl"
+    ],
+    "test": [
+      "test/parallel_letter_frequency_tests.erl"
+    ],
+    "example": [
+      ".meta/example.erl"
+    ]
+  },
+  "blurb": "Count the frequency of letters in texts using parallel computation."
+}
