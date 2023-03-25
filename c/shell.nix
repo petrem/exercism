@@ -12,6 +12,7 @@ mkShell {
     exercism
     git
     just
+    jq
   ]
   ++ optional stdenv.isLinux inotify-tools
   ++ optional stdenv.isDarwin terminal-notifier

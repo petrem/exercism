@@ -8,6 +8,7 @@ in
 buildEnv {
   name = "builder";
   paths = [
+    cppcheck
     gnumake
   ]
   ++ optional stdenv.isLinux valgrind;
