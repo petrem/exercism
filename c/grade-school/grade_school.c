@@ -43,12 +43,12 @@ find_for_insert(roster_t *roster, const char *name, int grade) {
 
   // smaller grades
   for (; k < roster->count && roster->students[k].grade < grade; k++) {
-    if (0 == strncmp(roster->students[k].name, name, MAX_NAME_LENGTH))
+    if (0 == strncmp(roster->students[k].name, name, MAX_NAME_LENGTH - 1))
       return (find_result_t){k, true};
   }
   // equal grades
   for (; k < roster->count && roster->students[k].grade == grade; k++) {
-    int cmp = strncmp(roster->students[k].name, name, MAX_NAME_LENGTH);
+    int cmp = strncmp(roster->students[k].name, name, MAX_NAME_LENGTH - 1);
     if (cmp > 0)
       break;
     else if (cmp == 0)
@@ -58,7 +58,7 @@ find_for_insert(roster_t *roster, const char *name, int grade) {
 
   // remaining equal grades, and higher
   for (; k < roster->count ; k++) {
-    if (0 == strncmp(roster->students[k].name, name, MAX_NAME_LENGTH))
+    if (0 == strncmp(roster->students[k].name, name, MAX_NAME_LENGTH - 1))
       return (find_result_t){k, true};
   }
   return (find_result_t){j, false};
@@ -74,7 +74,7 @@ static bool insert_student(roster_t *roster, const char *name, int grade) {
     memcpy(&roster->students[k], &roster->students[k-1], sizeof(student_t));
   }
   roster->students[result.pos].grade = grade;
-  strlcpy(roster->students[result.pos].name, name, MAX_NAME_LENGTH);
+  strncpy(roster->students[result.pos].name, name, MAX_NAME_LENGTH - 1);
   roster->count++;
   return true;
 }
