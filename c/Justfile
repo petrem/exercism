@@ -1,0 +1,62 @@
+# By default, list available recipes
+_default:
+    @just --list
+
+_dontknow:
+    @echo "Don't know how to do that yet"
+
+# Clean up
+clean:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Cleaning up {{file_name(invocation_directory())}}...'
+    cd {{invocation_directory()}}
+    make clean
+
+# Run linters, static analysers and so on
+check *targets:
+    # #!/usr/bin/env bash
+    # set -euo pipefail
+    echo 'Checking {{file_name(invocation_directory())}}...'
+    @just _dontknow
+    
+
+# Auto-format code file
+style *targets:
+    @echo 'Styling {{invocation_directory()}}/{{targets}}...'
+    @just _dontknow
+
+# Run tests
+test:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Testing {{file_name(invocation_directory())}}...'
+    cd {{invocation_directory()}}
+    make test
+
+# Run style, lint, tests, submit to exercism, git commit
+submit +targets:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Submitting {{invocation_directory()}}/{{targets}}...'
+    cd {{invocation_directory()}}
+    just style 
+    just check {{targets}}
+    just test
+    exercism submit {{targets}}
+    git add .
+    git commit -m 'exercism:elixir:{{file_name(invocation_directory())}}'
+
+
+# Move src/* to base dir to update to new exercism expectations
+move_from_src:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Updating (move code out of src/) {{invocation_directory()}}'
+    cd {{invocation_directory()}}
+    exercise_id=$(jq '.id' < .exercism/metadata.json)
+    # need to be able to update the exercise here, first
+    exercism download ...
+    git mv src/* .
+    rmdir src
+    git commit -m 'moved files out from src/ due to exercism change'
