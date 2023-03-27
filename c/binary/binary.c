@@ -4,7 +4,6 @@
 int convert(const char *input) {
   int acc = 0;
   for(; *input && *input == '0'; input++);
-  //  while (*input && *(input) == '0') input++;
   for (;*input; input++) {
     acc <<= 1;
     switch (*input) {
