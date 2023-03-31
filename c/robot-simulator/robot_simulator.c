@@ -27,7 +27,7 @@ static inline void turn_left(robot_status_t *robot) {
 }
 
 static inline void turn_right(robot_status_t *robot) {
-  robot->direction = (robot->direction + 5) % 4;
+  robot->direction = (robot->direction + 1) % 4;
 }
 
 static inline void advance(robot_status_t *robot) {
