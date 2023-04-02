@@ -27,6 +27,9 @@ mkShell {
                                    vulture
                                    mypy
                                    bandit
+                                   # reformatting
+                                   black
+                                   isort
                                    # sometimes used while debugging
                                    rich
                                    icecream
