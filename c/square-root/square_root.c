@@ -13,7 +13,7 @@ static uint16_t significant_bits_count(uint16_t x);
 
 static inline uint16_t approximate_sqrt(uint16_t radicand, uint16_t x);
 
-uint16_t squareRoot(uint16_t radicand) {
+uint16_t square_root(uint16_t radicand) {
   // get a first rough approximation for the sqare root
   uint16_t seed = (significant_bits_count(radicand) + 1) / 2;
 
