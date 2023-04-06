@@ -1,66 +1,42 @@
-"""An overengineered solution with enums, classes and whatnot."""
-
-from enum import IntEnum
+"""An alternative solution, playing with strings. Don't use in production! ;-)"""
 
 
 def label(colors):
-    """Exercise interface function"""
-
-    return str(Resistor.from_label(colors))
-
-
-class Unit(IntEnum):
-    """Resistor units."""
-
-    OHMS = 0
-    KILOOHMS = 3
-    MEGAOHMS = 6
-    GIGAOHMS = 9
-
-    @classmethod
-    def closest_less_or_equal(cls, value):
-        return next(m for m in reversed(cls.__members__.values()) if m <= value)
-
-
-class Code(IntEnum):
-    """Resistor color codes."""
-
-    @classmethod
-    def _missing_(cls, value):
-        if isinstance(value, str):
-            for member in cls:
-                if member._name_ == value.upper():
-                    return member
-        return None
-
-    BLACK = 0
-    BROWN = 1
-    RED = 2
-    ORANGE = 3
-    YELLOW = 4
-    GREEN = 5
-    BLUE = 6
-    VIOLET = 7
-    GREY = 8
-    WHITE = 9
+    codes = [COLOR_CODES[c] for c in colors]
+    ohms = "".join(
+        (
+            str(codes[0]) if codes[0] else "",
+            str(codes[1]),
+            "0" * codes[2],
+        )
+    )
+    if ohms.endswith("0"):
+        pivot = ohms.find("0")
+        unit_prefix, rest = divmod(len(ohms) - pivot, 3)
+        significant = pivot + rest
+    else:
+        unit_prefix = 0
+        significant = len(ohms)
+    return f"{ohms[:significant]} {UNIT_PREFIXES[unit_prefix]}ohms"
 
 
-class Resistor:
-    def __init__(self, value, unit: Unit):
-        self.value = value
-        self.unit = unit
+COLOR_CODES = {
+    c: j
+    for j, c in enumerate(
+        [
+            "black",
+            "brown",
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "violet",
+            "grey",
+            "white",
+        ]
+    )
+}
 
-    @classmethod
-    def from_label(cls, label_colors):
-        value = Code(label_colors[0])
-        exponent = Code(label_colors[2])
-        if Code(label_colors[1]) == Code.BLACK:
-            exponent += 1
-        else:
-            value = 10 * value + Code(label_colors[1])
-        unit = Unit.closest_less_or_equal(exponent)
-        value *= 10 ** (exponent - unit)
-        return cls(value, unit)
 
-    def __str__(self):
-        return f"{self.value} {self.unit._name_.lower()}"
+UNIT_PREFIXES = ["", "kilo", "mega", "giga"]
