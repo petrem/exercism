@@ -37,6 +37,7 @@ pep257:
     - D101  # Missing docstring in public class
     - D105  # Missing docstring in magic method
     - D107  # Missing docstring in __init__
+    - D202  # No blank lines allowed after function docstring.
     - D211  # No blank lines allowed before class docstring. Mutually exclusive with D203.
     - D213  # Mutually exclusive with D212
     - D400  # Leaving D415 (end docstring first line with [.?!])
