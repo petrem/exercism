@@ -7,8 +7,6 @@ from dominoes import can_chain
 
 N_PIPS = 6
 MAX_PIECES = 14
-# PIECE = st.tuples(st.integers(0, N_PIPS), st.integers(0, N_PIPS))
-# DOMINO_CHAIN = st.lists(PIECE, min_size=1, max_size=MAX_PIECES)
 
 
 # Strategies
@@ -59,7 +57,7 @@ def test_chainable(c):
 @given(unchainable())
 @settings(deadline=2000)  # extend deadline to 2 seconds
 def test_unchainable(c):
-    assert can_chain(c) is None
+    assert refute_correct_chain(c, can_chain(c))
 
 
 # Utility functions adapted from dominoes_test.py
