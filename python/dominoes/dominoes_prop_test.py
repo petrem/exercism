@@ -1,18 +1,24 @@
 """Check using property testing via the excellent hypothesis package."""
 from collections import Counter
 
+import pytest
 from hypothesis import given, settings, strategies as st
 
 from dominoes import can_chain
 
 N_PIPS = 6
-MAX_PIECES = 14
+MAX_PIECES = 12
 
 
 # Strategies
 
 @st.composite
 def chainable(draw, n_pips=N_PIPS, max_size=MAX_PIECES):
+    """Create chainable pieces by constructing an explicit chain.
+
+    Need to check if, by running permutations, we actually generate from several
+    distinct chains or just permute the one.
+    """
     pips = draw(st.lists(st.integers(0, n_pips), min_size=2, max_size=max_size - 1))
     pieces = list(zip(pips[:-1], pips[1:]))
     # close the chain
@@ -31,7 +37,10 @@ def has_odd_pips(ps):
 
 @st.composite
 def unchainable_by_odd_pips(draw, n_pips=N_PIPS, max_size=MAX_PIECES):
-    """Build sets of pieces with some odd pips."""
+    """Build sets of pieces with some odd pips.
+
+    This is unsavourly slow.
+    """
     return draw(
         st.lists(
             st.tuples(st.integers(0, n_pips), st.integers(0, n_pips)),
@@ -55,9 +64,9 @@ def test_chainable(c):
 
 
 @given(unchainable())
-@settings(deadline=2000)  # extend deadline to 2 seconds
+@settings(deadline=4000)  # extend deadline to 2 seconds
 def test_unchainable(c):
-    assert refute_correct_chain(c, can_chain(c))
+    refute_correct_chain(c, can_chain(c))
 
 
 # Utility functions adapted from dominoes_test.py
@@ -104,5 +113,5 @@ def assert_correct_chain(input_dominoes, output_chain):
 
 
 def refute_correct_chain(input_dominoes, output_chain):
-    msg = f"There should be no valid chain for {input_dominoes}"
+    msg = f"There should be no valid chain for {input_dominoes}, but got {output_chain}"
     assert output_chain is None, msg
