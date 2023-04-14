@@ -5,7 +5,7 @@ from operator import add
 import sys
 
 
-def rows(row_count: int) -> [[int]]:
+def rows(row_count: int) -> list[list[int]]:
     """Implement exercise."""
     if row_count < 0:
         raise ValueError("Trying to trick me, din'tcha?")
@@ -16,7 +16,7 @@ def rows(row_count: int) -> [[int]]:
 
 
 @cache
-def _row(row_number: int) -> [int]:
+def _row(row_number: int) -> list[int]:
     if row_number == 0:
         return [1]
     prev_row = _row(row_number - 1)
