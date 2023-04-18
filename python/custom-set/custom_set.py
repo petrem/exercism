@@ -1,6 +1,16 @@
-"""An obviously erroneous solution that passes the tests.
+"""An erroneous solution that passes the tests.
 
-Evidently, the hash table implementation does not handle collisions.
+The most evident issue is that the hash table implementation does not handle collisions.
+
+A small number of tests re-written using hypothesis exposes the problem quickly: given
+we use 7 as the hashtable size and as the prime for the hash function (division-based):
+
+```
+FAILED custom_set_prop_test.py::test_when_the_element_is_not_in_the_set - assert (7 not in CustomSet([0])) is True
+```
+
+See `custom_set_prop_test.py`. Assumes you have pytest and hypothesis installed.
+
 """
 
 from itertools import chain
@@ -31,9 +41,6 @@ class CustomSet:
             e in self for e in other
         )
 
-    def __iter__(self):
-        return iter(self._hashtable)
-
     def add(self, element):
         self._hashtable.add(element)
 
@@ -48,11 +55,16 @@ class CustomSet:
     def __add__(self, other):
         return CustomSet(chain(self, other))
 
+    # extra-curricular dunders -- consider them private
+
+    def __iter__(self):
+        return iter(self._hashtable)
+
     def __len__(self):
         return len(self._hashtable)
 
     def __repr__(self):
-        elements = ",".join(self._hashtable)
+        elements = ",".join(str(e) for e in self._hashtable)
         return f"CustomSet([{elements}])"
 
 
