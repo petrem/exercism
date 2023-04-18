@@ -21,7 +21,11 @@ class Alien:
 
     total_aliens_created = 0
 
-    def __init__(self, x_or_coords, y=None):
+    def __init__(self, x_or_coords, y=None):  # pylint: disable=disallowed-name
+        # shunning automated check with pylint:
+        # '["Disallowed name "y"] was reported by Pylint.'
+        # pylint is sometimes completely off the charts.
+        # Life's too short not to use `y` (I kinda agree about i and l, though).
         # See below for a so called explanation of why this weird signature.
         if y is None:
             self.x_coordinate, self.y_coordinate = x_or_coords
