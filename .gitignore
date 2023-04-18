@@ -23,7 +23,6 @@ node_modules
 *.db
 .venv
 venv
-.benchmarks
 fil-result
 TAGS
 .python-version

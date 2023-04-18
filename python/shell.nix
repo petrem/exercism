@@ -21,6 +21,8 @@ mkShell {
                                    pytest-cache
                                    pytest-subtests
                                    pytest-pylint
+                                   pytest-benchmark
+                                   hypothesis
                                    # linting
                                    # todo: how to specify prospector[with_vulture, with_mypy, with_bandit] ?
                                    prospector
