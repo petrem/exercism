@@ -26,3 +26,4 @@ venv
 fil-result
 TAGS
 .python-version
+.direnv/
