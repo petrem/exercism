@@ -38,4 +38,4 @@ submit target *more_files:
     just test {{target}}
     exercism submit {{target}}.pl {{more_files}}
     git add .
-    git commit -m 'exercism:elixir:{{file_name(invocation_directory())}}'
+    git commit -m 'exercism:prolog:{{file_name(invocation_directory())}}'
