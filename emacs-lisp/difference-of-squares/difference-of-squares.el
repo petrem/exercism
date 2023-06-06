@@ -10,16 +10,14 @@
   (/
    (*
     n
-    (+ n 1)
-    (+
-     (* n 2)
-     1))
+    (1+ n)
+    (1+ (* n 2)))
    6)
 )
 
 (defun square-of-sum (n)
   "Calculate square of sum of 1..N."
-  (let ((sum (/ (* n (+ n 1)) 2)))
+  (let ((sum (/ (* n (1+ n)) 2)))
     (* sum sum))
 )
 
