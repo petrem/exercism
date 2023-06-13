@@ -12,34 +12,37 @@
   "Build a new robot with a random name."
   (let ((robot (cons nil ())))
     (reset-robot robot)
-    robot)
-)
+    robot))
+
 
 (defun robot-name (robot)
   "Get the ROBOT's name."
-  (car robot)
-)
+  (car robot))
+
+
+(defvar robot-name--allocated-names nil
+  "Accumulate names allocated to robots to avoid duplicates.")
+
 
 (defun reset-robot (robot)
   "Reset the name of ROBOT.  Factory reset!"
-  (setcar robot (make-robot-name))
-)
+  (let (name)
+    (while
+        (progn
+          (setq name (robot-name--make-name))
+          (member name robot-name--allocated-names)))
+    (push name robot-name--allocated-names)
+    (setcar robot name)))
 
-(setq robot-name-generated-names nil)
 
-(defun make-robot-name ()
+(defun robot-name--make-name ()
   "Generate a robot name, randomly."
-  (let ((patterns '((?A 26) (?A 26) (?0 10) (?0 10) (?0 10)))
-        name)
-    (while (progn
-             (let (result)
-               (dolist (pattern (reverse patterns) result)
-                 (setq result (cons (+ (car pattern) (random (cadr pattern))) result)))
-               (setq name (concat result)))
-             (member name robot-name-generated-names)))
-    (setq robot-name-generated-names (cons name robot-name-generated-names))
-    name)
-)
+  (let ((patterns '((?A 26) (?A 26) (?0 10) (?0 10) (?0 10))))
+    (concat
+     (mapcar
+      (lambda (pattern) (+ (car pattern) (random (cadr pattern))))
+      patterns))))
+
 
 (provide 'robot-name)
 ;;; robot-name.el ends here
