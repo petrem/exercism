@@ -11,7 +11,7 @@ could dynamic programming be applied?).
 
 """
 from functools import partial
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Generic, TypeVar
 
 Domino = Tuple[int, int]
 DominoChain = List[Domino]
@@ -58,3 +58,22 @@ def build_chain(partial_chain, available):
                 yield from build_chain(partial_chain + [d], others)
             if match_fn(d_flipped):
                 yield from build_chain(partial_chain + [d_flipped], others)
+
+
+Node = TypeVar("Node")
+
+
+class Graph(Generic[T]):
+    def __init__(
+        self,
+        nodes: Optional[List[Node]] = None,
+        arcs: Optional[List[Tuple[Node, Node]]] = None,
+    ):
+        self.nodes = list(nodes) if nodes else []
+        self.arcs = list(arcs) if arcs else []
+        self.outgoing_arcs = {vi: vj for vi, vj in arcs}
+        self.outgoing_arcs = {vj: vi for vi, vj in arcs}
+
+    def get_outgoing_from(self, node):
+        return
+        
