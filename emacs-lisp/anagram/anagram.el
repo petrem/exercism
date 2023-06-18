@@ -7,13 +7,13 @@
 (defun anagrams-for (subject candidates)
   "Filter anagrams of SUBJECT in CANDIDATES."
   (let ((subject-lower (downcase subject)))
-    (let ((subject-counts (anagram--letter-counts subject-lower)))
+    (let ((subject-sorted (seq-sort '< subject-lower)))
       (seq-filter
        (lambda (x)
          (let ((x-lower (downcase x)))
            (and
             (not (string= x-lower subject-lower))
-            (equal (anagram--letter-counts x-lower) subject-counts))))
+            (string= (seq-sort '< x-lower) subject-sorted))))
          candidates))))
 
 
