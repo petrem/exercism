@@ -1,17 +1,22 @@
+#include "reverse_string.h"
+
 #include <stdlib.h>
 #include <string.h>
-#include "reverse_string.h"
+#include <errno.h>
+
 
 char *reverse(const char *value) {
   if (value == NULL) {
     return NULL;
   } else {
     size_t reversed_len = strlen(value);
-    char *reversed = malloc(reversed_len + 1);
-    for (size_t j = 1; j <= reversed_len; j++) {
-      reversed[j-1] = value[reversed_len - j];
+    char *reversed = (char *)malloc(reversed_len + 1);
+    if (reversed == NULL) {
+      exit(ENOMEM);
     }
-    reversed[reversed_len] = '\0';
+    reversed += reversed_len;
+    *reversed = '\0';
+    while (*value) *--reversed = *value++;
     return reversed;
   }
 }
