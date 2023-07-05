@@ -10,6 +10,7 @@ And of course, there are most likely better algorithms to do it (at the very lea
 could dynamic programming be applied?).
 
 """
+from collections import deque
 from functools import partial
 from typing import List, Tuple, Union, Generic, TypeVar
 
@@ -60,6 +61,18 @@ def build_chain(partial_chain, available):
                 yield from build_chain(partial_chain + [d_flipped], others)
 
 
+def build_chain2(dominoes):
+    available = deque(dominoes)
+    partial_chain = []
+    while True:
+        d = available.popleft()
+        d_flipped = (d[1], d[0])
+        match_fn = (
+            partial(are_matching, partial_chain[-1]) if partial_chain else lambda x: True
+        )
+        if match_fn(d) or match_fn(d_flipped):
+            if match_fn(d):
+                partial_chain.append(d)
 Node = TypeVar("Node")
 
 
