@@ -45,7 +45,7 @@ submit +targets:
     just test
     exercism submit {{targets}}
     git add .
-    git commit -m 'exercism:elixir:{{file_name(invocation_directory())}}'
+    git commit -m 'exercism:c:{{file_name(invocation_directory())}}'
 
 
 # Move src/* to base dir to update to new exercism expectations
