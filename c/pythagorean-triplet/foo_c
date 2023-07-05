@@ -1,0 +1,18 @@
+static inline void order_triplet_in_place(triplet_t triplet);
+
+/* TODO: think about optimizing this + make it stable (actually that is non-material, but avoid work when things are equal)
+   TODO: in place or not in place?
+*/
+static inline void order_triplet_in_place(triplet_t triplet) {
+  triplet_int_t tmp;
+  if (triplet.a < triplet.b) {
+    /* a <-> b */
+    tmp = triplet.a, triplet.a = triplet.b, triplet.b = tmp;
+  }
+  /* now a < b */
+  if (triplet.b < triplet.c) {
+    /* b <-> c */
+    tmp = triplet.a, triplet.a = triplet.b, triplet.b = tmp;
+  }
+  /* now: a <= b, b <= c */
+}
