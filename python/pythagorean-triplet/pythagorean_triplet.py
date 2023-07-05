@@ -1,13 +1,13 @@
 from itertools import count, takewhile
 
 
-class TernaryFibTree():
+class TernaryFibTree:
 
-    __slots__ = ("box", "children")
+    __slots__ = ("box", "_children")
 
     def __init__(self, box):
         self.box = box
-        self.children = (None, None, None)
+        self._children = None
 
     def __str__(self):
         c1 = str(self.children[0].box).splitlines()
@@ -29,30 +29,36 @@ class TernaryFibTree():
     def _child3(self):
         return FibBox(self.box.p_, self.box.q_, None, None)
 
-    def breed(self):
-        self.children = (
-            TernaryFibTree(self._child1()),
-            TernaryFibTree(self._child2()),
-            TernaryFibTree(self._child3()),
-        )
+    @property
+    def children(self):
+        """Populate and return a list of the three offsprings for the node."""
+        if self._children is None:
+            self._children = (
+                TernaryFibTree(self._child1()),
+                TernaryFibTree(self._child2()),
+                TernaryFibTree(self._child3()),
+            )
+        return self._children
 
     def walk_depth_first(self, cutoff):
-        """Descends through the tree until the cutoff function, applied
-        to the FibBox, returns False.
+        """Generate the FibBoxes of the tree, depth first, until ``cutoff`` is met.
+
+        Descend through the tree while ``cutoff`` predicate is true.
+
+        The ``cutoff`` predicate takes a FibBox as argument.
         """
         if cutoff(self.box):
             yield self.box
-            self.breed()
-            for i, c in enumerate(self.children):
+            for c in self.children:
                 for box in c.walk_depth_first(cutoff):
                     yield box
         else:
-            self.breed()
             for c in self.children:
-                assert not cutoff(c.box), f"{self.box}\n{c.box}"
+                assert not cutoff(c.box), f"cutoff false: {self.box}, {c.box}"
 
 
-class FibBox():
+class FibBox:
+
     """A matrix representation of a generalized Fibonacci sequence
     (and pythagorean triple). The box looks like:
     [ q q']
@@ -93,7 +99,7 @@ class FibBox():
         return f"| {self.q} {self.q_} |\n| {self.p} {self.p_} |"
 
 
-class RightTriangle():
+class RightTriangle:
     __slots__ = ("a", "b", "c")
 
     def __init__(self, a, b, c):
@@ -104,8 +110,8 @@ class RightTriangle():
     def __str__(self):
         return f"({self.a}, {self.b}, {self.c})"
 
-    def as_tuple(self):
-        return self.a, self.b, self.c
+    def as_list(self):
+        return sorted([self.a, self.b, self.c])
 
     @property
     def perimeter(self):
@@ -121,21 +127,21 @@ class RightTriangle():
 
 
 def is_triplet(a, b, c):
-    return a**2 + b**2 == c ** 2
+    return a**2 + b**2 == c**2
 
 
 def triplets_with_sum(n):
-    result = set()
     first_box = FibBox(None, 1, None, 3)
     tree = TernaryFibTree(first_box)
 
     def cutoff(x):
         return x.perimeter <= n
 
-    for primitive_box in tree.walk_depth_first(cutoff):
-        primitive_triple = primitive_box.pythagorean_triple()
-        primitive_triangle = RightTriangle(*primitive_triple)
-        for triangle in takewhile(cutoff, primitive_triangle.multiples()):
-            if triangle.perimeter == n:
-                result.add(triangle.as_tuple())
-    return result
+    return sorted(
+        triangle.as_list()
+        for primitive_box in tree.walk_depth_first(cutoff)
+        for triangle in takewhile(
+            cutoff, RightTriangle(*primitive_box.pythagorean_triple()).multiples()
+        )
+        if triangle.perimeter == n
+    )
