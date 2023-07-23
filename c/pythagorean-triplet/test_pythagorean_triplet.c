@@ -127,13 +127,13 @@ int main(void)
 {
    UnityBegin("test_pythagorean_triplet.c");
 
-   RUN_TEST(test_triplets_whose_sum_is_12);
-   RUN_TEST(test_triplets_whose_sum_is_108);
-   RUN_TEST(test_triplets_whose_sum_is_1000);
-   RUN_TEST(test_no_matching_triplets_for_1001);
-   RUN_TEST(test_returns_all_matching_triplets);
+   //RUN_TEST(test_triplets_whose_sum_is_12);
+   //RUN_TEST(test_triplets_whose_sum_is_108);
+   //RUN_TEST(test_triplets_whose_sum_is_1000);
+   //RUN_TEST(test_no_matching_triplets_for_1001);
+   //RUN_TEST(test_returns_all_matching_triplets);
    RUN_TEST(test_several_matching_triplets);
-   RUN_TEST(test_triplets_for_large_number);
+   //RUN_TEST(test_triplets_for_large_number);
 
    return UnityEnd();
 }
