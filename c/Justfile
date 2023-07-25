@@ -14,11 +14,12 @@ clean:
     make clean
 
 # Run linters, static analysers and so on
-check *targets:
-    # #!/usr/bin/env bash
-    # set -euo pipefail
+check +targets:
+    #!/usr/bin/env bash
+    set -euo pipefail
     echo 'Checking {{file_name(invocation_directory())}}...'
-    @just _dontknow
+    cd {{invocation_directory()}}
+    cppcheck {{targets}}
     
 
 # Auto-format code file
