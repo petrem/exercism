@@ -3,16 +3,13 @@ import pytest
 from insert3 import insert_top3_v1
 
 
-FUNCTIONS = [insert_top3_v1]
-FUNCTION_IDS = ["v1"]
-
-@pytest.fixture
-def sequence():
-    return [3, 5, 7]
+FUNCTIONS = {
+    "v1": insert_top3_v1,
+}
 
 
-@pytest.fixture(params=FUNCTIONS, ids=FUNCTION_IDS)
-def function(request):
+@pytest.fixture(params=FUNCTIONS.items(), ids=FUNCTIONS)
+def function_info(request):
     return request.param
 
 
@@ -44,8 +41,11 @@ def function(request):
         ([1, 2, 2], 3, [2, 2, 3]),
     ]
 )
-def test_insert3(function, initial, k, expected):
+def test_functions(store, function_info, initial, k, expected):
     sequence = initial.copy()
+    fn_id, function = function_info
     counts = function(sequence, k)
-    print(counts)
+    store["counts"] = counts
+    store["inputs"] = (initial, k)
+    store["function"] = fn_id
     assert sequence == expected

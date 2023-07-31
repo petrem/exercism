@@ -1,5 +1,6 @@
 from functools import wraps
 
+
 class Counting:
     def __init__(self):
         self._comparisons = 0
@@ -7,6 +8,9 @@ class Counting:
 
     def __str__(self):
         return f"Counting: {self._comparisons} comparisons, {self._assignments} assignments"
+    @property
+    def operations(self):
+        return self._comparisons + self._assignments
 
     @staticmethod
     def comparision(fn):
