@@ -3,10 +3,14 @@
 #include <assert.h>
 #include "high_scores.h"
 
-#define TOP_SCORES_ARRAY_SIZE (3)
+#define TOP_SCORES_ARRAY_SIZE 3
 
-static inline void swap(int32_t *a, int32_t *b);
-static inline void sort3(int32_t a[3]);
+#if TOP_SCORES_ARRAY_SIZE != 3
+#error "Implementation assumes top of 3"
+#endif
+
+static inline void sort3_into(const int32_t a[3], int32_t b[3]);
+static inline void insert_top_3(int32_t top[3], int32_t score);
 
 /// Return the latest score.
 int32_t latest(const int32_t *scores, size_t scores_len) {
@@ -33,25 +37,91 @@ size_t personal_top_three(const int32_t *scores,
                           int32_t *output) {
   assert(scores != NULL);
   assert(scores_len > 0);
-  int32_t top_scores[TOP_SCORES_ARRAY_SIZE];
-  size_t k;
-  for (k = 0; k < TOP_SCORES_ARRAY_SIZE; k++)
-    top_scores[k] = scores[k];
-  for (; k < scores_len; k++)
-    continue;
+  switch (scores_len) {
+  case 1:
+    output[0] = scores[0];
+    return 1;
+  case 2:
+    if (scores[0] < scores[1]) {
+      output[0] = scores[1];
+      output[1] = scores[0];
+    }
+    return 2;
+  }
+  sort3_into(scores, output);
+  for (size_t k = TOP_SCORES_ARRAY_SIZE; k < scores_len; k++) {
+    insert_top_3(output, scores[k]);
+  }
+  return 3;
 }
 
 
-static inline void insert_in_top(int32_t top[TOP_SCORES_ARRAY_SIZE], int32_t score) {
-  size_t j;
-  for (j = 0; j < TOP_SCORES_ARRAY_SIZE && score > top[j]; j++);
-  for(size_t k = 0; k < j; k++) {
-    top[k] = top[k+1];
+/* 
+   Hopefully fastest way to move three elements into another array,
+   sorted in reversed order.
+*/
+static inline void sort3_into(const int32_t a[3], int32_t b[3]) {
+  if (a[0] < a[1]) {
+    if (a[1] < a[2]) {
+      b[0] = a[2];
+      b[1] = a[1];
+      b[2] = a[0];
+    } else
+      if (a[0] < a[2]) {
+        b[0] = a[1];
+        b[1] = a[2];
+        b[2] = a[0];
+      } else {
+        b[0] = a[1];
+        b[1] = a[0];
+        b[2] = a[2];
+      }
+  } else {
+    if (a[0] < a[2]) {
+      b[0] = a[2];
+      b[1] = a[0];
+      b[2] = a[1];
+    } else
+      if (a[2] < a[1]) {
+        b[0] = a[0];
+        b[1] = a[1];
+        b[2] = a[2];
+    } else {
+      b[0] = a[0];
+      b[1] = a[2];
+      b[2] = a[1];
+    }
   }
 }
 
-/* hopefully the fastest way to sort an array of three elements */
-static inline void sort3(int32_t a[3]) {
+
+enum {TOP_MIN=2, TOP_MID=1, TOP_MAX=0};
+
+/* insert score in the reverse-sorterd array a, discarding the least value */
+static inline void insert_top_3(int32_t top[3], int32_t score) {
+  if (score > top[TOP_MIN]) {
+    if (score >= top[TOP_MAX]) {
+      top[TOP_MIN] = top[TOP_MID];
+      top[TOP_MID] = top[TOP_MAX];
+      top[TOP_MAX] = score;
+    } else
+      if (score <= top[TOP_MID]) {
+        top[TOP_MIN] = score;
+      } else {
+        top[TOP_MIN] = top[TOP_MID];
+        top[TOP_MID] = score;
+      }
+  }
+}
+
+/*
+static inline void swap(int32_t *a, int32_t *b) {
+  int32_t tmp = *a;
+  *a = *b;
+  *b = tmp;
+}
+
+static inline void sort3_inplace(int32_t a[3]) {
   if (a[0] < a[1]) {
     if (a[1] < a[2]) {
       return;
@@ -67,8 +137,9 @@ static inline void sort3(int32_t a[3]) {
   } else {
     if (a[0] < a[2]) {
       swap(&a[0], &a[1]);
-    } else if (a[2] < a[1]) {
-      swap(&a[0], &a[2]);
+    } else
+      if (a[2] < a[1]) {
+        swap(&a[0], &a[2]);
     } else {
       int32_t tmp = a[0];
       a[0] = a[1];
@@ -77,13 +148,4 @@ static inline void sort3(int32_t a[3]) {
     }
   }
 }
-
-static inline void swap(int32_t *a, int32_t *b) {
-  int32_t tmp = *a;
-  *a = *b;
-  *b = tmp;
-}
-
-/* insert k in the sorterd array a, discarding the least value */
-static inline void insert_high_3(int32_t a[3], int32_t k) {
-}
+*/
