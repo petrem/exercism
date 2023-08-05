@@ -20,7 +20,7 @@ check +targets:
     set -euo pipefail
     echo 'Checking {{file_name(invocation_directory())}}...'
     cd {{invocation_directory()}}
-    npm run lint {{targets}}
+    npm run lint -- --max-warnings 0 {{targets}}
     
 
 # Auto-format code file
