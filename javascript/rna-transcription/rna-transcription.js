@@ -6,5 +6,5 @@ const TRANSCRIBED = {
 };
 
 export const toRna = (dna) => {
-    return dna.split("").map((c) => TRANSCRIBED[c]).join("");
+    return [...dna].map((c) => TRANSCRIBED[c]).join("");
 };
