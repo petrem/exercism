@@ -37,10 +37,10 @@ export class TranslationService {
    * @returns {Promise<string[]>}
    */
   batch(texts) {
+    if (texts.length === 0) {
+      return Promise.reject(new BatchIsEmpty());
+    }
     try {
-      if (texts.length === 0) {
-        throw new BatchIsEmpty();
-      }
       return texts.reduce(
         (accPromise, text) => this.api.fetch(text)
           .then(
@@ -48,7 +48,6 @@ export class TranslationService {
               accResult => Promise.resolve([...accResult, api_response.translation])
             )
           )
-          .catch(error => {throw error;})
         , Promise.resolve([]));
     } catch(error) {
       return Promise.reject(error);
