@@ -1,6 +1,7 @@
 /// <reference path="./global.d.ts" />
 // @ts-check
 
+import { NotAvailable } from './errors';
 
 export class TranslationService {
   /**
@@ -42,18 +43,38 @@ export class TranslationService {
       }
       return texts.reduce(
         (accPromise, text) => this.api.fetch(text)
-          .then(api_response => accPromise.then(
-            accResult => new Promise(
-              resolve => resolve([...accResult, api_response.translation])
+          .then(
+            api_response => accPromise.then(
+              accResult => Promise.resolve([...accResult, api_response.translation])
             )
-          ))
+          )
           .catch(error => {throw error;})
-        , new Promise(resolve => resolve([])));
+        , Promise.resolve([]));
     } catch(error) {
-      return new Promise((resolve, reject) => reject(error));
+      return Promise.reject(error);
     }
   }
 
+  _request(text, retries) {
+    var self = this;
+    return new Promise((resolve, reject) => {
+      this.api.request(text, (error) => {
+        if (error === undefined) {
+          resolve(undefined);
+        } else {
+          reject(error);
+        }
+      });
+    })
+      .catch(function(error) {
+        if (retries > 1) {
+          //is there a better way to handle `this` in this case?
+          return self._request.bind(self)(text, retries - 1);
+        } else {
+          throw error;
+        }
+      });
+  }
   /**
    * Requests the service for some text to be translated.
    *
@@ -64,9 +85,19 @@ export class TranslationService {
    * @returns {Promise<void>}
    */
   request(text) {
-    throw new Error('Implement the request function');
+    return this._request(text, 3);
   }
 
+  fetchWithQuality(text, minimumQuality) {
+    return this.api.fetch(text)
+      .then(response => {
+        if (response.quality >= minimumQuality) {
+          return response.translation;
+        } else {
+          throw new QualityThresholdNotMet(text);
+        }
+      });
+  }
   /**
    * Retrieves the translation for the given text
    *
@@ -78,7 +109,17 @@ export class TranslationService {
    * @returns {Promise<string>}
    */
   premium(text, minimumQuality) {
-    throw new Error('Implement the premium function');
+    return this.fetchWithQuality(text, minimumQuality)
+      .catch(error => {
+        if (error instanceof NotAvailable) {
+          return this._request(text, 1).then(
+            // eslint-disable-next-line no-unused-vars
+            response => this.fetchWithQuality(text, minimumQuality)
+          );
+        } else {
+          throw error;
+        }
+      });
   }
 }
 
