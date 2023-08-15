@@ -37,16 +37,14 @@ export class TranslationService {
    * @returns {Promise<string[]>}
    */
   batch(texts) {
+    // Not using `Promise.all(texts.map(this.api.fetch))` on purpose. Because.
     if (texts.length === 0) {
       return Promise.reject(new BatchIsEmpty());
     }
     return texts.reduce(
-      (accPromise, text) => this.api.fetch(text)
-        .then(
-          api_response => accPromise.then(
-            accResult => Promise.resolve([...accResult, api_response.translation])
-          )
-        )
+      (accPromise, text) => accPromise.then(
+        accResult => this.api.fetch(text)
+          .then(api_response => [...accResult, api_response.translation]))
       , Promise.resolve([]));
   }
 
