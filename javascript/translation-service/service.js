@@ -40,18 +40,14 @@ export class TranslationService {
     if (texts.length === 0) {
       return Promise.reject(new BatchIsEmpty());
     }
-    try {
-      return texts.reduce(
-        (accPromise, text) => this.api.fetch(text)
-          .then(
-            api_response => accPromise.then(
-              accResult => Promise.resolve([...accResult, api_response.translation])
-            )
+    return texts.reduce(
+      (accPromise, text) => this.api.fetch(text)
+        .then(
+          api_response => accPromise.then(
+            accResult => Promise.resolve([...accResult, api_response.translation])
           )
-        , Promise.resolve([]));
-    } catch(error) {
-      return Promise.reject(error);
-    }
+        )
+      , Promise.resolve([]));
   }
 
   _request(text, retries) {
