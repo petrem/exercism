@@ -19,7 +19,7 @@ roman(_Number) ->
 
 
 % it's a shame we have to define a zip working on lists with different lengths
-% but if we do, let's profit and get the result reversed.
+% so since we implement it ourselves let's profit and get the result reversed.
 zipwith_shortest_reversed(_F, _L1, _L2) ->
     zipwith_shortest_reversed(_F, _L1, _L2, []).
 
