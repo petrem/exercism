@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> {}
-, python ? pkgs.python39
-, pythonPackages ? pkgs.python39Packages
+, python ? pkgs.python311
+, pythonPackages ? pkgs.python311Packages
 , extra_python_packages ? []
 }:
 

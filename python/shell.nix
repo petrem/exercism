@@ -1,10 +1,12 @@
-{ pkgs ? import <nixpkgs> {config.allowUnfree = true;} }:
+{ pkgs ?
+  let sources = import ../nix/sources.nix;
+  in import sources.nixpkgs {config.allowUnfree = true;} }:
 
 with pkgs;
 let
   inherit (lib) optional optionals;
-  python = pkgs.python39;
-  pythonPackages = pkgs.python39Packages;
+  python = pkgs.python311;
+  pythonPackages = pkgs.python311Packages;
 in
 
 mkShell {
