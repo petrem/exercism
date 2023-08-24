@@ -12,6 +12,8 @@ def annotate(minefield: Minefield) -> Minefield:
 
 
 class Board:
+    DIRECTIONS = [(dx, dy) for (dx, dy) in product([-1, 0, 1], [-1, 0, 1]) if dx or dy]
+
     def __init__(self, minefield: Minefield) -> None:
         self._validate_minefield(minefield)
         self.board = [list(row) for row in minefield]
@@ -27,10 +29,10 @@ class Board:
 
     def _validate_minefield(self, minefield: Minefield) -> None:
         if not isinstance(minefield, list):
-            raise ValueError("The minefield is not a list")
+            raise ValueError("The minefield is not a list.")
         if not all(isinstance(s, str) for s in minefield):
-            raise ValueError("The minefield contains non-str rows")
-        if not all(len(s) == len(minefield[0]) for s in minefield):
+            raise ValueError("The minefield contains non-str rows.")
+        if any(len(s) != len(minefield[0]) for s in minefield):
             raise ValueError("The board is invalid with current input.")
         if any(set(s) - set(" *") for s in minefield):
             raise ValueError("The board is invalid with current input.")
@@ -42,9 +44,9 @@ class Board:
         return self.board[x][y] == "*"
 
     def cell_neighbors(self, x: int, y: int) -> Iterable[tuple[int, int]]:
-        for dx, dy in product([-1, 0, 1], [-1, 0, 1]):
+        for dx, dy in self.DIRECTIONS:
             coord = x + dx, y + dy
-            if self.is_on_board(*coord) and (dx or dy):
+            if self.is_on_board(*coord):
                 yield coord
 
     def count_neighbor_mines(self, x: int, y: int) -> int:
@@ -52,3 +54,5 @@ class Board:
 
     def to_minefield(self) -> Minefield:
         return [''.join(row) for row in self.board]
+
+
