@@ -57,7 +57,7 @@ def remove_suffix_ness(word: str) -> str:
     return suffixless
 
 
-def noun_to_verb(sentence: str, index: int) -> str:
+def adjective_to_verb(sentence: str, index: int) -> str:
     """
 
     :param sentence: str that uses the word in sentence
