@@ -2,13 +2,17 @@ from functools import reduce
 from operator import or_
 
 
-def on_square(square) -> int:
-    if not isinstance(square, int) or square <= 0 or square > 64:
-        raise ValueError(f"Invalid square: {square}")
-    return 1 << (square - 1)
+def square(number) -> int:
+    _check_square(number)
+    return 1 << (number - 1)
 
 
-def total_after(square) -> int:
-    if not isinstance(square, int) or square <= 0 or square > 64:
-        raise ValueError(f"Invalid square: {square}")
-    return reduce(or_, (on_square(i) for i in range(1, square + 1)))
+def total(number=64) -> int:
+    _check_square(number)
+    # I know this is not necessary, I know there's a formula, etc.
+    return reduce(or_, (square(i) for i in range(1, number + 1)))
+
+
+def _check_square(number):
+    if not (isinstance(number, int) and 0 < number <= 64):
+        raise ValueError("square must be between 1 and 64")

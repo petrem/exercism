@@ -65,3 +65,44 @@ def _find_fewest_coins(coins: TCoins, target: int) -> TSolution:
         for j in range(1, target + 1)
     )
     return solutions[-1]
+
+# def _find_coins_dyn(coins: TCoins, target: int) -> TSolution:
+#     dyn_matrix = [[None]]
+
+#     def rec(N, m):
+#         if N < 0:
+#             raise ValueError(f"No solution: negative N: {N}")
+#         if N == 0:
+#             return []
+#         if m <= 0:
+#             raise ValueError("No solution: no change left")
+#         yield
+
+
+def print_matrix(M):
+    n = len(M)
+    m = len(M[0])
+    max_val = max(max(line) for line in M)
+    width = len(str(max_val)) + 1
+    for i in range(n):
+        for j in range(m):
+            print(f"{M[i][j]:<{width}}", end="")
+        print()
+
+
+def count_dyn(n, S):
+    m = len(S)
+    table = [[1] * (m + 1)] * (n + 2)
+    for i in range(1, n + 2):
+        for j in range(0, m + 1):
+            if j == 0:
+                if i % S[j] == 0:
+                    table[i][j] = 1
+                else:
+                    table[i][j] = 0
+            elif S[j] > i:
+                table[i][j] = table[i][j - 1]
+            else:
+                table[i][j] = table[i - S[j]][j] + table[i][j - 1]
+    print(table)
+    return table[n, m - 1]
