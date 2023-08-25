@@ -24,10 +24,7 @@ mkShell {
                                    pytest-subtests
                                    pytest-pylint
                                    pytest-benchmark
-<<<<<<< Updated upstream
                                    hypothesis
-=======
->>>>>>> Stashed changes
                                    # linting
                                    # todo: how to specify prospector[with_vulture, with_mypy, with_bandit] ?
                                    prospector
