@@ -26,11 +26,10 @@ mkShell {
                                    pytest-benchmark
                                    hypothesis
                                    # linting
-                                   # todo: how to specify prospector[with_vulture, with_mypy, with_bandit] ?
-                                   prospector
-                                   vulture
+                                   flake8
                                    mypy
-                                   bandit
+                                   pylint
+                                   ruff
                                    # reformatting
                                    black
                                    isort
