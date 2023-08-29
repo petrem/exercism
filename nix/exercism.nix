@@ -3,6 +3,7 @@ pkgs:
 with pkgs;
 let
   inherit (lib) optional optionals;
+  unjust = import ./unjust.nix {inherit pkgs;};
 in
 
 rec {
@@ -16,5 +17,6 @@ rec {
                  entr
                  exercism
                  git
-                 just ];
+                 unjust
+                 niv ];
 }
