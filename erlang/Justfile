@@ -1,47 +1,6 @@
-# By default, list available recipes
-_default:
-    @just --list
+!include ../common.just
+!include track.just
+set fallback
+set allow-duplicate-recipes
 
-_dontknow:
-    @echo "Don't know how to do that yet"
-
-# Clean up
-clean:
-    @just _dontknow
-
-# Run linters, static analysers and so on
-check target:
-    @echo 'Checking {{invocation_directory()}}/{{target}} ..'
-    @just _dontknow
-    #!/usr/bin/env bash
-    # set -euo pipefail
-    # profile_args='--profile={{justfile_directory()}}/.prospector/exercism.yaml'
-    # [ -e '{{invocation_directory()}}/.prospector.yaml' ] && \
-    #   profile_args='--profile={{invocation_directory()}}/.prospector.yaml'
-    # prospector --no-external-config "$profile_args" '{{invocation_directory()}}/{{target}}'
-
-# Auto-format code file
-style target:
-    @echo 'Styling {{invocation_directory()}}/{{target}}...'
-    @just _dontknow
-
-# Run tests
-test:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    echo 'Testing {{file_name(invocation_directory())}}...'
-    cd {{invocation_directory()}}
-    rebar3 eunit
-
-# Run style, lint, tests, submit to exercism, git commit
-submit +targets:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    echo 'Submitting {{invocation_directory()}}/{{targets}}...'
-    cd {{invocation_directory()}}
-    just style {{targets}}
-    just check {{targets}}
-    just test
-    exercism submit {{targets}}
-    git add .
-    git commit -m 'exercism:erlang:{{file_name(invocation_directory())}}'
+# This should be a generic, track-agnostic file. Edit track.just, instead.

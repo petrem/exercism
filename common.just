@@ -34,7 +34,7 @@ upgrade-exercise: && _upgrade
 commit:
     # Adding to git
     git add .
-    git commit -m "exercism:{{TRACK}}:{{EXERCISE}}}"
+    git commit -m "exercism:{{TRACK}}:{{EXERCISE}}"
 
 # Submit solution
 [no-cd]
