@@ -22,14 +22,18 @@ _test:
 # Track-specific exercise upgrade steps
 [no-cd]
 _upgrade:
-    # Move src/* to base dir to update to new exercism expectations
     #!/usr/bin/env bash
     set -euo pipefail
-    echo "Git-moving src/* to exercise directory ..."
-    git mv -f src/*.{h,c} .
-    rmdir src  # will fail if src/ is not empty
+    echo "Move src/* to base dir to update to new exercism expectations"
+    if [ -e src ]; then
+        echo "Git-moving src/* to exercise directory ..."
+        git mv -f src/*.{h,c} .
+        rmdir src  # will fail if src/ is not empty
+    fi
     echo "Removing TEST_IGNORE() from tests ..."
     sed -i -e '/TEST_IGNORE/d' {{TEST_FILES}}
     git add {{TEST_FILES}}
-    echo "Removing old test dir 'test'"
-    git rm -rf test/
+    if [ -e test ]; then
+        echo "Removing old test dir 'test'"
+        git rm -rf test/
+    fi 
