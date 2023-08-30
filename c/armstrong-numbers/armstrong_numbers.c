@@ -8,7 +8,7 @@
 static inline int digits(unsigned n);
 
 
-bool isArmstrongNumber(unsigned n) {
+bool is_armstrong_number(unsigned n) {
   unsigned long sum = 0;
   int n_left = n;
 

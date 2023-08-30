@@ -3,6 +3,6 @@
 
 #include <stdbool.h>
 
-bool isArmstrongNumber(unsigned n);
+bool is_armstrong_number(unsigned n);
 
 #endif

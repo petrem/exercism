@@ -1,5 +1,5 @@
-#include "vendor/unity.h"
-#include "../src/armstrong_numbers.h"
+#include "test-framework/unity.h"
+#include "armstrong_numbers.h"
 
 void setUp(void)
 {
@@ -11,52 +11,52 @@ void tearDown(void)
 
 static void test_zero_is_an_armstrong_number(void)
 {
-   TEST_ASSERT_TRUE(isArmstrongNumber(0));
+   TEST_ASSERT_TRUE(is_armstrong_number(0));
 }
 
 static void test_single_digit_numbers_are_armstrong_numbers(void)
 {
-   TEST_ASSERT_TRUE(isArmstrongNumber(5));
+   TEST_ASSERT_TRUE(is_armstrong_number(5));
 }
 
 static void test_there_are_no_two_digit_armstrong_numbers(void)
 {
-   TEST_ASSERT_FALSE(isArmstrongNumber(10));
+   TEST_ASSERT_FALSE(is_armstrong_number(10));
 }
 
 static void test_three_digit_number_that_is_an_armstrong_number(void)
 {
-   TEST_ASSERT_TRUE(isArmstrongNumber(153));
+   TEST_ASSERT_TRUE(is_armstrong_number(153));
 }
 
 static void test_three_digit_number_that_is_not_an_armstrong_number(void)
 {
-   TEST_ASSERT_FALSE(isArmstrongNumber(100));
+   TEST_ASSERT_FALSE(is_armstrong_number(100));
 }
 
 static void test_four_digit_number_that_is_an_armstrong_number(void)
 {
-   TEST_ASSERT_TRUE(isArmstrongNumber(9474));
+   TEST_ASSERT_TRUE(is_armstrong_number(9474));
 }
 
 static void test_four_digit_number_that_is_not_an_armstrong_number(void)
 {
-   TEST_ASSERT_FALSE(isArmstrongNumber(9475));
+   TEST_ASSERT_FALSE(is_armstrong_number(9475));
 }
 
 static void test_seven_digit_number_that_is_an_armstrong_number(void)
 {
-   TEST_ASSERT_TRUE(isArmstrongNumber(9926315));
+   TEST_ASSERT_TRUE(is_armstrong_number(9926315));
 }
 
 static void test_seven_digit_number_that_is_not_an_armstrong_number(void)
 {
-   TEST_ASSERT_FALSE(isArmstrongNumber(9926314));
+   TEST_ASSERT_FALSE(is_armstrong_number(9926314));
 }
 
 int main(void)
 {
-   UnityBegin("test/test_armstrong_numbers.c");
+   UnityBegin("test_armstrong_numbers.c");
 
    RUN_TEST(test_zero_is_an_armstrong_number);
    RUN_TEST(test_single_digit_numbers_are_armstrong_numbers);
