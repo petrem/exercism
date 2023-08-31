@@ -1,6 +1,15 @@
+let pkgsOptions = {
+      config.allowUnfree = true;
+      config.permittedInsecurePackages = [
+        # this is added for swiProlog in the prolog track
+        # to be retested later, e.g. in 23.11 or something
+        "openssl-1.1.1v"
+      ];
+    };
+in
 { pkgs ?
   let sources = import ./sources.nix;
-  in import sources.nixpkgs {config.allowUnfree = true;}
+  in import sources.nixpkgs pkgsOptions
 , track ? null
 }:
 
