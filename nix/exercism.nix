@@ -12,7 +12,8 @@ rec {
                     with darwin.apple_sdk.frameworks;
                     [ CoreFoundation
                       CoreServices ]);
-  build_pkgs = platform_pkgs ++ [];
+  build_pkgs = platform_pkgs
+               ++ [];
   shell_pkgs = [ direnv
                  entr
                  exercism

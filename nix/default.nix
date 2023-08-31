@@ -14,7 +14,7 @@ let exercism = (import ./exercism.nix) pkgs;
 in {
   inherit build;
   shell = mkShell {
-    buildInputs = build;
+    inputsFrom = build;
     packages = exercism.shell_pkgs ++ track_pkgs.shell_pkgs;
   };
 }

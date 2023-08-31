@@ -1,45 +1,6 @@
-# By default, list available recipes
-_default:
-    @just --list
+!include ../common.just
+!include track.just
+set fallback
+set allow-duplicate-recipes
 
-# Clean up
-clean:
-    find . -name \*.pyc -delete
-    find . -name __pycache__ -delete
-    find . -name .pytest_cache -delete
-
-# Run linters, static analysers and so on
-check target:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    echo 'Checking {{invocation_directory()}}/{{target}} ..'
-    profile_args='--profile={{justfile_directory()}}/.prospector/exercism.yaml'
-    [ -e '{{invocation_directory()}}/.prospector.yaml' ] && \
-      profile_args='--profile={{invocation_directory()}}/.prospector.yaml'
-    prospector --no-external-config "$profile_args" '{{invocation_directory()}}/{{target}}'
-
-# Auto-format code file
-style target:
-    @echo 'Styling {{invocation_directory()}}/{{target}}...'
-    black --target-version py310 {{invocation_directory()}}/{{target}}
-    isort {{invocation_directory()}}/{{target}}
-
-# Auto-format and check code file(s)
-prep +targets:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    echo 'Preparing {{invocation_directory()}}/{{targets}}...'
-    cd {{invocation_directory()}}
-    just style {{targets}}
-    just check {{targets}}
-    pytest -q .
-
-submit +targets:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    echo 'Submitting {{invocation_directory()}}/{{targets}}...'
-    cd {{invocation_directory()}}
-    just prep {{targets}}
-    exercism submit {{targets}}
-    git add .
-    git commit -m 'exercism:python:{{file_name(invocation_directory())}}'
+# This should be a generic, track-agnostic file. Edit track.just, instead.

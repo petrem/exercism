@@ -1,6 +1,6 @@
 pkgs:
 with pkgs;
 {
-  build_pkgs = [gawk];
-  shell_pkgs = [bats];
+  build_pkgs = [];
+  shell_pkgs = [gawk bats];
 }

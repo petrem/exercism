@@ -1,3 +1,4 @@
+TRACK_DIR := justfile_directory()
 export EXERCISE_DIR := invocation_directory()
 TRACK := file_name(justfile_directory())
 
@@ -42,9 +43,9 @@ submit:
     # Submitting...
     exercism submit {{SOLUTION_FILES}}
 
-# Style, lint, test, submit, commit and clean
+# Style, lint, test, commit, submit and clean
 [no-cd]
-all: && style lint test submit commit clean
+all: && style lint test commit submit clean
     # The Full Monty
 
 
