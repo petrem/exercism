@@ -1,0 +1,5 @@
+- boilerplate:
+  - mips track support
+  - how to easily use for users/
+  - continue support for extra files (extra test files missing)
+  - is it time to switch from just+shell+jq to some custom CLI?
