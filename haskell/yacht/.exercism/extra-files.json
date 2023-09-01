@@ -1,0 +1,8 @@
+{
+  "files": {
+    "solution": [
+      "src/Counter.hs"
+    ],
+    "test": []
+  }
+}

@@ -1,18 +1,19 @@
 # Yacht
 
-# Score a single throw of dice in *Yacht*
+Welcome to Yacht on Exercism's Haskell Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-The dice game [Yacht](https://en.wikipedia.org/wiki/Yacht_(dice_game)) is from
-the same family as Poker Dice, Generala and particularly Yahtzee, of which it
-is a precursor. In the game, five dice are rolled and the result can be entered
-in any of twelve categories. The score of a throw of the dice depends on
-category chosen.
+## Instructions
+
+The dice game [Yacht][yacht] is from the same family as Poker Dice, Generala and particularly Yahtzee, of which it is a precursor.
+In the game, five dice are rolled and the result can be entered in any of twelve categories.
+The score of a throw of the dice depends on category chosen.
 
 ## Scores in Yacht
 
 | Category | Score | Description | Example |
 | -------- | ----- | ----------- | ------- |
-| Ones | 1 × number of ones | Any combination	| 1 1 1 4 5 scores 3 |
+| Ones | 1 × number of ones | Any combination | 1 1 1 4 5 scores 3 |
 | Twos | 2 × number of twos | Any combination | 2 2 3 4 5 scores 4 |
 | Threes | 3 × number of threes | Any combination | 3 3 3 3 3 scores 15 |
 | Fours | 4 × number of fours | Any combination | 1 2 3 3 5 scores 0 |
@@ -26,72 +27,32 @@ category chosen.
 | Yacht | 50 points | All five dice showing the same face | 4 4 4 4 4 scores 50 |
 
 If the dice do not satisfy the requirements of a category, the score is zero.
-If, for example, *Four Of A Kind* is entered in the *Yacht* category, zero
-points are scored. A *Yacht* scores zero if entered in the *Full House* category.
+If, for example, *Four Of A Kind* is entered in the *Yacht* category, zero points are scored.
+A *Yacht* scores zero if entered in the *Full House* category.
 
 ## Task
-Given a list of values for five dice and a category, your solution should return
-the score of the dice for that category. If the dice do not satisfy the requirements
-of the category your solution should return 0. You can assume that five values
-will always be presented, and the value of each will be between one and six
-inclusively. You should not assume that the dice are ordered.
 
+Given a list of values for five dice and a category, your solution should return the score of the dice for that category.
+If the dice do not satisfy the requirements of the category your solution should return 0.
+You can assume that five values will always be presented, and the value of each will be between one and six inclusively.
+You should not assume that the dice are ordered.
 
-## Getting Started
-
-For installation and learning resources, refer to the
-[exercism help page](http://exercism.io/languages/haskell).
-
-## Running the tests
-
-To run the test suite, execute the following command:
-
-```bash
-stack test
-```
-
-#### If you get an error message like this...
-
-```
-No .cabal file found in directory
-```
-
-You are probably running an old stack version and need
-to upgrade it.
-
-#### Otherwise, if you get an error message like this...
-
-```
-No compiler found, expected minor version match with...
-Try running "stack setup" to install the correct GHC...
-```
-
-Just do as it says and it will download and install
-the correct compiler version:
-
-```bash
-stack setup
-```
-
-## Running *GHCi*
-
-If you want to play with your solution in GHCi, just run the command:
-
-```bash
-stack ghci
-```
-
-## Feedback, Issues, Pull Requests
-
-The [exercism/haskell](https://github.com/exercism/haskell) repository on
-GitHub is the home for all of the Haskell exercises.
-
-If you have feedback about an exercise, or want to help implementing a new
-one, head over there and create an issue.  We'll do our best to help you!
+[yacht]: https://en.wikipedia.org/wiki/Yacht_(dice_game)
 
 ## Source
 
-James Kilfiger, using wikipedia [https://en.wikipedia.org/wiki/Yacht_(dice_game)](https://en.wikipedia.org/wiki/Yacht_(dice_game))
+### Created by
 
-## Submitting Incomplete Solutions
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+- @guygastineau
+
+### Contributed to by
+
+- @iHiD
+- @petertseng
+- @ppartarr
+- @sshine
+- @tejasbubane
+
+### Based on
+
+James Kilfiger, using wikipedia - https://en.wikipedia.org/wiki/Yacht_(dice_game)
