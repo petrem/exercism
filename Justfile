@@ -25,4 +25,3 @@ init-track track backup='yes':
 # Clean up backup files of various sorts
 cleanup:
     find . \( -name \*~ -o -name \*.~* \) -delete
-    
