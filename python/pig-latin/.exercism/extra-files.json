@@ -1,0 +1,8 @@
+{
+  "files": {
+    "solution": [],
+    "test": [
+      "pig_latin_extra_test.py"
+    ]
+  }
+}
