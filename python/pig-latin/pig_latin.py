@@ -13,11 +13,12 @@ _VOWELS_PLUS = frozenset("aeiouy")
 
 def _igmepay(word: str) -> str:
     """Rewrite a word as Piglish."""
+    # Faster, albeit more verbose, than e.g. ``word[:2] in {"xr", "yt"}``
+    # or even ``word.startswith(('a', .., 'xr', 'yt')``
     if any(
         (
             (length := len(word)) == 1,
             (first := word[0]) in _VOWELS,
-            # Faster than e.g. `word[:2] in {"xr", "yt"}`
             first == "x" and word[1] == "r",
             first == "y" and word[1] == "t",
         )
