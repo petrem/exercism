@@ -18,6 +18,8 @@ rec {
                  entr
                  exercism
                  git
-                 unjust
-                 niv ];
+                 jq
+                 niv
+                 unjust ];
+
 }
