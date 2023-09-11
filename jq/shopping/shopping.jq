@@ -10,7 +10,16 @@
 # Task 4: replace `null` with the mapping of ingredient names with their substitutions
 # (no comma after the last filter)
 (
-  reduce (
-      (.ingredients + ."optional ingredients")[] | select(has("substitute")) | {"\(.item)": .substitute}
-    ) as $item ({}; . + $item)
+  [ (.ingredients + ."optional ingredients")[]
+    | select(has("substitute"))
+    | {(.item): .substitute} ]
+  | add
 )
+
+# (original soluiton, less idiomatic (if there is such a thing)
+
+# (
+#   reduce (
+#       (.ingredients + ."optional ingredients")[] | select(has("substitute")) | {"\(.item)": .substitute}
+#     ) as $item ({}; . + $item)
+# )

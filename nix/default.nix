@@ -5,6 +5,8 @@ let pkgsOptions = {
         # to be retested later, e.g. in 23.11 or something
         "openssl-1.1.1v"
       ];
+      # this is added because `haddock-api-2.27.0` is marked broken
+      config.allowBroken = true;
     };
 in
 { pkgs ?

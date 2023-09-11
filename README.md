@@ -12,28 +12,28 @@ packages, "centrally", while still defining the environment for each track.
 This creates `nix/sources.json` and `nix/sourcex.nix`. The latter is used in each
 track's nix setup.
 
-TODO: consider adding some generic tools via niv (like `exercism`, `just`), here at the
-repo level. Maybe.
+### Top level nix/just
 
-### Adding nix setup to a track
+* Nix and just setup common for all tracks, including the `exercism` CLI and some other
+  tools.
+* A nix package to wrap `just --unstable` into an executable called `unjust` (because
+  due to how `direnv` works -- it injects environment variables into the current shell,
+  rather than sourcing files --, we can't initialize a shell alias from the nix
+  `mkShell`.
+* Template files for track-specific nix & just boilerplate.
 
-Create the `<track-directory>/nix/default.nix` and a `<track-directory>/shell.nix`. See
-existing tracks for examples.
+### Setting up a track
 
+From the top level directory, run `unjust init-track <track>`.
 
-## Direnv
+This will
 
-The nix shell is activated via `direnv`. To add to a new track, just do:
+1. Add generic stubs `<track>/Justfile` and `<track>/shell.nix`. They should not be
+   edited.
+2. Add `<track>/.envrc` and run `direnv allow` on it.
+3. Copy templates for track-specific nix and just files. See below.
+4. Backup any existing files, by default (`init-track <track> no` will prevent this).
 
-    echo "use_nix" > <track-directory>/.envrc
-    cd <track-directory>
-    direnv allow
-
-## Justfiles
-
-Just... add a `justfile` similar to existing ones.
-
-TODO: serious cleanup of existing justfiles.
-
-TODO: common library to factor out code. Wait for 'import' (was it 'inherit'?) to become
-stable?
+Then edit these two files:
+* `nix/track-<track>.nix` and add the packages needed for the dev environment
+* `<track>/track.just` and add track specific `just` recipes

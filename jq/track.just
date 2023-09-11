@@ -18,3 +18,8 @@ _style:
 [no-cd]
 _test:
     BATS_RUN_SKIPPED=true bats *.bats
+
+# Track-specific exercise upgrade steps
+[no-cd]
+_upgrade:
+    # TODO: << track specific >>
