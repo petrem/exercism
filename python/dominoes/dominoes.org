@@ -1,0 +1,9 @@
+* Dominoes
+** Hamiltonian paths
+
+[[file:p131-martello-directed-hamiltonian.pdf][Martello, Directed Hamiltonian Paths]]
+[[file:rubin_search_procedure_hamiltonian_paths.pdf][Rubin, Search Procedure for Hamiltonian Paths]]
+
+** Constructing graphs in Python
+
+[[https://www.python.org/doc/essays/graphs/][old essay on implementinng graphs in python]]

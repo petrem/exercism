@@ -1,0 +1,6 @@
+* TODO Exercises [0/4]
+** TODO [[file:wordy/wordy.org][Wordy]]
+** TODO [[file:grep/grep.org][Grep]]
+** TODO [[file:dominoes/dominoes.org][Dominoes]]
+** TODO [[file:book-store/book-store.org][Book Store]]
+** TODO [[file:sgf-parsing/sgf-parsing.org][SGF Parsting]]
