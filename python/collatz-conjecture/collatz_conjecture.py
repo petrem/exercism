@@ -1,7 +1,12 @@
-def collatz_steps(number):
-    count = 0
+"""Collatz conjecture."""
+
+
+def steps(number):
+    """Calculate number of steps taken to get to 1 from ``number``."""
+
     if number <= 0:
-        raise ValueError("Will only run for nonzero natural numbers")
+        raise ValueError("Only positive integers are allowed")
+    count = 0
     while number > 1:
         if number % 2 == 0:
             number = number // 2
