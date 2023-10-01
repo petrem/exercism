@@ -1,3 +1,4 @@
+"""Raindrops."""
 from collections import namedtuple
 
 
@@ -9,8 +10,10 @@ RAINSPEAK = [
 ]
 
 
-def raindrops(number):
-    translation = "".join(rs.translation for rs in RAINSPEAK if number % rs.factor == 0)
-    if translation:
-        return translation
-    return f"{number}"
+def convert(number):
+    """Convert to raindrop-speak."""
+
+    return (
+        "".join(rs.translation for rs in RAINSPEAK if number % rs.factor == 0)
+        or f"{number}"
+    )
