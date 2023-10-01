@@ -9,7 +9,7 @@ _clean:
 _lint:
     ruff check {{SOLUTION_FILES}}
     mypy {{SOLUTION_FILES}}
-    pylint {{SOLUTION_FILES}}
+    pylint --rcfile={{justfile_directory()}}/pylintrc {{SOLUTION_FILES}}
 
 
 # Auto-format code files
@@ -23,7 +23,7 @@ _style:
 # Run tests
 [no-cd]
 _test:
-    # TODO: << track specific >>
+    pytest
 
 # Track-specific exercise upgrade steps
 [no-cd]

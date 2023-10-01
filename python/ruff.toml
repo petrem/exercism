@@ -35,30 +35,14 @@ fixable = [
 ]
 unfixable = []
 
-# Exclude a variety of commonly ignored directories.
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
+# Exclude a variety of commonly ignored directories and files.
+extend-exclude = [
     "__pycache__",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
+    "*_test.py",
+    "test_*.py",
 ]
+
+respect-gitignore = true
 
 # Same as Black.
 line-length = 88
@@ -68,13 +52,17 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 target-version = "py311"
 
-[per-file-ignores]
-# many pylint suggestions are improper for tests
-"encapsia_api/tests/*" = ["PLR", "PLW", "PLC1901"]
-
 [mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
 
 [isort]
 lines-after-imports = 2
+
+## equivalent to isort's `profile=black` ; commented out the ones not supported
+# multi-line-output = 3
+# include-trailing-comma = true
+# force-grid-wrap = 0
+# use-parentheses = true
+# ensure-newline-before-comments = true
+split-on-trailing-comma = true
