@@ -4,3 +4,10 @@
 ** TODO [[file:dominoes/dominoes.org][Dominoes]]
 ** TODO [[file:book-store/book-store.org][Book Store]]
 ** TODO [[file:sgf-parsing/sgf-parsing.org][SGF Parsting]]
+
+* Exercises to revisit for improving solution
+
+- Wordy
+- Grep
+- SGF Parsing
+  
