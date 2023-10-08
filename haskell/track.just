@@ -2,7 +2,7 @@
 
 # Haskell track includes the `package.yaml` in the solutions file, which is good
 # for submitting but not for e.g. linting.
-SRC_FILES := "`jq --raw-output '[ .files.solution | .[] | match(\"^.*[.]hs$\").string ] | join(\" \")' $EXERCISE_DIR/.exercism/config.json` " + EXTRA_SOLUTION_FILES 
+SRC_FILES := "`jq --raw-output '[ .files.solution | .[] | match(\"^.*[.]hs$\").string ] | join(\" \")' $EXERCISE_DIR/.exercism/config.json` " + EXTRA_SOLUTION_FILES
 #EXTRA_SRC_FILES :=
 
 [no-cd]
@@ -30,7 +30,3 @@ _test:
 [no-cd]
 _upgrade:
     # TODO: << track specific >>
-
-[no-cd]
-foo:
-    echo {{SRC_FILES}}

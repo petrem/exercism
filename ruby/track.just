@@ -6,7 +6,7 @@ _clean:
 
 [no-cd]
 _lint:
-    elixirc --warnings-as-errors .
+    # TODO: << track specific >>
 
 
 # Auto-format code files
@@ -17,7 +17,7 @@ _style:
 # Run tests
 [no-cd]
 _test:
-    mix test --include pending
+    ruby -I../lib -rdisable_skip {{TEST_FILES}} -v -p
 
 # Track-specific exercise upgrade steps
 [no-cd]

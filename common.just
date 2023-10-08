@@ -53,7 +53,7 @@ _clean_generic:
 [no-cd]
 upgrade-exercise: && _upgrade
     #!/usr/bin/env bash
-    echo "Donloading new version of the exercise ..."
+    echo "Downloading new version of the exercise ..."
     set -euo pipefail
     [ ! -e .exercism/metadata.json ] && echo "Config not found: .exercism/metadata.json" && exit 1
     download_opts=$(jq --raw-output '. as {track: $track, exercise: $exercise} | "--track \($track) --exercise \($exercise) --force"' .exercism/metadata.json)

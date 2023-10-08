@@ -1,0 +1,6 @@
+!include ../common.just
+!include track.just
+set fallback
+set allow-duplicate-recipes
+
+# This should be a generic, track-agnostic file. Edit track.just, instead.
