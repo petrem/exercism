@@ -6,7 +6,6 @@ module Port
   end
 
   def self.get_terminal(ship_identifier)
-    id_str = ship_identifier.to_s
-    (id_str.include?("OIL") or id_str.include?("GAS")) ? :A : :B
+    %w[OIL GAS].member?(ship_identifier[..2]) ? :A : :B
   end
 end
