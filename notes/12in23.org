@@ -1,0 +1,245 @@
+#+STARTUP: entitiespretty
+
+* Calendar
+
+:MONTH-NAMES:
+- Functional February
+- Mechanical March
+- Analytical April
+- Mindshifting May
+- Summer of Sexps (june)
+- Jurrasic July
+- Appy August
+- Slimline September
+- Object Oriented October
+- Nibbly November
+- December Diversion
+:END:
+
+:Legend:
+- \check :: track started
+- x :: not interested in track
+- ! :: definitely interesting
+- ? :: may be interesting
+:END:
+
+|-------+--------------+--------+----------|
+| Month | Language     | Status | Comments |
+|-------+--------------+--------+----------|
+| Feb   | Clojure      | !      |          |
+|       | Elixir       | \check      |          |
+|       | Erlang       | \check      |          |
+|       | F#           | x      |          |
+|       | Haskell      | \check      |          |
+|       | OCaml        | ?      |          |
+|       | Scala        | ?      |          |
+|       | SML          |        |          |
+|       | Gleam        |        |          |
+|-------+--------------+--------+----------|
+| Mar   | C            | \check      |          |
+|       | C++          | !      |          |
+|       | D            |        |          |
+|       | Nim          |        |          |
+|       | Go           | x      |          |
+|       | Rust         | !      |          |
+|       | V            |        |          |
+|       | Zig          |        |          |
+|-------+--------------+--------+----------|
+| Apr   | Julia        | ?      |          |
+|       | Python       | \check      |          |
+|       | R            | ?      |          |
+|-------+--------------+--------+----------|
+| May   | Ballerina    |        |          |
+|       | Pharo        |        |          |
+|       | Prolog       | \check      |          |
+|       | Red          |        |          |
+|       | Rust         | !      |          |
+|       | Tcl          | x      |          |
+|       | Unison       | ?      |          |
+|-------+--------------+--------+----------|
+| Jun   | Common Lisp  | ?      |          |
+|       | Clojure      | !      |          |
+|       | LFE          |        |          |
+|       | Emacs Lisp   | \check      |          |
+|       | Racket       |        |          |
+|       | Scheme       | ?      |          |
+|-------+--------------+--------+----------|
+| Jul   | C            | \check      |          |
+|       | C++          | !      |          |
+|       | Cobol        | x      |          |
+|       | Fortran      | x      |          |
+|       | Visual Basic | x      |          |
+|-------+--------------+--------+----------|
+| Aug   | ABAP         |        |          |
+|       | CoffeeScript | x      |          |
+|       | Dart         |        |          |
+|       | Delphi       | x      |          |
+|       | Elm          | ?      |          |
+|       | Java         | x      |          |
+|       | JavaScript   | \check      |          |
+|       | Kotlin       | ?      |          |
+|       | Objective-C  | x      |          |
+|       | PHP          | x      |          |
+|       | PureScript   | ?      |          |
+|       | ReasonML     |        |          |
+|       | Swift        | x      |          |
+|       | TypeScript   | ?      |          |
+|-------+--------------+--------+----------|
+| Sep   | 8th          |        |          |
+|       | awk          | \check      |          |
+|       | bash         | \check      |          |
+|       | jq           | \check      |          |
+|       | perl         | ?      |          |
+|       | raku         | ?      |          |
+|-------+--------------+--------+----------|
+| Oct   | Crystal      | ?      |          |
+|       | C#           | x      |          |
+|       | Java         | x      |          |
+|       | Pharo        | x      |          |
+|       | PowerShell   | x      |          |
+|       | Ruby         | \check      |          |
+|-------+--------------+--------+----------|
+| Nov   | MIPS         |        |          |
+|       | wasm         |        |          |
+|       | x86          |        |          |
+|       | ...?         |        |          |
+|-------+--------------+--------+----------|
+| Dec   | Groovy       |        |          |
+|       | Lua          |        |          |
+|       | Wren         |        |          |
+|       | ...?         |        |          |
+|-------+--------------+--------+----------|
+
+* Year-long badge exercises
+
+:COMMENTS:
+Languages column lists language "earned" when done, or available languages from started
+trackes where not done, paranthesised.
+
+Where exercises where done previous to this year in a started track, track is not
+available so need to choose from other tracks:
+:END:
+
+:NOT-AVAILABLES:
+- March: potentially could use C++ or Rust
+- April: problematic, only Julia and R are available :(
+- July: Could use C++
+- August: not sure; let's see if there is no intersection with some iteresting language
+  in October; otherwise, elm? typescript? kotlin?
+:END:
+
+|-------+----------------------------------+--------+------------|
+| Month | Exercise                         | Status | Languages  |
+|-------+----------------------------------+--------+------------|
+| Feb   | Hamming                          | \check      | Erlang     |
+|       | Collatz Conjecture               | \check      | Erlang     |
+|       | Robot Simulator                  | \check      | Elixir     |
+|       | Yacht                            | \check      | Elixir     |
+|       | Protein Translation              | \check      | Elixir     |
+|-------+----------------------------------+--------+------------|
+| Mar   | Linked List / Simple Linked List | \check      | C          |
+|       | Secret Handshake                 |        | C++        |
+|       | Sieve                            |        | C++        |
+|       | Binary Search                    |        | C++        |
+|       | Pangram                          |        | C++        |
+|-------+----------------------------------+--------+------------|
+| Apr   | ETL                              |        | n/a        |
+|       | Largest Series Product           |        | n/a        |
+|       | Saddle Points                    |        | n/a        |
+|       | Sum Of Multiples                 |        | n/a        |
+|       | Word Count                       |        | n/a        |
+|-------+----------------------------------+--------+------------|
+| May   | Acronym                          | \check      | Prolog     |
+|       | Isogram                          | \check      | Prolog     |
+|       | Roman Numerals                   | \check      | Prolog     |
+|       | Raindrops                        | \check      | Prolog     |
+|       | Space Age                        | \check      | Prolog     |
+|-------+----------------------------------+--------+------------|
+| Jun   | Difference of Squares            | \check      | ELisp      |
+|       | Leap                             | \check      | ELisp      |
+|       | Matching Brackets                | \check      | ELisp      |
+|       | Robot Name                       | \check      | ELisp      |
+|       | Two-Fer                          | \check      | ELisp      |
+|-------+----------------------------------+--------+------------|
+| Jul   | Bob                              |        | C++        |
+|       | Allergies                        |        | C++        |
+|       | Reverse String                   | \check      | C          |
+|       | High Scores                      | \check      | C          |
+|       | Armstrong Numbers                |        | C++        |
+|-------+----------------------------------+--------+------------|
+| Aug   | Anagram                          | \check      | Javascript |
+|       | Phone Number                     |        | n/a        |
+|       | Triangle                         |        | n/a        |
+|       | RNA Transcript                   |        | n/a        |
+|       | Scrabble Score                   | \check      | Javascript |
+|-------+----------------------------------+--------+------------|
+| Sep   | Atbash Cipher                    | \check      | jq         |
+|       | Darts                            | \check      | jq         |
+|       | Gigasecond                       | \check      | jq         |
+|       | Luhn                             | \check      | jq         |
+|       | Series                           | \check      | jq         |
+|-------+----------------------------------+--------+------------|
+| Oct   | Binary Search Tree               |        | Ruby       |
+|       | Circular Buffer                  |        | Ruby       |
+|       | Clock                            |        | Ruby       |
+|       | Matrix                           |        | Ruby       |
+|       | Simple Cipher                    |        | Ruby       |
+|-------+----------------------------------+--------+------------|
+| Nov   |                                  |        |            |
+|       |                                  |        |            |
+|       |                                  |        |            |
+|       |                                  |        |            |
+|       |                                  |        |            |
+|-------+----------------------------------+--------+------------|
+| Dec   |                                  |        |            |
+|       |                                  |        |            |
+|       |                                  |        |            |
+|       |                                  |        |            |
+|       |                                  |        |            |
+|-------+----------------------------------+--------+------------|
+
+* To read
+
+** Forum
+- [ ] https://forum.exercism.org/t/for-which-exercises-would-you-like-approaches/3145/6
+- [ ] https://forum.exercism.org/t/flaky-test-in-javascript-translation-service/6909
+
+** Coin change exercise:
+- [ ] https://algorithmist.com/wiki/Coin_change
+- [ ] https://rosettacode.org/wiki/Count_the_coins
+
+** Javascript things left to read:
+
+- [ ] https://medium.com/@copperwall/implementing-promise-all-575a07db509a
+- [ ] https://css-tricks.com/why-using-reduce-to-sequentially-resolve-promises-works/
+- [ ] https://javascript.info/microtask-queue and next chapter on async/await
+
+* Feedback
+
+** The good
+- Created excitement, kept engines running
+- Maintained interest with nice month groupings
+- Worked well with intro videos
+- Made me finally read (and partially skim-through) an Erlang book, I was interested to
+  get a general idea of the language and OTP platform for a long time.
+- Kept me a bit more involved in the comunity (eye-sight range; still not in hearing
+  range, or, preffered deity forbid, smelling range).
+  - Thus I learned of the financial situation which I would have ignored otherwise, and
+    donated (not bragging, but I really think I woldn't have otherwise).
+  - I've also started to request some mentoring here and there, and I think this made me
+    less afraid of becoming a mentor, which I'm really glad I did.
+- 
+
+** The bad
+- For me, because I have to tick all the gamification boxes, I think it prevented me
+  from getting more in-depth with just a few languages. For example, I want to learn
+  Rust, but I know I have to dedicate it significant time. Hence, left it for later
+  (see ‡).
+- Where I had year-long exercises resolved in previous years, I had to start tracks I
+  really didn't want to continue (see ‡).
+
+Note ‡: not Exercism's fault, I just describe the result on me :)
+
+** The ugly
+
+- Must put something here for the fun at least.
