@@ -11,13 +11,11 @@ class Clock
   end
 
   def +(other)
-    carried_hours, minute = (@minute + other.minute).divmod 60
-    hour = (@hour + carried_hours + other.hour).modulo 24
-    Clock.new(hour: hour, minute: minute)
+    Clock.new(hour: @hour + other.hour, minute: @minute + other.minute)
   end
 
   def -(other)
-    self + Clock.new(hour: -other.hour, minute: -other.minute)
+    Clock.new(hour: @hour - other.hour, minute: @minute - other.minute)
   end
 
   def ==(other)
