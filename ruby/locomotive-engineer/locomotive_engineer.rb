@@ -8,11 +8,11 @@ class LocomotiveEngineer
     [l, *missing_wagons, *ws, w1, w2]
   end
 
-  def self.add_missing_stops
-    raise 'Please implement the LocomotiveEngineer.add_missing_stops method'
+  def self.add_missing_stops(route, **stops)
+    {**route, :stops => stops.values}
   end
 
   def self.extend_route_information(route, more_route_information)
-    raise 'Please implement the LocomotiveEngineer.extend_route_information method'
+    {**route, **more_route_information}
   end
 end
