@@ -15,7 +15,11 @@ op_triplet_t triangle_generate_multiples(op_triplet_t triangle, triplet_op_int_t
 }
 
 
-/* fibbox functions */
+/* Create a fibbox from available values. A fibbox is a matrix of the form
+   [ q q' ]
+   [ p p' ]
+   where p = q' + q and p' = q + p
+ */
 
 fibbox_t fibbox_make_with_p_prime(triplet_op_int_t q_prime, triplet_op_int_t p_prime) {
   return (fibbox_t){
@@ -43,24 +47,26 @@ fibbox_t fibbox_make_with_q(triplet_op_int_t q_prime, triplet_op_int_t q) {
     2 * q + q_prime};
 }
 
+/* perimeter of the triangle made from the corresponding pythagorean triple */
 triplet_op_int_t fibbox_perimeter(fibbox_t box) {
   return (box.q + box.p) * (box.q_prime + box.p_prime);
 }
 
+/* return the pythagorean triplet corresponding to this fibbox */
 op_triplet_t fibbox_triplet(fibbox_t box) {
   triplet_op_int_t a, b, c;
+  
   a = 2 * box.q * box.p;
   b = box.q_prime * box.p_prime;
   c = box.q * box.p_prime + box.q_prime * box.p;
-  if (a < b) {
-    return (op_triplet_t){a, b, c};
-  } else {
-    return (op_triplet_t){b, a, c};
-  }
+
+  return a < b ? (op_triplet_t){a, b, c} : (op_triplet_t){b, a, c};
 }
 
 
-/* fibtree functions */
+/* fibtree: a tree where each node is a fibbox that branches out
+   into the three possible children.
+*/
 
 fibbox_t fibtree_get_child1(fibbox_t box) {
   return fibbox_make_with_p(box.q_prime, box.p_prime);
@@ -81,8 +87,10 @@ void fibtree_walk_depth_first(fibbox_t box,
      This makes it unsuitable for large perimeters.
    */
   fibbox_t stack[TRIPLET_MAX_STACK_LEVEL];
-  stack[0] = box;
   int sp = 1;
+
+  stack[0] = box;
+  
   while (sp > 0 && sp < TRIPLET_MAX_STACK_LEVEL - 3) {
     /* pop */
     box = stack[--sp];
@@ -93,6 +101,7 @@ void fibtree_walk_depth_first(fibbox_t box,
       stack[sp++] = fibtree_get_child1(box);
     }
   }
+  
   if (sp > 0) {
     /* maximum stack depth reached, we couldn't expore the entire tree within
        the given cutoff value */
