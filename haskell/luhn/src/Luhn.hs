@@ -27,3 +27,9 @@ luhnChecksumMaybe = (fstSnd3 <$>) . foldM go (0, 0, False) . reverse
             else nn
     luhnDouble False n = n
     fstSnd3 (a, b, _) = (a, b)
+
+data LuhnSum = LuhnError String | LuhnSum { checksum :: Int
+                                          , idLength :: Int
+                                          } deriving (Eq, Show)
+
+instance ...

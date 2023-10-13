@@ -1,0 +1,5 @@
+* Disclaimer
+
+Disclaimer: I'm just a Haskell fan. I'm learning it on and off, have written some small
+personal utilities. That's about all the extent of my experience.
+
