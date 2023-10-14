@@ -1,11 +1,11 @@
 """Exercise: circular-buffer"""
 
 
-class BufferFullException(Exception):
+class BufferFullException(BufferError):
     """The buffer is full."""
 
 
-class BufferEmptyException(Exception):
+class BufferEmptyException(BufferError):
     """The buffer is empty."""
 
 
@@ -21,7 +21,7 @@ class CircularBuffer:
     def read(self):
         """Read oldest data from the buffer."""
         if self._size <= 0:
-            raise BufferEmptyException("Read on empty buffer")
+            raise BufferEmptyException("Circular buffer is empty")
         tail = (self._head + self._capacity - self._size) % self._capacity
         self._size -= 1
         return self._buffer[tail]
@@ -29,7 +29,7 @@ class CircularBuffer:
     def write(self, data):
         """Write data into the buffer, if not full."""
         if self._size >= self._capacity:
-            raise BufferFullException("Write on full buffer")
+            raise BufferFullException("Circular buffer is full")
         self.overwrite(data)
 
     def overwrite(self, data):
