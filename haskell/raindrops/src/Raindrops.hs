@@ -81,3 +81,14 @@ rainVocabulary :: IntMap String
 rainVocabulary = fromList [(3, "Pling"), (5, "Plang"), (7, "Plong")]
 
 -}
+
+class Monoid m => MonoidRZero m where
+  rzero :: m
+
+data RainSpeak a = Thud | Pling a | Plang a | Plong a deriving (Eq, Show, Functor)
+
+instance Semigroup (RainSpeak a) where
+  x <> y =
+
+instance MonoidRZero (RainSpeak a) where
+  rzero = Thud
