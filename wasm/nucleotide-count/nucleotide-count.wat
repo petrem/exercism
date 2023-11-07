@@ -1,13 +1,17 @@
 (module
-  (memory (export "mem") 1)
-  ;; (global $countG i32)
-  ;; (global $countA i32)
-  ;; (global $countC i32)
-  ;; (global $countT i32)
+ (memory (export "mem") 1)
+ ;; nucletide characters
+ (data (i32.const 0) "ACGT")
+ ;; nucleotide counts
+ (data (i32.const 4*4) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (func $count (export "count") (param $nucleotide i32) (result i32)
+       (local $idx i32)
 
-  (func $count (export "count") (param $nucleotide i32) (result i32)
-        (local.get $nucleotide)
-        (i32.const 71)  ;; 'G'
+       (local.set $idx (i32.const 0))
+
+       (block $
+         (local.get $nucleotide)
+         (i32.const 71)  ;; 'G'
         (i32.eq))
 
 
