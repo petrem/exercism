@@ -17,7 +17,7 @@ _style:
 # Run tests
 [no-cd]
 _test:
-    npm run test
+    npm install && npm run test
 
 # Track-specific exercise upgrade steps
 [no-cd]
