@@ -1,63 +1,81 @@
 # Largest Series Product
 
-Given a string of digits, calculate the largest product for a contiguous
-substring of digits of length n.
+Welcome to Largest Series Product on Exercism's Python Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-For example, for the input `'1027839564'`, the largest product for a
-series of 3 digits is 270 (9 * 5 * 6), and the largest product for a
-series of 5 digits is 7560 (7 * 8 * 3 * 9 * 5).
+## Introduction
 
-Note that these series are only required to occupy *adjacent positions*
-in the input; the digits need not be *numerically consecutive*.
+You work for a government agency that has intercepted a series of encrypted communication signals from a group of bank robbers.
+The signals contain a long sequence of digits.
+Your team needs to use various digital signal processing techniques to analyze the signals and identify any patterns that may indicate the planning of a heist.
 
-For the input `'73167176531330624919225119674426574742355349194934'`,
-the largest product for a series of 6 digits is 23520.
+## Instructions
+
+Your task is to look for patterns in the long sequence of digits in the encrypted signal.
+
+The technique you're going to use here is called the largest series product.
+
+Let's define a few terms, first.
+
+- **input**: the sequence of digits that you need to analyze
+- **series**: a sequence of adjacent digits (those that are next to each other) that is contained within the input
+- **span**: how many digits long each series is
+- **product**: what you get when you multiply numbers together
+
+Let's work through an example, with the input `"63915"`.
+
+- To form a series, take adjacent digits in the original input.
+- If you are working with a span of `3`, there will be three possible series:
+  - `"639"`
+  - `"391"`
+  - `"915"`
+- Then we need to calculate the product of each series:
+  - The product of the series `"639"` is 162 (`6 × 3 × 9 = 162`)
+  - The product of the series `"391"` is 27 (`3 × 9 × 1 = 27`)
+  - The product of the series `"915"` is 45 (`9 × 1 × 5 = 45`)
+- 162 is bigger than both 27 and 45, so the largest series product of `"63915"` is from the series `"639"`.
+  So the answer is **162**.
 
 ## Exception messages
 
-Sometimes it is necessary to raise an exception. When you do this, you should include a meaningful error message to
-indicate what the source of the error is. This makes your code more readable and helps significantly with debugging. Not
-every exercise will require you to raise an exception, but for those that do, the tests will only pass if you include
-a message.
+Sometimes it is necessary to [raise an exception](https://docs.python.org/3/tutorial/errors.html#raising-exceptions). When you do this, you should always include a **meaningful error message** to indicate what the source of the error is. This makes your code more readable and helps significantly with debugging. For situations where you know that the error source will be a certain type, you can choose to raise one of the [built in error types](https://docs.python.org/3/library/exceptions.html#base-classes), but should still include a meaningful message.
 
-To raise a message with an exception, just write it as an argument to the exception type. For example, instead of
-`raise Exception`, you should write:
+This particular exercise requires that you use the [raise statement](https://docs.python.org/3/reference/simple_stmts.html#the-raise-statement) to "throw" a `ValueError` when your `largest_product()` function receives invalid input. The tests will only pass if you both `raise` the `exception` and include a message with it.  Feel free to reuse your code from the `series` exercise!
+
+To raise a `ValueError` with a message, write the message as an argument to the `exception` type:
 
 ```python
-raise Exception("Meaningful message indicating the source of the error")
+# span of numbers is longer than number series
+raise ValueError("span must be smaller than string length")
+
+# span of number is negative
+raise ValueError("span must not be negative")
+
+# series includes non-number input
+raise ValueError("digits input must only contain digits")
 ```
-
-## Running the tests
-
-To run the tests, run the appropriate command below ([why they are different](https://github.com/pytest-dev/pytest/issues/1629#issue-161422224)):
-
-- Python 2.7: `py.test largest_series_product_test.py`
-- Python 3.4+: `pytest largest_series_product_test.py`
-
-Alternatively, you can tell Python to run the pytest module (allowing the same command to be used regardless of Python version):
-`python -m pytest largest_series_product_test.py`
-
-### Common `pytest` options
-
-- `-v` : enable verbose output
-- `-x` : stop running tests on first failure
-- `--ff` : run failures from previous test before running other test cases
-
-For other options, see `python -m pytest -h`
-
-## Submitting Exercises
-
-Note that, when trying to submit an exercise, make sure the solution is in the `$EXERCISM_WORKSPACE/python/largest-series-product` directory.
-
-You can find your Exercism workspace by running `exercism debug` and looking for the line that starts with `Workspace`.
-
-For more detailed information about running tests, code style and linting,
-please see [Running the Tests](http://exercism.io/tracks/python/tests).
 
 ## Source
 
-A variation on Problem 8 at Project Euler [http://projecteuler.net/problem=8](http://projecteuler.net/problem=8)
+### Created by
 
-## Submitting Incomplete Solutions
+- @sjakobi
 
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+### Contributed to by
+
+- @alexpjohnson
+- @behrtam
+- @cmccandless
+- @Dog
+- @fortrieb
+- @iandexter
+- @ikhadykin
+- @kytrinyx
+- @N-Parsons
+- @petertseng
+- @pheanex
+- @tqa236
+
+### Based on
+
+A variation on Problem 8 at Project Euler - https://projecteuler.net/problem=8
