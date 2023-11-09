@@ -1,15 +1,4 @@
 module.exports = {
-  presets: [
-    [
-      '@babel/env',
-      {
-        targets: {
-          node: 'current',
-        },
-        useBuiltIns: false,
-      },
-
-    ],
-  ],
-  plugins: ["@babel/plugin-syntax-bigint"]
+  presets: ['@exercism/babel-preset-javascript'],
+  plugins: [],
 };
