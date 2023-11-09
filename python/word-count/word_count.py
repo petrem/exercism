@@ -1,10 +1,11 @@
-from collections import Counter
+"""Exercise: word-count"""
 import re
+from collections import Counter
 
 
-def count_words(sentence):
-    return dict(
-        Counter(
-            word.lower().strip("'") for word in re.findall(r"[A-Za-z0-9']+", sentence)
-        )
+def count_words(ws):
+    """Count words in ``sentence``."""
+    vs = (
+        v for w in re.findall(r"[A-Za-z\d']+", ws) if (v := w.lower().strip("'")) != ""
     )
+    return Counter(vs)
