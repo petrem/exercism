@@ -1,10 +1,8 @@
-from typing import Dict, List
-
-LegacyData = Dict[int, List[str]]
-Data = Dict[str, int]
+"""Exercise: ETL"""
 
 
-def transform(legacy_data: LegacyData) -> Data:
+def transform(legacy_data: dict[int, list[str]]) -> dict[str, int]:
+    """Transform legacy data."""
     return {
         letter.lower(): score
         for score, letters in legacy_data.items()
