@@ -1,58 +1,74 @@
-# Sum Of Multiples
+# Sum of Multiples
 
-Given a number, find the sum of all the unique multiples of particular numbers up to
-but not including that number.
+Welcome to Sum of Multiples on Exercism's Python Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-If we list all the natural numbers below 20 that are multiples of 3 or 5,
-we get 3, 5, 6, 9, 10, 12, 15, and 18.
+## Introduction
 
-The sum of these multiples is 78.
+You work for a company that makes an online, fantasy-survival game.
 
-## Exception messages
+When a player finishes a level, they are awarded energy points.
+The amount of energy awarded depends on which magical items the player found while exploring that level.
 
-Sometimes it is necessary to raise an exception. When you do this, you should include a meaningful error message to
-indicate what the source of the error is. This makes your code more readable and helps significantly with debugging. Not
-every exercise will require you to raise an exception, but for those that do, the tests will only pass if you include
-a message.
+## Instructions
 
-To raise a message with an exception, just write it as an argument to the exception type. For example, instead of
-`raise Exception`, you should write:
+Your task is to write the code that calculates the energy points that get awarded to players when they complete a level.
 
-```python
-raise Exception("Meaningful message indicating the source of the error")
-```
+The points awarded depend on two things:
 
-## Running the tests
+- The level (a number) that the player completed.
+- The base value of each magical item collected by the player during that level.
 
-To run the tests, run the appropriate command below ([why they are different](https://github.com/pytest-dev/pytest/issues/1629#issue-161422224)):
+The energy points are awarded according to the following rules:
 
-- Python 2.7: `py.test sum_of_multiples_test.py`
-- Python 3.4+: `pytest sum_of_multiples_test.py`
+1. For each magical item, take the base value and find all the multiples of that value that are less than the level number.
+2. Combine the sets of numbers.
+3. Remove any duplicates.
+4. Calculate the sum of all the numbers that are left.
 
-Alternatively, you can tell Python to run the pytest module (allowing the same command to be used regardless of Python version):
-`python -m pytest sum_of_multiples_test.py`
+Let's look at an example:
 
-### Common `pytest` options
+**The player completed level 20 and found two magical items with base values of 3 and 5.**
 
-- `-v` : enable verbose output
-- `-x` : stop running tests on first failure
-- `--ff` : run failures from previous test before running other test cases
+To calculate the energy points earned by the player, we need to find all the unique multiples of these base values that are less than level 20.
 
-For other options, see `python -m pytest -h`
+- Multiples of 3 less than 20: `{3, 6, 9, 12, 15, 18}`
+- Multiples of 5 less than 20: `{5, 10, 15}`
+- Combine the sets and remove duplicates: `{3, 5, 6, 9, 10, 12, 15, 18}`
+- Sum the unique multiples: `3 + 5 + 6 + 9 + 10 + 12 + 15 + 18 = 78`
+- Therefore, the player earns **78** energy points for completing level 20 and finding the two magical items with base values of 3 and 5.
 
-## Submitting Exercises
-
-Note that, when trying to submit an exercise, make sure the solution is in the `$EXERCISM_WORKSPACE/python/sum-of-multiples` directory.
-
-You can find your Exercism workspace by running `exercism debug` and looking for the line that starts with `Workspace`.
-
-For more detailed information about running tests, code style and linting,
-please see [Running the Tests](http://exercism.io/tracks/python/tests).
+You can make the following assumptions about the inputs to the
+`sum_of_multiples` function:
+* All input numbers are non-negative `int`s, i.e. natural numbers
+including zero.
+* A list of factors must be given, and its elements are unique
+and sorted in ascending order.
 
 ## Source
 
-A variation on Problem 1 at Project Euler [http://projecteuler.net/problem=1](http://projecteuler.net/problem=1)
+### Created by
 
-## Submitting Incomplete Solutions
+- @sjakobi
 
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+### Contributed to by
+
+- @ackerleytng
+- @behrtam
+- @bsoyka
+- @cmccandless
+- @Dog
+- @etmoore
+- @GascaK
+- @ikhadykin
+- @julianandrews
+- @kotp
+- @kytrinyx
+- @lekum
+- @N-Parsons
+- @pheanex
+- @tqa236
+
+### Based on
+
+A variation on Problem 1 at Project Euler - https://projecteuler.net/problem=1
