@@ -5,6 +5,4 @@ const TRANSCRIBED = {
     "A": "U"
 };
 
-export const toRna = (dna) => {
-    return [...dna].map((c) => TRANSCRIBED[c]).join("");
-};
+export const toRna = (dna) => [...dna].map((c) => TRANSCRIBED[c]).join("");
