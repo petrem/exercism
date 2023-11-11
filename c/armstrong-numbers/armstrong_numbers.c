@@ -12,7 +12,7 @@ bool is_armstrong_number(unsigned n) {
   unsigned long sum = 0;
   int n_left = n;
 
-  if (n == 0 || n == 1)
+  if (n <= 1)
     return true;
 
   for (int n_digits = digits(n); n_digits--; n_left /= 10) {
