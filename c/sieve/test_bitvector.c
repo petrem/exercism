@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "../src/bitvector.h"
-#include "vendor/unity.h"
+#include "bitvector.h"
+#include "test-framework/unity.h"
 
 
 static WORDTYPE *bitvector;

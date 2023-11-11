@@ -23,19 +23,19 @@ test: tests.out
 test_bitvector: tests_bv.out
 	@./tests_bv.out
 
-memcheck: test/test_sieve.c src/*.c src/*.h
+memcheck: test_sieve.c sieve.c bitvector.c sieve.h bitvector.h
 	@echo Compiling $@
-	@$(CC) $(ASANFLAGS) $(CFLAGS) src/*.c test/vendor/unity.c test/test_sieve.c -o memcheck.out $(LIBS)
+	@$(CC) $(ASANFLAGS) $(CFLAGS) sieve.c bitvector.c test-framework/unity.c test_sieve.c -o memcheck.out $(LIBS)
 	@./memcheck.out
 	@echo "Memory check passed"
 
 clean:
 	rm -rf *.o *.out *.out.dSYM
 
-tests.out: test/test_sieve.c src/*.c src/*.h
+tests.out: test_sieve.c sieve.c bitvector.c sieve.h bitvector.h
 	@echo Compiling $@
-	@$(CC) $(CFLAGS) src/*.c test/vendor/unity.c test/test_sieve.c -o $@ $(LIBS)
+	@$(CC) $(CFLAGS) sieve.c bitvector.c test-framework/unity.c test_sieve.c -o $@ $(LIBS)
 
-tests_bv.out: test/test_bitvector.c src/*.c src/*.h
+tests_bv.out: test_bitvector.c bitvector.c bitvector.h
 	@echo Compiling $@
-	@$(CC) $(CFLAGS) src/*.c test/vendor/unity.c test/test_bitvector.c -o $@ $(LIBS)
+	@$(CC) $(CFLAGS) bitvector.c test-framework/unity.c test_bitvector.c -o $@ $(LIBS)
