@@ -1,6 +1,6 @@
 #include <string.h>
-#include "../src/sieve.h"
-#include "vendor/unity.h"
+#include "test-framework/unity.h"
+#include "sieve.h"
 
 #define RESULT_ARRAY_LEN (1000)
 static uint32_t result_array[RESULT_ARRAY_LEN];
@@ -24,6 +24,7 @@ static void test_no_primes_under_two(void)
 
 static void test_find_first_prime(void)
 {
+   TEST_IGNORE();
    const uint32_t limit = 2;
    const uint32_t expected_prime_array[] = { 2 };
    const uint32_t expected_prime_count = 1;
@@ -38,6 +39,7 @@ static void test_find_first_prime(void)
 
 static void test_find_primes_up_to_10(void)
 {
+   TEST_IGNORE();
    const uint32_t limit = 10;
    const uint32_t expected_prime_array[] = { 2, 3, 5, 7 };
    const uint32_t expected_prime_count = 4;
@@ -52,6 +54,7 @@ static void test_find_primes_up_to_10(void)
 
 static void test_limit_is_prime(void)
 {
+   TEST_IGNORE();
    const uint32_t limit = 13;
    const uint32_t expected_prime_array[] = { 2, 3, 5, 7, 11, 13 };
    const uint32_t expected_prime_count = 6;
@@ -66,6 +69,7 @@ static void test_limit_is_prime(void)
 
 static void test_limit_is_prime_and_small_max_primes(void)
 {
+   TEST_IGNORE();
    const uint32_t limit = 13;
    const uint32_t expected_prime_array[] = { 2, 3, 5, 7, 11, 13 };
    const uint32_t expected_prime_count = 4;
@@ -79,10 +83,11 @@ static void test_limit_is_prime_and_small_max_primes(void)
 
 static void test_find_primes_up_to_1000(void)
 {
+   TEST_IGNORE();
    const uint32_t limit = 1000;
    const uint32_t expected_prime_array[] = {
-      2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
-      47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107,
+      2,   3,   5,   7,   11,  13,  17,  19,  23,  29,  31,  37,  41,  43,
+      47,  53,  59,  61,  67,  71,  73,  79,  83,  89,  97,  101, 103, 107,
       109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181,
       191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263,
       269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349,
@@ -106,7 +111,7 @@ static void test_find_primes_up_to_1000(void)
 
 int main(void)
 {
-   UnityBegin("test/test_sieve.c");
+   UnityBegin("test_sieve.c");
 
    RUN_TEST(test_no_primes_under_two);
    RUN_TEST(test_find_first_prime);
