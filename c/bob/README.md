@@ -1,54 +1,61 @@
 # Bob
 
-Bob is a lackadaisical teenager. In conversation, his responses are very limited.
+Welcome to Bob on Exercism's C Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-Bob answers 'Sure.' if you ask him a question.
+## Introduction
 
-He answers 'Whoa, chill out!' if you yell at him.
+Bob is a [lackadaisical][] teenager.
+He likes to think that he's very cool.
+And he definitely doesn't get excited about things.
+That wouldn't be cool.
 
-He answers 'Calm down, I know what I'm doing!' if you yell a question at him.
+When people talk to him, his responses are pretty limited.
 
-He says 'Fine. Be that way!' if you address him without actually saying
-anything.
+[lackadaisical]: https://www.collinsdictionary.com/dictionary/english/lackadaisical
 
-He answers 'Whatever.' to anything else.
+## Instructions
 
-Bob's conversational partner is a purist when it comes to written communication and always follows normal rules regarding sentence punctuation in English.
+Your task is to determine what Bob will reply to someone when they say something to him or ask him a question.
 
-## Getting Started
+Bob only ever answers one of five things:
 
-Make sure you have read the "Guides" section of the
-[C track](https://exercism.io/my/tracks/c) on the Exercism site. This covers
-the basic information on setting up the development environment expected
-by the exercises.
-
-
-## Passing the Tests
-
-Get the first test compiling, linking and passing by following the [three
-rules of test-driven development][3-tdd-rules].
-
-The included makefile can be used to create and run the tests using the `test`
-task.
-
-    make test
-
-Create just the functions you need to satisfy any compiler errors and get the
-test to fail. Then write just enough code to get the test to pass. Once you've
-done that, move onto the next test.
-
-[3-tdd-rules]: http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd
-
-As you progress through the tests, take the time to refactor your
-implementation for readability and expressiveness and then go on to the next
-test.
-
-Try to use standard C99 facilities in preference to writing your own
-low-level algorithms or facilities by hand.
+- **"Sure."**
+  This is his response if you ask him a question, such as "How are you?"
+  The convention used for questions is that it ends with a question mark.
+- **"Whoa, chill out!"**
+  This is his answer if you YELL AT HIM.
+  The convention used for yelling is ALL CAPITAL LETTERS.
+- **"Calm down, I know what I'm doing!"**
+  This is what he says if you yell a question at him.
+- **"Fine. Be that way!"**
+  This is how he responds to silence.
+  The convention used for silence is nothing, or various combinations of whitespace characters.
+- **"Whatever."**
+  This is what he answers to anything else.
 
 ## Source
 
-Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. [http://pine.fm/LearnToProgram/?Chapter=06](http://pine.fm/LearnToProgram/?Chapter=06)
+### Created by
 
-## Submitting Incomplete Solutions
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+- @lpil
+
+### Contributed to by
+
+- @bcc32
+- @Gamecock
+- @gea-migration
+- @h-3-0
+- @hintjens
+- @JacobMikkelsen
+- @kytrinyx
+- @patricksjackson
+- @QLaille
+- @RealBarrettBrown
+- @ryanplusplus
+- @sjwarner
+- @wolf99
+
+### Based on
+
+Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - https://pine.fm/LearnToProgram/?Chapter=06
