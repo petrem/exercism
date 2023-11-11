@@ -1,8 +1,8 @@
-#include "vendor/unity.h"
-#include "../src/secret_handshake.h"
+#include "test-framework/unity.h"
+#include "secret_handshake.h"
 #include <stdlib.h>
 
-#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 void setUp(void)
 {
@@ -12,7 +12,7 @@ void tearDown(void)
 {
 }
 
-void test_commands_wink_for_1(void)
+static void test_commands_wink_for_1(void)
 {
    const char *expected[] = { "wink" };
    const char **actual = commands(1);
@@ -20,7 +20,7 @@ void test_commands_wink_for_1(void)
    free(actual);
 }
 
-void test_commands_double_blink_for_10(void)
+static void test_commands_double_blink_for_10(void)
 {
    const char *expected[] = { "double blink" };
    const char **actual = commands(2);
@@ -28,7 +28,7 @@ void test_commands_double_blink_for_10(void)
    free(actual);
 }
 
-void test_commands_close_your_eyes_for_100(void)
+static void test_commands_close_your_eyes_for_100(void)
 {
    const char *expected[] = { "close your eyes" };
    const char **actual = commands(4);
@@ -36,7 +36,7 @@ void test_commands_close_your_eyes_for_100(void)
    free(actual);
 }
 
-void test_commands_jump_for_1000(void)
+static void test_commands_jump_for_1000(void)
 {
    const char *expected[] = { "jump" };
    const char **actual = commands(8);
@@ -44,7 +44,7 @@ void test_commands_jump_for_1000(void)
    free(actual);
 }
 
-void test_commands_combine_two_actions(void)
+static void test_commands_combine_two_actions(void)
 {
    const char *expected[] = { "wink", "double blink" };
    const char **actual = commands(3);
@@ -52,7 +52,7 @@ void test_commands_combine_two_actions(void)
    free(actual);
 }
 
-void test_commands_reverse_two_actions(void)
+static void test_commands_reverse_two_actions(void)
 {
    const char *expected[] = { "double blink", "wink" };
    const char **actual = commands(19);
@@ -60,7 +60,7 @@ void test_commands_reverse_two_actions(void)
    free(actual);
 }
 
-void test_commands_reversing_one_action_gives_the_same_action(void)
+static void test_commands_reversing_one_action_gives_the_same_action(void)
 {
    const char *expected[] = { "jump" };
    const char **actual = commands(24);
@@ -68,7 +68,7 @@ void test_commands_reversing_one_action_gives_the_same_action(void)
    free(actual);
 }
 
-void test_commands_reversing_no_actions_still_gives_no_actions(void)
+static void test_commands_reversing_no_actions_still_gives_no_actions(void)
 {
    const char *expected[] = { NULL };
    const char **actual = commands(16);
@@ -76,25 +76,25 @@ void test_commands_reversing_no_actions_still_gives_no_actions(void)
    free(actual);
 }
 
-void test_commands_all_possible_actions(void)
+static void test_commands_all_possible_actions(void)
 {
-   const char *expected[] =
-       { "wink", "double blink", "close your eyes", "jump" };
+   const char *expected[] = { "wink", "double blink", "close your eyes",
+                              "jump" };
    const char **actual = commands(15);
    TEST_ASSERT_EQUAL_STRING_ARRAY(expected, actual, ARRAY_SIZE(expected));
    free(actual);
 }
 
-void test_commands_reverse_all_possible_actions(void)
+static void test_commands_reverse_all_possible_actions(void)
 {
-   const char *expected[] =
-       { "jump", "close your eyes", "double blink", "wink" };
+   const char *expected[] = { "jump", "close your eyes", "double blink",
+                              "wink" };
    const char **actual = commands(31);
    TEST_ASSERT_EQUAL_STRING_ARRAY(expected, actual, ARRAY_SIZE(expected));
    free(actual);
 }
 
-void test_commands_do_nothing_for_zero(void)
+static void test_commands_do_nothing_for_zero(void)
 {
    const char *expected[] = { NULL };
    const char **actual = commands(0);
@@ -104,7 +104,7 @@ void test_commands_do_nothing_for_zero(void)
 
 int main(void)
 {
-   UnityBegin("test/test_secret_handshake.c");
+   UnityBegin("test_secret_handshake.c");
 
    RUN_TEST(test_commands_wink_for_1);
    RUN_TEST(test_commands_double_blink_for_10);

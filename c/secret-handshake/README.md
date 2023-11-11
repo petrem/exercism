@@ -1,67 +1,79 @@
 # Secret Handshake
 
-> There are 10 types of people in the world: Those who understand
-> binary, and those who don't.
+Welcome to Secret Handshake on Exercism's C Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-You and your fellow cohort of those in the "know" when it comes to
-binary decide to come up with a secret "handshake".
+## Introduction
 
-```text
-1 = wink
-10 = double blink
-100 = close your eyes
-1000 = jump
+You are starting a secret coding club with some friends and friends-of-friends.
+Not everyone knows each other, so you and your friends have decided to create a secret handshake that you can use to recognize that someone is a member.
+You don't want anyone who isn't in the know to be able to crack the code.
 
+You've designed the code so that one person says a number between 1 and 31, and the other person turns it into a series of actions.
 
+## Instructions
+
+Your task is to convert a number between 1 and 31 to a sequence of actions in the secret handshake.
+
+The sequence of actions is chosen by looking at the rightmost five digits of the number once it's been converted to binary.
+Start at the right-most digit and move left.
+
+The actions for each number place are:
+
+```plaintext
+00001 = wink
+00010 = double blink
+00100 = close your eyes
+01000 = jump
 10000 = Reverse the order of the operations in the secret handshake.
 ```
 
-Given a decimal number, convert it to the appropriate sequence of events for a secret handshake.
+Let's use the number `9` as an example:
 
-Here's a couple of examples:
+- 9 in binary is `1001`.
+- The digit that is farthest to the right is 1, so the first action is `wink`.
+- Going left, the next digit is 0, so there is no double-blink.
+- Going left again, the next digit is 0, so you leave your eyes open.
+- Going left again, the next digit is 1, so you jump.
 
-Given the input 3, the function would return the array
-["wink", "double blink"] because 3 is 11 in binary.
+That was the last digit, so the final code is:
 
-Given the input 19, the function would return the array
-["double blink", "wink"] because 19 is 10011 in binary.
-Notice that the addition of 16 (10000 in binary)
-has caused the array to be reversed.
+```plaintext
+wink, jump
+```
 
-## Getting Started
+Given the number 26, which is `11010` in binary, we get the following actions:
 
-Make sure you have read the "Guides" section of the
-[C track](https://exercism.io/my/tracks/c) on the Exercism site. This covers
-the basic information on setting up the development environment expected
-by the exercises.
+- double blink
+- jump
+- reverse actions
 
+The secret handshake for 26 is therefore:
 
-## Passing the Tests
+```plaintext
+jump, double blink
+```
 
-Get the first test compiling, linking and passing by following the [three
-rules of test-driven development][3-tdd-rules].
+~~~~exercism/note
+If you aren't sure what binary is or how it works, check out [this binary tutorial][intro-to-binary].
 
-The included makefile can be used to create and run the tests using the `test`
-task.
-
-    make test
-
-Create just the functions you need to satisfy any compiler errors and get the
-test to fail. Then write just enough code to get the test to pass. Once you've
-done that, move onto the next test.
-
-[3-tdd-rules]: http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd
-
-As you progress through the tests, take the time to refactor your
-implementation for readability and expressiveness and then go on to the next
-test.
-
-Try to use standard C99 facilities in preference to writing your own
-low-level algorithms or facilities by hand.
+[intro-to-binary]: https://medium.com/basecs/bits-bytes-building-with-binary-13cb4289aafa
+~~~~
 
 ## Source
 
-Bert, in Mary Poppins [http://www.imdb.com/title/tt0058331/quotes/qt0437047](http://www.imdb.com/title/tt0058331/quotes/qt0437047)
+### Created by
 
-## Submitting Incomplete Solutions
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+- @vlzware
+
+### Contributed to by
+
+- @h-3-0
+- @patricksjackson
+- @QLaille
+- @ryanplusplus
+- @wolf99
+
+### Based on
+
+Bert, in Mary Poppins - https://www.imdb.com/title/tt0058331/quotes/?item=qt0437047
