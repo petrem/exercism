@@ -1,73 +1,68 @@
 # Binary Search
 
-Implement a binary search algorithm.
+Welcome to Binary Search on Exercism's C Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-Searching a sorted collection is a common task. A dictionary is a sorted
-list of word definitions. Given a word, one can find its definition. A
-telephone book is a sorted list of people's names, addresses, and
-telephone numbers. Knowing someone's name allows one to quickly find
-their telephone number and address.
+## Introduction
 
-If the list to be searched contains more than a few items (a dozen, say)
-a binary search will require far fewer comparisons than a linear search,
-but it imposes the requirement that the list be sorted.
+You have stumbled upon a group of mathematicians who are also singer-songwriters.
+They have written a song for each of their favorite numbers, and, as you can imagine, they have a lot of favorite numbers (like [0][zero] or [73][seventy-three] or [6174][kaprekars-constant]).
 
-In computer science, a binary search or half-interval search algorithm
-finds the position of a specified input value (the search "key") within
-an array sorted by key value.
+You are curious to hear the song for your favorite number, but with so many songs to wade through, finding the right song could take a while.
+Fortunately, they have organized their songs in a playlist sorted by the title — which is simply the number that the song is about.
 
-In each step, the algorithm compares the search key value with the key
-value of the middle element of the array.
+You realize that you can use a binary search algorithm to quickly find a song given the title.
 
-If the keys match, then a matching element has been found and its index,
-or position, is returned.
+[zero]: https://en.wikipedia.org/wiki/0
+[seventy-three]: https://en.wikipedia.org/wiki/73_(number)
+[kaprekars-constant]: https://en.wikipedia.org/wiki/6174_(number)
 
-Otherwise, if the search key is less than the middle element's key, then
-the algorithm repeats its action on the sub-array to the left of the
-middle element or, if the search key is greater, on the sub-array to the
-right.
+## Instructions
 
-If the remaining array to be searched is empty, then the key cannot be
-found in the array and a special "not found" indication is returned.
+Your task is to implement a binary search algorithm.
 
-A binary search halves the number of items to check with each iteration,
-so locating an item (or determining its absence) takes logarithmic time.
-A binary search is a dichotomic divide and conquer search algorithm.
+A binary search algorithm finds an item in a list by repeatedly splitting it in half, only keeping the half which contains the item we're looking for.
+It allows us to quickly narrow down the possible locations of our item until we find it, or until we've eliminated all possible locations.
 
-## Getting Started
+~~~~exercism/caution
+Binary search only works when a list has been sorted.
+~~~~
 
-Make sure you have read the "Guides" section of the
-[C track](https://exercism.io/my/tracks/c) on the Exercism site. This covers
-the basic information on setting up the development environment expected
-by the exercises.
+The algorithm looks like this:
 
+- Find the middle element of a *sorted* list and compare it with the item we're looking for.
+- If the middle element is our item, then we're done!
+- If the middle element is greater than our item, we can eliminate that element and all the elements **after** it.
+- If the middle element is less than our item, we can eliminate that element and all the elements **before** it.
+- If every element of the list has been eliminated then the item is not in the list.
+- Otherwise, repeat the process on the part of the list that has not been eliminated.
 
-## Passing the Tests
+Here's an example:
 
-Get the first test compiling, linking and passing by following the [three
-rules of test-driven development][3-tdd-rules].
+Let's say we're looking for the number 23 in the following sorted list: `[4, 8, 12, 16, 23, 28, 32]`.
 
-The included makefile can be used to create and run the tests using the `test`
-task.
-
-    make test
-
-Create just the functions you need to satisfy any compiler errors and get the
-test to fail. Then write just enough code to get the test to pass. Once you've
-done that, move onto the next test.
-
-[3-tdd-rules]: http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd
-
-As you progress through the tests, take the time to refactor your
-implementation for readability and expressiveness and then go on to the next
-test.
-
-Try to use standard C99 facilities in preference to writing your own
-low-level algorithms or facilities by hand.
+- We start by comparing 23 with the middle element, 16.
+- Since 23 is greater than 16, we can eliminate the left half of the list, leaving us with `[23, 28, 32]`.
+- We then compare 23 with the new middle element, 28.
+- Since 23 is less than 28, we can eliminate the right half of the list: `[23]`.
+- We've found our item.
 
 ## Source
 
-Wikipedia [http://en.wikipedia.org/wiki/Binary_search_algorithm](http://en.wikipedia.org/wiki/Binary_search_algorithm)
+### Created by
 
-## Submitting Incomplete Solutions
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+- @patricksjackson
+
+### Contributed to by
+
+- @bcc32
+- @Gamecock
+- @gea-migration
+- @h-3-0
+- @QLaille
+- @ryanplusplus
+- @wolf99
+
+### Based on
+
+Wikipedia - https://en.wikipedia.org/wiki/Binary_search_algorithm
