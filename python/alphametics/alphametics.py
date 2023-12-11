@@ -8,10 +8,8 @@ def solve(puzzle: str) -> dict[str, int] | None:
 
     Assumes the puzzle is correct.
     """
-    left, result = puzzle.replace(" ", "").split("==")
-    terms = left.split("+")
+    *lh, rh = terms = puzzle.replace("+", "").replace("=", "").split()
     first_letters = {t[0] for t in terms}
-    first_letters.add(result[0])
     letters = "".join(
         sorted(
             set(puzzle).intersection(ascii_uppercase), key=first_letters.__contains__
@@ -26,8 +24,8 @@ def solve(puzzle: str) -> dict[str, int] | None:
         if "0" not in candidate[-n_firsts:]
         if sum(
             int(term.translate(trans := str.maketrans(letters, "".join(candidate))))
-            for term in terms
+            for term in lh
         )
-        == int(result.translate(trans))
+        == int(rh.translate(trans))
     )
     return next(solutions, None)
