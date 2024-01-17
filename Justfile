@@ -25,3 +25,7 @@ init-track track backup='yes':
 # Clean up backup files of various sorts
 cleanup:
     find . \( -name \*~ -o -name \*.~* \) -delete
+
+# Search tracks for given exercise
+find exercise:
+    find . -ipath ./*/{{exercise}}
