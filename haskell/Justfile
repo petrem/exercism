@@ -3,4 +3,32 @@
 set fallback
 set allow-duplicate-recipes
 
+# Clean up
+clean:
+    stack-clean-old delete-work
+
+# Run linters, static analysers and so on
+check:
+    @echo 'Checking ...'
+    hindent --validate --sort-imports {{invocation_directory()}}/src/*.hs
+    hlint {{invocation_directory()}}
+
+# lint and test
+prep:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Preparing {{invocation_directory()}}...'
+    cd {{invocation_directory()}}
+    just check
+    stack test
+
 # This should be a generic, track-agnostic file. Edit track.just, instead.
+submit +targets:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'Submitting {{targets}} in {{invocation_directory()}}...'
+    cd {{invocation_directory()}}
+    just prep
+    exercism submit {{targets}}
+    git add .
+    git commit -m 'haskell:{{file_name(invocation_directory())}}'
