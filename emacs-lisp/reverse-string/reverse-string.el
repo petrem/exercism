@@ -2,8 +2,6 @@
 
 ;;; Commentary:
 
-;; Clearly weird way to solve this.
-
 ;;; Code:
 
 
