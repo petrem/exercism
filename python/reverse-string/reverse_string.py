@@ -1,2 +1,6 @@
+"""Exercise: reverse-string."""
+
+
 def reverse(text):
-    return "".join(reversed(text))
+    """Reverse ``text``."""
+    return text[::-1]
