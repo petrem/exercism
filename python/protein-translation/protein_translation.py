@@ -1,32 +1,35 @@
 import re
 
-
-CONDOS_RE_MAP = {
-    re.compile("AUG"): "Methionine",
-    re.compile("UU[UC]"): "Phenylalanine",
-    re.compile("UU[AG]"): "Leucine",
-    re.compile("UC[UCAG]"): "Serine",
-    re.compile("UA[UC]"): "Tyrosine",
-    re.compile("UG[UC]"): "Cysteine",
-    re.compile("UGG"): "Tryptophan",
-    re.compile("U(?:A[AG]|GA)"): "STOP",
-}
-
-
-def _match_codon(codon):
-    for r, match in CONDOS_RE_MAP.items():
-        if re.match(r, codon):
-            return match
-    return None
+PROTEIN = (
+    r"(?P<Methionine>AUG)"
+    r"|(?P<Phenylalanine>UU[UC])"
+    r"|(?P<Leucine>UU[AG])"
+    r"|(?P<Serine>UC[UCAG])"
+    r"|(?P<Tyrosine>UA[UC])"
+    r"|(?P<Cysteine>UG[UC])"
+    r"|(?P<Tryptophan>UGG)"
+)
+STOP = r"U(?:A[AG]|GA)"
+CODONS_RE = re.compile(
+    rf"(?:{PROTEIN})(?:(?={PROTEIN})|$)"
+)
 
 
-def _match_codons(strand):
-    for i in range(0, len(strand) - 3 + 1, 3):
-        match = _match_codon(strand[i:i+3])
-        if match == "STOP":
-            return
-        yield match
+def _protein(matchobj):
+    """Get the name of the first group with a match."""
+    
+    return next(k for k, v in matchobj.groupdict().items() if v)
 
 
 def proteins(strand):
-    return list(_match_codons(strand))
+    # Each match should have a single group.
+    # This solution assumes no errors, as the tests in the track imply.
+    #return list(_match_codons(strand))
+    return [_protein(m) for m in CODONS_RE.finditer(strand)]
+    # for m in CODONS_RE.finditer(strand):
+    #     print(m.groupdict(), _protein(m))
+
+
+if __name__ == "__main__":
+    import sys
+    proteins(sys.argv[1])

@@ -28,9 +28,9 @@ cleanup:
 
 # Search tracks for given exercise
 find exercise:
-    find . -maxdepth 2 -mindepth 2 -ipath "./*/{{exercise}}"
+    find . -maxdepth 2 -mindepth 2 -ipath "./*/{{exercise}}" | sort
 
 missing exercise:
     #!/usr/bin/env python3
     from pathlib import Path
-    print("\n".join(f.name for f in Path(".").iterdir() if f.is_dir() and (f / "track.just").exists() and not f.name.startswith("_") and not (f / "{{exercise}}").is_dir()))
+    print("\n".join(sorted(f.name for f in Path(".").iterdir() if f.is_dir() and (f / "track.just").exists() and not f.name.startswith("_") and not (f / "{{exercise}}").is_dir())))
