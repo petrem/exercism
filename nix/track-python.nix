@@ -16,7 +16,11 @@ let
       # linting
       mypy
       pylint
-      ruff
+      python-lsp-server
+      rope
+      pylsp-mypy
+      pylsp-rope
+      python-lsp-ruff
       # reformatting
       black
       isort
@@ -28,5 +32,5 @@ in
 
 {
   build_pkgs = [];
-  shell_pkgs = [python_env];
+  shell_pkgs = [python_env ruff];
 }
