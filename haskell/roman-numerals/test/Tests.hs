@@ -3,12 +3,12 @@
 
 import Data.Foldable     (for_)
 import Test.Hspec        (Spec, describe, it, shouldBe)
-import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
+import Test.Hspec.Runner (configFailFast, defaultConfig, hspecWith)
 
 import Roman (numerals)
 
 main :: IO ()
-main = hspecWith defaultConfig {configFastFail = True} specs
+main = hspecWith defaultConfig {configFailFast = True} specs
 
 specs :: Spec
 specs = describe "numerals" $ for_ cases test
@@ -100,5 +100,17 @@ cases = [ Case { description = "1 is a single I"
         , Case { description = "3000 is three M's"
                , number      = 3000
                , expected    = Just "MMM"
+               }
+        , Case { description = "4000 cannot be represented"
+               , number      = 4000
+               , expected    = Nothing
+               }
+        , Case { description = "0 cannot be represented"
+               , number      = 0
+               , expected    = Nothing
+               }
+        , Case { description = "-1 cannot be represented"
+               , number      = -1
+               , expected    = Nothing
                }
         ]
