@@ -1,0 +1,24 @@
+{
+  "authors": [
+    "cpaulbond"
+  ],
+  "contributors": [
+    "bakhti",
+    "canweriotnow",
+    "vermiculus"
+  ],
+  "files": {
+    "solution": [
+      "roman-numerals.el"
+    ],
+    "test": [
+      "roman-numerals-test.el"
+    ],
+    "example": [
+      ".meta/example.el"
+    ]
+  },
+  "blurb": "Convert modern Arabic numbers into Roman numerals.",
+  "source": "The Roman Numeral Kata",
+  "source_url": "https://codingdojo.org/kata/RomanNumerals/"
+}
