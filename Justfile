@@ -16,7 +16,10 @@ init-track track backup='yes':
     install --backup=$backup_type -m 644 {{BOILERPLATE_DIR / "shell.nix"}} "$target"
     install --backup=$backup_type -m 644 {{BOILERPLATE_DIR / "Justfile"}} "$target"
     install --backup=$backup_type -m 644 {{BOILERPLATE_DIR / "track.just"}} "$target"
-    install --backup=$backup_type -m 644 {{BOILERPLATE_DIR / "dot-envrc"}} "$target"/.envrc
+    cat > "$target"/.envrc <<EOT
+    watch_file ../nix/track-{{track}}.nix
+    use nix
+    EOT
     direnv allow "$target"
     stub_nix={{NIX_DIR / "track-" + track + ".nix"}}
     echo "Creating stub Nix config for track: $stub_nix"

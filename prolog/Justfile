@@ -1,5 +1,5 @@
-!include ../common.just
-!include track.just
+import '../common.just'
+import 'track.just'
 set fallback
 set allow-duplicate-recipes
 
