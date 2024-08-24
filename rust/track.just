@@ -7,7 +7,7 @@ _clean:
 [no-cd]
 _lint:
     cargo check
-    cargo clippy
+    cargo clippy -- --no-deps -Dwarnings
 
 # Auto-format code files
 [no-cd]
@@ -17,7 +17,7 @@ _style:
 # Run tests
 [no-cd]
 _test:
-    cargo test
+    cargo test -- --include-ignored
 
 # Track-specific exercise upgrade steps
 [no-cd]
