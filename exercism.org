@@ -1,4 +1,0 @@
-* Tracks
-** [[file:python/python.org][Python]]
-
-* [[notes/12in23.org][12in23]]
