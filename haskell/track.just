@@ -12,14 +12,16 @@ _clean:
 [no-cd]
 _lint:
     # TODO: decide if I'm pleased with this
-    hindent --validate --sort-imports --line-length 88 {{SRC_FILES}}
+    #hindent --validate --sort-imports --line-length 88 {{SRC_FILES}}
+    ormolu --mode check {{SRC_FILES}}
     hlint {{SRC_FILES}}
 
 # Auto-format code files
 [no-cd]
 _style:
     # TODO: decide if I want auto-formatting here
-    hindent --sort-imports --line-length 88 {{SRC_FILES}}
+    #hindent --sort-imports --line-length 88 {{SRC_FILES}}
+    ormolu --mode inplace {{SRC_FILES}}
 
 # Run tests
 [no-cd]

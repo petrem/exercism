@@ -5,13 +5,12 @@ let haskell_env = haskellPackages.ghcWithPackages (
         stack
         # haddock
         hlint
-        hindent
         stack-clean-old
       ]);
 in
 {
   build_pkgs = [];
-  shell_pkgs = [haskell_env];
+  shell_pkgs = [haskell_env ormolu];
 }
 
   # Further read:
