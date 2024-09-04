@@ -5,3 +5,7 @@ pub fn reverse(input: &str) -> String {
     }
     reversed
 }
+
+// TODO:
+// 1 - https://crates.io/crates/unicode-segmentation
+// 2 - collect()
