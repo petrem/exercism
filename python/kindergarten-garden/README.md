@@ -1,17 +1,33 @@
 # Kindergarten Garden
 
-Given a diagram, determine which plants each child in the kindergarten class is
-responsible for.
+Welcome to Kindergarten Garden on Exercism's Python Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-The kindergarten class is learning about growing plants. The teacher
-thought it would be a good idea to give them actual seeds, plant them in
-actual dirt, and grow actual plants.
+## Introduction
 
-They've chosen to grow grass, clover, radishes, and violets.
+The kindergarten class is learning about growing plants.
+The teacher thought it would be a good idea to give the class seeds to plant and grow in the dirt.
+To this end, the children have put little cups along the window sills and planted one type of plant in each cup.
+The children got to pick their favorites from four available types of seeds: grass, clover, radishes, and violets.
 
-To this end, the children have put little cups along the window sills, and
-planted one type of plant in each cup, choosing randomly from the available
-types of seeds.
+## Instructions
+
+Your task is to, given a diagram, determine which plants each child in the kindergarten class is responsible for.
+
+There are 12 children in the class:
+
+- Alice, Bob, Charlie, David, Eve, Fred, Ginny, Harriet, Ileana, Joseph, Kincaid, and Larry.
+
+Four different types of seeds are planted:
+
+| Plant  | Diagram encoding |
+| ------ | ---------------- |
+| Grass  | G                |
+| Clover | C                |
+| Radish | R                |
+| Violet | V                |
+
+Each child gets four cups, two on each row:
 
 ```text
 [window][window][window]
@@ -19,16 +35,9 @@ types of seeds.
 ........................
 ```
 
-There are 12 children in the class:
+Their teacher assigns cups to the children alphabetically by their names, which means that Alice comes first and Larry comes last.
 
-- Alice, Bob, Charlie, David,
-- Eve, Fred, Ginny, Harriet,
-- Ileana, Joseph, Kincaid, and Larry.
-
-Each child gets 4 cups, two on each row. Their teacher assigns cups to
-the children alphabetically by their names.
-
-The following diagram represents Alice's plants:
+Here is an example diagram representing Alice's plants:
 
 ```text
 [window][window][window]
@@ -36,12 +45,11 @@ VR......................
 RG......................
 ```
 
-In the first row, nearest the windows, she has a violet and a radish.  In the
-second row she has a radish and some grass.
+In the first row, nearest the windows, she has a violet and a radish.
+In the second row she has a radish and some grass.
 
-Your program will be given the plants from left-to-right starting with
-the row nearest the windows. From this, it should be able to determine
-which plants belong to each student.
+Your program will be given the plants from left-to-right starting with the row nearest the windows.
+From this, it should be able to determine which plants belong to each student.
 
 For example, if it's told that the garden looks like so:
 
@@ -59,51 +67,72 @@ While asking for Bob's plants would yield:
 
 - Clover, grass, clover, clover
 
-## Exception messages
+## Python Implementation
 
-Sometimes it is necessary to raise an exception. When you do this, you should include a meaningful error message to
-indicate what the source of the error is. This makes your code more readable and helps significantly with debugging. Not
-every exercise will require you to raise an exception, but for those that do, the tests will only pass if you include
-a message.
+The tests for this exercise expect your program to be implemented as a Garden `class` in Python.
+If you are unfamiliar with classes in Python, [classes][classes in python] from the Python docs is a good place to start.
 
-To raise a message with an exception, just write it as an argument to the exception type. For example, instead of
-`raise Exception`, you should write:
+Your `class` should implement a `method` called plants, which takes a student's name as an argument and returns the `list` of plant names belonging to that student.
 
-```python
-raise Exception("Meaningful message indicating the source of the error")
+## Constructors
+
+Creating the example garden
+
+```
+[window][window][window]
+VRCGVVRVCGGCCGVRGCVCGCGV
+VRCCCGCRRGVCGCRVVCVGCGCV
 ```
 
-## Running the tests
+would, in the tests, be represented as `Garden("VRCGVVRVCGGCCGVRGCVCGCGV\nVRCCCGCRRGVCGCRVVCVGCGCV")`.
 
-To run the tests, run the appropriate command below ([why they are different](https://github.com/pytest-dev/pytest/issues/1629#issue-161422224)):
+To make this representation work, your `class` will need to implement an `__init__()` method.
+If you're not familiar with `__init__()` or _constructors_, [class and instance objects][class vs instance objects in python] from the Python docs gives a more detailed explanation.
 
-- Python 2.7: `py.test kindergarten_garden_test.py`
-- Python 3.4+: `pytest kindergarten_garden_test.py`
 
-Alternatively, you can tell Python to run the pytest module (allowing the same command to be used regardless of Python version):
-`python -m pytest kindergarten_garden_test.py`
+## Default Parameters
 
-### Common `pytest` options
+In some tests, a `list` of students is passed as an argument to `__init__()`.
+This should override the twelve student roster provided in the problem statement.
+Both of these statements need to work with your `__init__()` method:
 
-- `-v` : enable verbose output
-- `-x` : stop running tests on first failure
-- `--ff` : run failures from previous test before running other test cases
+```Python
+# Make a garden based on the default 12-student roster.
+Garden("VRCGVVRVCGGCCGVRGCVCGCGV\nVRCCCGCRRGVCGCRVVCVGCGCV") 
 
-For other options, see `python -m pytest -h`
+# Make a garden based on a 2-student roster.
+Garden("VRCC\nVCGG", students=["Valorie", "Raven"]) 
+```
 
-## Submitting Exercises
 
-Note that, when trying to submit an exercise, make sure the solution is in the `$EXERCISM_WORKSPACE/python/kindergarten-garden` directory.
+One approach is to make the student `list` a [default argument][default argument values]; the Python docs describe `default parameters` in depth while explaining [function definitions][function definitions].
 
-You can find your Exercism workspace by running `exercism debug` and looking for the line that starts with `Workspace`.
 
-For more detailed information about running tests, code style and linting,
-please see [Running the Tests](http://exercism.io/tracks/python/tests).
+[classes in python]: https://docs.python.org/3/tutorial/classes.html
+[class vs instance objects in python]: https://docs.python.org/3/tutorial/classes.html#class-objects
+[default argument values]: https://docs.python.org/3/tutorial/controlflow.html#default-argument-values
+[function definitions]: https://docs.python.org/3/reference/compound_stmts.html#function-definitions
 
 ## Source
 
-Random musings during airplane trip. [http://jumpstartlab.com](http://jumpstartlab.com)
+### Created by
 
-## Submitting Incomplete Solutions
+- @sjakobi
 
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+### Contributed to by
+
+- @behrtam
+- @cmccandless
+- @Dog
+- @ikhadykin
+- @Mofeywalker
+- @N-Parsons
+- @pheanex
+- @smalley
+- @thomasjpfan
+- @tqa236
+- @yawpitch
+
+### Based on
+
+Exercise by the JumpstartLab team for students at The Turing School of Software and Design. - https://turing.edu
