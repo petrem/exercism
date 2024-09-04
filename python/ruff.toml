@@ -1,3 +1,18 @@
+# Exclude a variety of commonly ignored directories and files.
+extend-exclude = [
+    "__pycache__",
+    "*_test.py",
+    "test_*.py",
+]
+
+respect-gitignore = true
+
+# Same as Black.
+line-length = 88
+
+target-version = "py311"
+
+[lint]
 select = [
     "E", "F", "I", "W", "RET", "SIM", "UP", "S", "B", "A", "COM",
     "C90", "C4", "G", "ERA", "PLC",
@@ -35,34 +50,19 @@ fixable = [
 ]
 unfixable = []
 
-# Exclude a variety of commonly ignored directories and files.
-extend-exclude = [
-    "__pycache__",
-    "*_test.py",
-    "test_*.py",
-]
-
-respect-gitignore = true
-
-# Same as Black.
-line-length = 88
-
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-target-version = "py311"
-
-[mccabe]
+[lint.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
 
-[isort]
+[lint.isort]
 lines-after-imports = 2
-
+split-on-trailing-comma = true
 ## equivalent to isort's `profile=black` ; commented out the ones not supported
 # multi-line-output = 3
 # include-trailing-comma = true
 # force-grid-wrap = 0
 # use-parentheses = true
 # ensure-newline-before-comments = true
-split-on-trailing-comma = true
