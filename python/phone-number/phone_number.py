@@ -1,30 +1,31 @@
+"""Phone Number exercise.
+
+As it is often the case, this solution is gimmicky. The regex should be fair, though.
+"""
+
 import re
 
 
-class Phone(object):
+class PhoneNumber:  # pylint: disable=no-member
+    """NANP Phone Number."""
 
-    RE_CTRY = r"(?P<country>\+?1)?"
-    RE_AREA = r"\(?(?P<area>[2-9]\d\d)\)?"
-    RE_EXCH = r"(?P<exchange>[2-9]\d\d|\([2-9]\d\d\))"
-    RE_SUBS = r"(?P<subscriber>\d{4})"
-    RE_PHONE_NUMBER = r"(?:\s*|[.-])?".join((RE_CTRY, RE_AREA, RE_EXCH, RE_SUBS)) + r"\s*"
+    CTRY = r"(?:\+?1)?"
+    AREA = r"\(?(?P<area_code>[2-9]\d\d)\)?"
+    EXCH = r"(?P<exchange>[2-9]\d\d|\([2-9]\d\d\))"
+    SUBS = r"(?P<subscriber>\d{4})"
+    PHONE_NUMBER = r"(?:\s*|[.-])?".join((CTRY, AREA, EXCH, SUBS)) + r"\s*"
 
     def __init__(self, phone_number):
-        m = re.fullmatch(self.RE_PHONE_NUMBER, phone_number)
-        if not m:
+        if not (m := re.fullmatch(self.PHONE_NUMBER, phone_number)):
             raise ValueError(f"Could not parse {phone_number}")
-        self._country = m.group("country")
-        self._area = m.group("area")
-        self._exchange = m.group("exchange")
-        self._subscriber = m.group("subscriber")
-
-    @property
-    def area_code(self):
-        return self._area
+        for name, value in m.groupdict().items():
+            setattr(self, name, value)
 
     @property
     def number(self):
-        return "".join((self._area, self._exchange, self._subscriber))
+        """Plain number."""
+        return f"{self.area_code}{self.exchange}{self.subscriber}"
 
     def pretty(self):
-        return f"({self._area}) {self._exchange}-{self._subscriber}"
+        """Formatted number."""
+        return f"({self.area_code})-{self.exchange}-{self.subscriber}"
