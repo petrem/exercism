@@ -2,25 +2,24 @@
 
 ;;; Commentary:
 
-;; Exploring usage of generators and macros.
+;; Second version: Using an unfoldr (aka builder) pattern in 'allergen-list',
+;; and separately, a more classic approach for 'allergic-to-p'.
 
 ;;; Code:
 
-(require 'generator)
-
 (defun allergen-list (score)
   "List the allergens in SCORE using generator."
-  (let (list)
-    (iter-do (flag (allergies--iter-ones score))
-      (allergies--let-if allergen
-                         (rassoc flag allergies--allergens)
-                         (push (car allergen) list)))
-    (reverse list)))
-
+  (reverse
+   (allergies--unfoldr
+    (lambda (pow2)
+      (when (and pow2 (<= pow2 129))
+          (cons (car (rassoc pow2 allergies--allergens))
+                (allergies--next-set-bit-from score pow2))))
+    (allergies--next-set-bit-from score 0))))
 
 (defun allergic-to-p (score allergen)
   "Determine if ALLERGEN is present in SCORE."
-  (seq-contains-p (allergen-list score) allergen))
+  (/= 0 (logand score (cdr (assoc allergen allergies--allergens)))))
 
 
 (defconst allergies--allergens
@@ -28,20 +27,29 @@
     ("tomatoes" . 16) ("chocolate" . 32) ("pollen" . 64) ("cats" . 128))
   "List of known allergens.")
 
-(defmacro allergies--let-if (var expr1 expr2)
-  "Evaluate EXPR1 as VAR and conditionally evaluate EXPR2 that may contain VAR.
+(defun allergies--unfoldr (fun init)
+  "Builds a list using a function FUN and an INIT-ial element.
 
-The idea is to evaluate EXPR1 only once."
-  `(let ((,var ,expr1)) (if ,var ,expr2)))
+FUN should take an argument of the type of INIT and return a cons
+cell containing the new item for the constructed list in its car
+and a new element for the next iteration. When there is no next
+item to be generated, it must return nil."
+  (let ((next (funcall fun init))
+        list)
+    (prog2
+        (while (consp next)
+          (push (car next) list)
+          (setq next (funcall fun (cdr next))))
+        list)))
 
-
-(iter-defun allergies--iter-ones (integer)
-  "Iterate over the 1 bits of INTEGER, from the right."
-  (setq shift 1)
-  (while (>= integer shift)
-    (if (/= (logand integer shift) 0) (iter-yield shift))
-    (setq shift (lsh shift 1))))
-
+(defun allergies--next-set-bit-from (number pow2from)
+  "Find next power of two where a bit set in NUMBER starting at POW2FROM."
+  (let ((next (if (zerop pow2from) 1 (lsh pow2from 1))))
+    (while (and (>= number next) (zerop (logand number next)))
+      (setq next (lsh next 1)))
+    (if (< number next)
+        nil
+      next)))
 
 (provide 'allergies)
 ;;; allergies.el ends here
