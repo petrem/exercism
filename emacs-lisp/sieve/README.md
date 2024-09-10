@@ -1,6 +1,6 @@
 # Sieve
 
-Welcome to Sieve on Exercism's Python Track.
+Welcome to Sieve on Exercism's Emacs Lisp Track.
 If you need help running the tests or submitting your code, check out `HELP.md`.
 
 ## Introduction
@@ -58,23 +58,7 @@ You've examined all numbers and found 2, 3, 5, and 7 are still unmarked, which m
 
 ### Created by
 
-- @sjakobi
-
-### Contributed to by
-
-- @behrtam
-- @cmccandless
-- @crsmi
-- @Dog
-- @Grociu
-- @ikhadykin
-- @kytrinyx
-- @N-Parsons
-- @Peque
-- @pheanex
-- @rootulp
-- @tqa236
-- @yawpitch
+- @keiravillekode
 
 ### Based on
 
