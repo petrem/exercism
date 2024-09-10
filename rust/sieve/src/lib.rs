@@ -21,13 +21,15 @@ pub fn primes_up_to(upper_bound: u64) -> Vec<u64> {
     numbers
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    #[ignore]
-    fn find_primes_up_to_100_000_000() {
-        let output = primes_up_to(100_000_000);
-        assert_eq!(output.len(), 5761455); // from https://en.wikipedia.org/wiki/Prime_number_theorem#Table_of_%CF%80(x),_x_/_log_x,_and_li(x)
-    }
-}
+// exercism will run ignored tests, apparently -- so it times out
+
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+//     #[test]
+//     #[ignore]
+//     fn find_primes_up_to_100_000_000() {
+//         let output = primes_up_to(100_000_000);
+//         assert_eq!(output.len(), 5761455); // from https://en.wikipedia.org/wiki/Prime_number_theorem#Table_of_%CF%80(x),_x_/_log_x,_and_li(x)
+//     }
+// }
