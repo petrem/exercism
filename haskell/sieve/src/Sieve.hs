@@ -22,3 +22,5 @@ primesUpTo n
           | otherwise = genNext (candidate + 1)
 
         isPrime candidate = candidate `notElem` marked
+
+-- '(,) <$> fst <*> id'  can be written '(,) =<< fst'
