@@ -1,0 +1,22 @@
+{
+  "authors": [
+    "yilkalargaw"
+  ],
+  "contributors": [
+    "vermiculus"
+  ],
+  "files": {
+    "solution": [
+      "luhn.el"
+    ],
+    "test": [
+      "luhn-test.el"
+    ],
+    "example": [
+      ".meta/example.el"
+    ]
+  },
+  "blurb": "Given a number determine whether or not it is valid per the Luhn formula.",
+  "source": "The Luhn Algorithm on Wikipedia",
+  "source_url": "https://en.wikipedia.org/wiki/Luhn_algorithm"
+}
