@@ -5,3 +5,6 @@ version = "1.2.0"
 
 [features]
 grapheme = []
+
+[dependencies]
+unicode-segmentation = "1.11.0"

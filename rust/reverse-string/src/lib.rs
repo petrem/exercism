@@ -1,11 +1,9 @@
-pub fn reverse(input: &str) -> String {
-    let mut reversed = String::new();
-    for chr in input.chars().rev() {
-        reversed.push(chr);
-    }
-    reversed
-}
+//reverse-string::version 3: another cheaty solution but with grapheme clusters
+// (cheaty because we use `.rev()`)
+// see https://crates.io/crates/unicode-segmentation
 
-// TODO:
-// 1 - https://crates.io/crates/unicode-segmentation
-// 2 - collect()
+use unicode_segmentation::UnicodeSegmentation;
+
+pub fn reverse(input: &str) -> String {
+    UnicodeSegmentation::graphemes(input, true).rev().collect()
+}
