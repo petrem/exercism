@@ -1,24 +1,25 @@
-pub fn primes_up_to(upper_bound: u64) -> Vec<u64> {
-    if upper_bound < 2 {
-        return vec![];
-    }
+use std::iter::repeat;
 
-    let mut numbers: Vec<u64> = Vec::with_capacity((upper_bound.saturating_sub(2)) as usize);
+pub fn primes_up_to(upper_bound: u64) -> Vec<u64> {
+    let mut markers: Vec<bool> = repeat(true).take((upper_bound + 1) as usize).collect();
+    markers[0] = false;
+    markers[1] = false;
+
     let check_bound = (upper_bound as f64).sqrt() as usize;
 
-    numbers.extend(2..=upper_bound);
-
     for i in 2..=check_bound {
-        if numbers[i - 2] != 0 {
+        if markers[i] {
             for j in (i * i..=(upper_bound as usize)).step_by(i) {
-                numbers[j - 2] = 0;
+                markers[j] = false;
             }
         }
     }
-
-    numbers.retain(|x| *x != 0);
-    numbers.shrink_to_fit();
-    numbers
+    markers
+        .into_iter()
+        .enumerate()
+        .filter(|(_, b)| *b)
+        .map(|(k, _)| k as u64)
+        .collect()
 }
 
 // exercism will run ignored tests, apparently -- so it times out
