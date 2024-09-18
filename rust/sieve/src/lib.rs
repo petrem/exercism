@@ -1,44 +1,39 @@
-//This version is very inefficient computation-wise, but at least not a memory hog.
+//Version based on 'successors'. Still very inefficient, probably more so.
 
-struct Sieve {
-    primes: Vec<u64>,
-}
+use std::iter::successors;
 
-impl Sieve {
-    fn new() -> Sieve {
-        Sieve { primes: vec![] }
-    }
-}
-
-impl Iterator for Sieve {
-    type Item = u64;
-
-    fn next(&mut self) -> Option<u64> {
-        let next = match self.primes.last() {
+pub fn primes_up_to(upper_bound: u64) -> Vec<u64> {
+    successors(Some(vec![]), |primes| {
+        let next = match primes.last() {
             None => 2,
             Some(2) => 3, // so that we can add two for all the following candidates
             Some(last) => (last + 2..)
                 .step_by(2)
                 .find(|&candidate| {
-                    self.primes
+                    primes
                         .iter()
                         .all(|&prime| !is_multiple_of(candidate, prime))
                 })
                 .expect("There are no more primes, aliens invading?!."),
         };
-        self.primes.push(next);
-        Some(next)
-    }
+        if next <= upper_bound {
+            Some(
+                primes
+                    .iter()
+                    .chain(std::iter::once(&next))
+                    .copied()
+                    .collect(),
+            )
+        } else {
+            None
+        }
+    })
+    .last()
+    .unwrap()
 }
 
 fn is_multiple_of(n: u64, m: u64) -> bool {
     (m..=n).step_by(m as usize).any(|x| x == n)
-}
-
-pub fn primes_up_to(upper_bound: u64) -> Vec<u64> {
-    Sieve::new()
-        .take_while(|&prime| prime <= upper_bound)
-        .collect()
 }
 
 #[cfg(test)]
