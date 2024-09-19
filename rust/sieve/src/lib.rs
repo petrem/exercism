@@ -1,35 +1,25 @@
-//Version based on 'successors'. Still very inefficient, probably more so.
+//Version based on 'fold'. Not efficient, but simpler.
 
-use std::iter::successors;
+use std::iter::once;
 
 pub fn primes_up_to(upper_bound: u64) -> Vec<u64> {
-    successors(Some(vec![]), |primes| {
-        let next = match primes.last() {
-            None => 2,
-            Some(2) => 3, // so that we can add two for all the following candidates
-            Some(last) => (last + 2..)
-                .step_by(2)
-                .find(|&candidate| {
-                    primes
-                        .iter()
-                        .all(|&prime| !is_multiple_of(candidate, prime))
-                })
-                .expect("There are no more primes, aliens invading?!."),
-        };
-        if next <= upper_bound {
-            Some(
-                primes
-                    .iter()
-                    .chain(std::iter::once(&next))
-                    .copied()
-                    .collect(),
-            )
-        } else {
-            None
-        }
-    })
-    .last()
-    .unwrap()
+    // could be simplified if we woulnd't use the .step_by(2) optimization
+    match upper_bound {
+        0 | 1 => vec![],
+        2 => vec![2],
+        3 | 4 => vec![2, 3],
+        _ => (5..=upper_bound).step_by(2).fold(vec![2, 3], |acc, x| {
+            if is_pairwise_coprime_with(x, &acc) {
+                acc.into_iter().chain(once(x)).collect()
+            } else {
+                acc
+            }
+        }),
+    }
+}
+
+fn is_pairwise_coprime_with(n: u64, ps: &[u64]) -> bool {
+    !ps.iter().any(|&p| is_multiple_of(n, p))
 }
 
 fn is_multiple_of(n: u64, m: u64) -> bool {
