@@ -1,23 +1,12 @@
-"""An alternative solution, playing with strings. Don't use in production! ;-)"""
+"""Let's have a more decent one, too. Not!!"""
 
 
-def label(colors):
+def label(colors: list[str]) -> str:
+    """Read ``colors`` label on a resistor."""
     codes = [COLOR_CODES[c] for c in colors]
-    ohms = "".join(
-        (
-            str(codes[0]) if codes[0] else "",
-            str(codes[1]),
-            "0" * codes[2],
-        )
-    )
-    if ohms.endswith("0"):
-        pivot = ohms.find("0")
-        unit_prefix, rest = divmod(len(ohms) - pivot, 3)
-        significant = pivot + rest
-    else:
-        unit_prefix = 0
-        significant = len(ohms)
-    return f"{ohms[:significant]} {UNIT_PREFIXES[unit_prefix]}ohms"
+    resistence = f"{codes[0]}{codes[1]}{'0' * codes[2]}".lstrip("0")
+    significant, *groups = resistence.rsplit("000")
+    return f"{significant or '0'} {UNIT_PREFIXES[len(groups)]}ohms"
 
 
 COLOR_CODES = {
