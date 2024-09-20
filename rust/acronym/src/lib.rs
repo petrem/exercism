@@ -1,12 +1,12 @@
-// Acronym::Version 1::using a state machine
+// Acronym::Version 2::still using a state machine, but capturing the result
+// with a pipeline.
 
 pub fn abbreviate(phrase: &str) -> String {
     let mut fsm = AbbrFSM::new();
-    let mut result = String::new();
-    for c in phrase.chars() {
-        fsm.transition(c, |r| result.push(r.to_ascii_uppercase()));
-    }
-    result
+    phrase
+        .chars()
+        .filter_map(|c| fsm.transition(c).map(|c| c.to_uppercase().to_string()))
+        .collect()
 }
 
 enum CharKind {
@@ -18,6 +18,8 @@ enum CharKind {
 impl CharKind {
     // TODO: Is it idiomatic to put functions without self param and not returning Self
     // into an impl? Do these have a name, like "static method" in Python?
+    // Would it be more typical to rather create a module encapsulating the
+    // struct and associated functions?
     fn classify(c: char) -> CharKind {
         if c.is_uppercase() {
             CharKind::Upper
@@ -47,30 +49,29 @@ impl AbbrFSM {
         }
     }
 
-    fn transition<F>(&mut self, c: char, mut emit: F)
-    where
-        F: FnMut(char),
-    {
+    fn transition(&mut self, c: char) -> Option<char> {
         match (&self.state, CharKind::classify(c)) {
             (SeekWordStart, CharKind::Upper) => {
                 self.state = InWordUpper;
-                emit(c);
+                Some(c)
             }
             (SeekWordStart, CharKind::Word) => {
                 self.state = InWordLower;
-                emit(c);
+                Some(c)
             }
             (InWordUpper | InWordLower, CharKind::Other) => {
                 self.state = SeekWordStart;
+                None
             }
             (InWordUpper, CharKind::Word) => {
                 self.state = InWordLower;
+                None
             }
             (InWordLower, CharKind::Upper) => {
                 self.state = InWordUpper;
-                emit(c);
+                Some(c)
             }
-            _ => {}
+            _ => None,
         }
     }
 }
