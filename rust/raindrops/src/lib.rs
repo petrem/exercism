@@ -1,6 +1,7 @@
 mod internal {
     use std::fmt;
 
+    #[derive(Clone, Copy)]
     enum Sound {
         Pling,
         Plang,
@@ -23,12 +24,8 @@ mod internal {
     }
 
     impl RainWord {
-        fn to_string_from(&self, number: u32) -> String {
-            if number % self.modulus == 0 {
-                self.word.to_string()
-            } else {
-                String::new()
-            }
+        fn sound(&self, number: u32) -> Option<Sound> {
+            (number % self.modulus == 0).then_some(self.word)
         }
     }
 
@@ -50,12 +47,16 @@ mod internal {
     ];
 
     pub fn raindrops(n: u32) -> String {
-        let word: String = RAIN_SPEAK.iter().map(|x| x.to_string_from(n)).collect();
-        if word.is_empty() {
-            n.to_string()
-        } else {
-            word
-        }
+        let rainwords = String::from_iter(
+            RAIN_SPEAK
+                .iter()
+                .filter_map(|rw| rw.sound(n))
+                .map(|rw| rw.to_string()),
+        );
+        rainwords
+            .is_empty()
+            .then(|| n.to_string())
+            .unwrap_or(rainwords)
     }
 }
 
