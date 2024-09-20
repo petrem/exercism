@@ -28,7 +28,8 @@
       "Cargo.toml"
     ],
     "test": [
-      "tests/clock.rs"
+      "tests/clock.rs",
+      "tests/clock_extended.rs"
     ],
     "example": [
       ".meta/example.rs"

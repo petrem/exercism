@@ -63,3 +63,22 @@ impl Modulus for i32 {
         }
     }
 }
+
+use std::convert::TryFrom;
+
+impl TryFrom<&str> for Clock {
+    type Error = &'static str;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        let segments = value
+            .splitn(2, ':')
+            .map(|field| field.trim().parse::<i32>())
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(|_| "Invalid number format")?;
+        if let [hh, mm] = segments[..] {
+            Ok(Clock::new(hh, mm))
+        } else {
+            Err("Invalid time format")
+        }
+    }
+}
