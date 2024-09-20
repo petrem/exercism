@@ -1,14 +1,20 @@
-const STUDENTS: [&str; 12] = [
+//! Kindergarten Garden::Version 2::Goodbye vectors, hello iterators.
+
+/// Determine the plants belonging to `student` given a `diagram`.
+pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
+    diagram
+        .lines()
+        .flat_map(student_plants_getter(student))
+        .collect()
+}
+
+/// List of students, in alphabetic order.
+pub const STUDENTS: [&str; 12] = [
     "Alice", "Bob", "Charlie", "David", "Eve", "Fred", "Ginny", "Harriet", "Ileana", "Joseph",
     "Kincaid", "Larry",
 ];
 
-fn student_index(student: &str) -> usize {
-    // We're allowed to panic because we can't handle errors in `plants()`.
-    STUDENTS.iter().position(|&x| x == student).unwrap()
-}
-
-fn plant(repr: char) -> &'static str {
+fn get_plant_name(repr: char) -> &'static str {
     match repr {
         'C' => "clover",
         'G' => "grass",
@@ -18,14 +24,27 @@ fn plant(repr: char) -> &'static str {
     }
 }
 
-fn student_plants_on_row(row: &str, student: &str) -> Vec<&'static str> {
-    let pos = student_index(student);
-    row[pos * 2..(pos + 1) * 2].chars().map(plant).collect()
+use std::iter::Map;
+use std::str::Chars;
+
+// In terms of the return type, I don't really understand this.
+// I've let the compiler error guide me.
+fn student_plants_getter(
+    student: &str,
+) -> impl FnMut(&str) -> Map<Chars<'_>, fn(char) -> &'static str> {
+    let pos = STUDENTS
+        .binary_search(&student)
+        .unwrap_or_else(|_| panic!("Student {} not found", student));
+    move |row: &str| row[pos * 2..(pos + 1) * 2].chars().map(get_plant_name)
 }
 
-pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
-    let rows: Vec<&str> = diagram.lines().collect();
-    rows.iter()
-        .flat_map(|row| student_plants_on_row(row, student))
-        .collect()
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic(expected = "Student Lucreția not found")]
+    fn student_plants_getter_panics_for_unknown_student() {
+        let _ = student_plants_getter("Lucreția");
+    }
 }
