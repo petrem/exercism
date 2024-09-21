@@ -1,10 +1,11 @@
 """Exercism: all your base."""
 from collections import deque
-from typing import Any, List, NewType
+from typing import Any, NewType
+
 
 TBase = NewType("TBase", int)
 TDigit = NewType("TDigit", int)
-TDigits = NewType("TDigits", List[TDigit])
+TDigits = NewType("TDigits", list[TDigit])
 
 
 def rebase(input_base, digits, output_base) -> TDigits:

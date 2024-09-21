@@ -17,7 +17,7 @@ _style:
 # Run tests
 [no-cd]
 _test:
-    cargo test -- --include-ignored
+    cargo test --all-features -- --include-ignored
 
 # Track-specific exercise upgrade steps
 [no-cd]
