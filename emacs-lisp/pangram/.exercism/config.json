@@ -1,0 +1,22 @@
+{
+  "authors": [
+    "benreyn"
+  ],
+  "contributors": [
+    "yurrriq"
+  ],
+  "files": {
+    "solution": [
+      "pangram.el"
+    ],
+    "test": [
+      "pangram-test.el"
+    ],
+    "example": [
+      ".meta/example.el"
+    ]
+  },
+  "blurb": "Determine if a sentence is a pangram.",
+  "source": "Wikipedia",
+  "source_url": "https://en.wikipedia.org/wiki/Pangram"
+}
