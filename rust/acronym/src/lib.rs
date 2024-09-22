@@ -1,26 +1,11 @@
-// Acronym::Version 2::still using a state machine, but trying a more functional approach.
+// Acronym::Version 3::state machine, immutable
 
 use std::char::ToUppercase;
-
-// pub fn abbreviate(phrase: &str) -> String {
-//     phrase
-//         .chars()
-//         .into_iter()
-//         .fold((AbbrState::default(), Box::new(iter::empty().chain(iter::empty()))),
-//               |(state, acc), c| {
-//                   let (newstate, emmitted) = state.transition(c);
-//                   (newstate, emmitted.map_or(acc, |c| Box::new(acc.chain(iter::once(c)))))
-//               })
-//         .1
-//         .collect()
-//         // .filter_map(|c| fsm.transition(c).map(|c| c.to_uppercase().to_string()))
-//         // .collect()
-// }
 
 pub fn abbreviate(phrase: &str) -> String {
     phrase
         .chars()
-        .fold(Abbreviator::new(), |abbr, c| abbr.add(c))
+        .fold(Abbreviator::default(), |abbr, c| abbr.add(c))
         .abbrev
         .into_iter()
         .collect()
@@ -42,7 +27,7 @@ impl From<char> for CharKind {
     }
 }
 
-#[derive(Default)]
+#[derive(Clone, Copy, Default)]
 enum AbbrState {
     #[default]
     SeekWordStart,
@@ -65,25 +50,20 @@ impl AbbrState {
     }
 }
 
+#[derive(Default)]
 struct Abbreviator {
     state: AbbrState,
     abbrev: Vec<char>,
 }
 
 impl Abbreviator {
-    fn new() -> Self {
+    fn add(self, chr: char) -> Self {
+        let (state, emitted) = self.state.transition(chr);
         Self {
-            state: AbbrState::default(),
-            abbrev: vec![],
+            state,
+            abbrev: emitted.map_or(self.abbrev.clone(), move |part| {
+                self.abbrev.into_iter().chain(part).collect()
+            }),
         }
-    }
-
-    fn add(mut self, chr: char) -> Self {
-        let (newstate, emitted) = self.state.transition(chr);
-        self.state = newstate;
-        if let Some(part) = emitted {
-            self.abbrev.extend(part);
-        }
-        self
     }
 }
