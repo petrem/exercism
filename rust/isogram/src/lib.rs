@@ -1,20 +1,11 @@
+use std::collections::HashSet;
+
 pub fn check(candidate: &str) -> bool {
-    let mut found_letter = [false; 26];
+    let mut letters: HashSet<char> = ('a'..='z').collect();
     candidate
         .chars()
-        .find_map(|c| {
-            c.is_ascii_alphabetic()
-                .then(|| {
-                    let letter_index = c.to_ascii_lowercase() as usize - 97;
-                    match found_letter[letter_index] {
-                        false => {
-                            found_letter[letter_index] = true;
-                            None
-                        }
-                        true => Some(()),
-                    }
-                })
-                .flatten()
-        })
+        .filter(char::is_ascii_alphabetic)
+        .map(|c| c.to_ascii_lowercase())
+        .find_map(|c| (!letters.remove(&c)).then_some(()))
         .is_none()
 }
