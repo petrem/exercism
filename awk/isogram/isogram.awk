@@ -1,5 +1,4 @@
 BEGIN {
-    FS=""
     FPAT = "[[:alpha:]]"
 }
 {
