@@ -24,10 +24,11 @@ pub fn number(user_number: &str) -> Option<String> {
 /// Sure, without passing such checks, we can simplify the code, but we
 /// would not be able to sleep at night ;-)
 #[cfg(test)]
+//#[cfg(feature = "extra_checks")]
 mod tests {
     use super::*;
     #[test]
-    fn invalid_when() {
+    fn invalid_when_there_are_extra_nonnumeric_characters() {
         let input = "523-@:!-623-7890";
         let output = number(input);
         assert!(output.is_none());
