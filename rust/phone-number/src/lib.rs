@@ -19,3 +19,17 @@ pub fn number(user_number: &str) -> Option<String> {
         })
         .flatten()
 }
+
+/// Noticed that many community solutions would fail the following test.
+/// Sure, without passing such checks, we can simplify the code, but we
+/// would not be able to sleep at night ;-)
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn invalid_when() {
+        let input = "523-@:!-623-7890";
+        let output = number(input);
+        assert!(output.is_none());
+    }
+}
