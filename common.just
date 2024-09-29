@@ -60,6 +60,14 @@ upgrade-exercise: && _upgrade
     exercism download $download_opts
     git add .exercism
 
+# Download exercise
+[no-cd]
+get-exercise exercise:
+    #!/usr/bin/env bash
+    echo "Downloading {{TRACK}}/{{exercise}} ..."
+    exercism download --track={{TRACK}} --exercise={{exercise}}
+    touch {{TRACK_DIR}}/{{exercise}}/.projectile
+
 # Git Commit
 [no-cd]
 commit:
