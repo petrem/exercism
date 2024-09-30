@@ -6,7 +6,7 @@ _clean:
 
 [no-cd]
 _lint:
-    # TODO: << track specific >>
+    shellcheck {{SOLUTION_FILES}}
 
 
 # Auto-format code files
