@@ -1,25 +1,7 @@
-// Obviously, the disadvantage of this approach is that checks may be run several times.
+// Obviously, the disadvantage of this approach is that checks may be run when not needed.
 
 pub fn reply(message: &str) -> &str {
-    RESPONSES
-        .iter()
-        .find(|msg| (msg.cond)(message))
-        .unwrap_or(&Response::default())
-        .response
-}
-
-struct Response {
-    cond: fn(&str) -> bool,
-    response: &'static str,
-}
-
-impl Default for Response {
-    fn default() -> Self {
-        Self {
-            cond: |_| true,
-            response: "Whatever.",
-        }
-    }
+    Response::from(message).0
 }
 
 fn is_silence(phrase: &str) -> bool {
@@ -34,21 +16,16 @@ fn is_shout(phrase: &str) -> bool {
     phrase.contains(|c: char| c.is_uppercase()) && !phrase.contains(|c: char| c.is_lowercase())
 }
 
-const RESPONSES: [Response; 4] = [
-    Response {
-        cond: is_silence,
-        response: "Fine. Be that way!",
-    },
-    Response {
-        cond: |phrase| is_shout(phrase) && is_question(phrase),
-        response: "Calm down, I know what I'm doing!",
-    },
-    Response {
-        cond: is_question,
-        response: "Sure.",
-    },
-    Response {
-        cond: is_shout,
-        response: "Whoa, chill out!",
-    },
-];
+struct Response(&'static str);
+
+impl From<&str> for Response {
+    fn from(msg: &str) -> Self {
+        match (is_silence(msg), is_question(msg), is_shout(msg)) {
+            (true, _, _) => Response("Fine. Be that way!"),
+            (false, true, true) => Response("Calm down, I know what I'm doing!"),
+            (false, false, true) => Response("Whoa, chill out!"),
+            (false, true, false) => Response("Sure."),
+            _ => Response("Whatever."),
+        }
+    }
+}
