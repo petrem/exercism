@@ -7,8 +7,10 @@
 
 (defun hamming-distance (dna1 dna2)
   (if (= (length dna1) (length dna2))
-      (length (flatten-tree (string-zip-with (lambda (a b) (not (equal a b))) dna1 dna2)))
+      (seq-count #'null (string-zip-with (lambda (a b) (equal a b)) dna1 dna2))
     (error "Strands of different length, begone!")))
+
+;; note there's 'seq-mapn' for such things
 
 (defun string-zip-with (fun str1 str2)
   (let ((zipped))
