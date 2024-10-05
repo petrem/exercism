@@ -1,8 +1,13 @@
-from collections.abc import Iterable
 from collections import deque
+from collections.abc import Iterable
+from itertools import chain
 
 
 def flatten(iterable):
+    return list(_flatten4(iterable))
+
+def flatten_filter_none(iterable):
+    """Used where the helper generator does not filter None."""
     return [x for x in _flatten3(iterable) if x is not None]
 
 
@@ -42,3 +47,21 @@ def _flatten3(iterable):
                 break
             else:
                 yield item
+
+
+def _flatten4(iterable):
+    """Non-recursive generator, chaining.
+    """
+    iterable=iter(iterable)
+    try:
+        while True:
+            match next(iterable):
+                case None:
+                    pass
+                case Iterable() as item:
+                    iterable = chain(item, iterable)
+                case item:
+                    yield item
+    except StopIteration:
+        pass
+
