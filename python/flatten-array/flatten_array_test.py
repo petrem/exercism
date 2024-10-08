@@ -8,11 +8,6 @@ from flatten_array import (
     flatten,
 )
 
-    def test_flattens_iterables(self):
-        inputs = iter((iter(range(5)), iter(range(3))))
-        expected = [0, 1, 2 ,3, 4, 0, 1, 2]
-        self.assertEqual(flatten(inputs), expected)
-
 
 class FlattenArrayTest(unittest.TestCase):
     def test_empty(self):
@@ -72,4 +67,9 @@ class FlattenArrayTest(unittest.TestCase):
     def test_all_values_in_nested_list_are_null(self):
         inputs = [None, [[[None]]], None, None, [[None, None], None], None]
         expected = []
+        self.assertEqual(flatten(inputs), expected)
+
+    def test_flattens_iterables(self):
+        inputs = iter((iter(range(5)), iter(range(3))))
+        expected = [0, 1, 2 ,3, 4, 0, 1, 2]
         self.assertEqual(flatten(inputs), expected)

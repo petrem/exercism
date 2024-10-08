@@ -4,11 +4,7 @@ from itertools import chain
 
 
 def flatten(iterable):
-    return list(_flatten4(iterable))
-
-def flatten_filter_none(iterable):
-    """Used where the helper generator does not filter None."""
-    return [x for x in _flatten3(iterable) if x is not None]
+    return [item for item in _flatten3(iterable) if item is not None]
 
 
 def _flatten1(iterable):
@@ -26,7 +22,7 @@ def _flatten2(iterable):
     Expands iterables therefore uses more memory.
     """
     stack = deque(iterable)
-    while(len(stack) > 0):
+    while len(stack) > 0:
         element = stack.popleft()
         if isinstance(element, Iterable):
             stack.extendleft(reversed(list(element)))
@@ -35,24 +31,22 @@ def _flatten2(iterable):
 
 
 def _flatten3(iterable):
-    """Non-recursive generator, stacking iterators."""
-    iterators = deque()
-    iterators.append(iter(iterable))
-    while(len(iterators) > 0):
-        iterator = iterators.pop()
-        for item in iterator:
+    """Non-recursive generator, using a stack but no expanding inner iterators."""
+    stack = [iter(iterable)]
+
+    while stack:
+        for item in (current := stack.pop()):
             if isinstance(item, Iterable):
-                iterators.append(iterator)
-                iterators.append(iter(item))
+                stack.append(current)
+                stack.append(iter(item))
                 break
-            else:
+            if item is not None:
                 yield item
 
 
 def _flatten4(iterable):
-    """Non-recursive generator, chaining.
-    """
-    iterable=iter(iterable)
+    """Non-recursive generator, chaining."""
+    iterable = iter(iterable)
     try:
         while True:
             match next(iterable):
@@ -64,4 +58,3 @@ def _flatten4(iterable):
                     yield item
     except StopIteration:
         pass
-
