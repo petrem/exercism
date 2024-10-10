@@ -214,10 +214,6 @@ impl<T: Clone, const N: usize, const M: usize> From<[[T; M]; N]> for Matrix<T> {
     }
 }
 
-trait ToMatrix<T> {
-    fn to_matrix(&self) -> Matrix<T>;
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
