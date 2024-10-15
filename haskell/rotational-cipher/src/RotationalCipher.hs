@@ -1,22 +1,14 @@
 module RotationalCipher (rotate) where
 
--- import Data.Char (chr, ord, isAsciiLower, isAsciiUpper)
 import qualified Data.Map as Map
 import Data.Maybe (fromMaybe)
 
 rotate :: Int -> String -> String
-rotate key = map translate
+rotate key = map (mkTranslator [['A' .. 'Z'], ['a' .. 'z']] rot)
   where
-    translate = mkTrans asciiLetters (rot repeatedLowers ++ rot repeatedUppers)
-    rot = take 26 . drop key
+    rot = take 26 . drop key . cycle
 
-repeatedLowers = ['a' .. 'z'] ++ ['a' .. 'z']
-
-repeatedUppers = ['A' .. 'Z'] ++ ['A' .. 'Z']
-
-asciiLetters = ['a' .. 'z'] ++ ['A' .. 'Z']
-
-mkTrans :: [Char] -> [Char] -> Char -> Char
-mkTrans from to = \c -> fromMaybe c (Map.lookup c charMap)
-  where
-    charMap = Map.fromList $ zip from to
+mkTranslator :: [[Char]] -> ([Char] -> [Char]) -> Char -> Char
+mkTranslator charSets mapper = \c ->
+  fromMaybe c . Map.lookup c . Map.fromList . (zip <$> concat <*> (mapper =<<)) $
+    charSets
