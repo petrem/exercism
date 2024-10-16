@@ -59,7 +59,7 @@ impl<'a> Grade<'a> {
 
     fn add(&mut self, student: &'a str) {
         if let Err(idx) = self.student_index(student) {
-            self.roster.insert(dbg!(idx), dbg!(student));
+            self.roster.insert(idx, student);
         }
     }
 
