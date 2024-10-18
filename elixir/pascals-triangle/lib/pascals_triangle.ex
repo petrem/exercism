@@ -11,9 +11,7 @@ defmodule PascalsTriangle do
   def rows(_), do: []
 
   defp next_row(prev) do
-    Enum.zip_with(
-      Stream.concat(0..0, prev),
-      Stream.concat(prev, 0..0),
-      fn a, b -> a + b end) |> Enum.to_list()
+    Enum.zip_with(Stream.concat(0..0, prev), Stream.concat(prev, 0..0), &+/2)
+    |> Enum.to_list()
   end
 end
