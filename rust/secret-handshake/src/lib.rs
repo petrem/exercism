@@ -1,8 +1,6 @@
 pub fn actions(n: u8) -> Vec<&'static str> {
     let mut response = vec![];
-    std::iter::zip(ACTIONS_ORDER, BitStream(n))
-        .filter_map(|(action, is_requested)| is_requested.then_some(action))
-        .for_each(|action| action.implement(&mut response));
+    Action::bits_to_actions(n).for_each(|action| action.implement_on(&mut response));
     response
 }
 
@@ -15,7 +13,7 @@ enum Action {
 }
 
 impl Action {
-    fn implement(&self, actions: &mut Vec<&'static str>) {
+    fn implement_on(&self, actions: &mut Vec<&'static str>) {
         match self {
             Action::Wink => actions.push("wink"),
             Action::DoubleBlink => actions.push("double blink"),
@@ -23,6 +21,11 @@ impl Action {
             Action::Jump => actions.push("jump"),
             Action::Reverse => actions.reverse(),
         }
+    }
+
+    fn bits_to_actions(n: u8) -> impl Iterator<Item = Action> {
+        std::iter::zip(ACTIONS_ORDER, BitStream(n))
+            .filter_map(|(action, bit_set)| bit_set.then_some(action))
     }
 }
 
