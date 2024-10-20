@@ -2,7 +2,7 @@ pkgs:
 with pkgs;
 let haskell_env = haskellPackages.ghcWithPackages (
       pkgs: with pkgs; [
-        stack
+        # stack
         # haddock
         hlint
         stack-clean-old

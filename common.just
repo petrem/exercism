@@ -113,6 +113,3 @@ add-src path kind='solution': _create-extra-config
     jq '.files.{{kind}} |= . + ["{{path}}"]' {{EXTRA_CONFIG_FILE}} > {{EXTRA_CONFIG_FILE + ".tmp"}}
     mv {{EXTRA_CONFIG_FILE + ".tmp"}} {{EXTRA_CONFIG_FILE}}
 
-# Download exercise with specified name for the current track.
-download exercise:
-    exercism download --track={{TRACK}} --exercise={{exercise}}
