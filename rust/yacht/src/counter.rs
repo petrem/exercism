@@ -1,5 +1,5 @@
 #[derive(Debug)]
-pub enum Category1 {
+pub enum Category {
     Ones,
     Twos,
     Threes,
@@ -30,10 +30,12 @@ struct Throw {
 }
 
 impl Throw {
-    fn new(&mut self, dice: Dice) -> Self {
+    fn new(dice: Dice) -> Self {
         Self {
             dice,
-            counts: 
+            counts: vec![],
+        }
+    }
 
            
     fn singles(face: u8, dice: Dice) -> u8 {

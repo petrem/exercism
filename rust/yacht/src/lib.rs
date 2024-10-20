@@ -1,3 +1,5 @@
+// we have to start somewhere...
+
 #[derive(Debug)]
 pub enum Category {
     Ones,
@@ -14,89 +16,100 @@ pub enum Category {
     Yacht,
 }
 
-// fn constant1<'a, A, B>(a: &'a A) -> Box<dyn FnOnce(B) -> &'a A> {
-//     Box::new(|_b| a)
-// }
+type Face = u8;
+type Score = u8;
+type Dice = [Face; 5];
 
-fn constant<A, B>(a: &A) -> Box<dyn FnOnce(B) -> A>
-where A: Clone {
-    Box::new(|_b| a.clone())
+struct Throw {
+    counts: Vec<u8>,
 }
 
-impl Category {
-    fn scoring(&self) -> Scoring {
-        match self {
-            Category::Ones => Scoring::new(constant(&true), Self::score_singles(1)),
-            // Category::Twos => throw.score_singles(2),
-            // Category::Threes => throw.score_singles(3),
-            // Category::Fours => throw.score_singles(4),
-            // Category::Fives => throw.score_singles(5),
-            // Category::Sixes => throw.score_singles(6),
-            // Category::FullHouse => throw.full_house(),
-            // Category::Choice => throw.total(),
-            _ => Scoring::new(constant(&true), constant(&255)),
+impl Throw {
+    fn new(dice: Dice) -> Self {
+        let mut counts = vec![0 /*filler*/, 0, 0, 0, 0, 0, 0];
+
+        for face in dice {
+            assert!((1..=6).contains(&face)); // TODO: do we do this in Rust?
+            counts[face as usize] += 1;
+        }
+        Self { counts }
+    }
+
+    fn singles(&self, face: u8) -> Score {
+        self.counts[face as usize] * face
+    }
+
+    fn full_house(&self) -> Score {
+        let mut ordered_face_counts: Vec<u8> =
+            self.counts.iter().filter(|x| **x != 0).copied().collect();
+        ordered_face_counts.sort();
+        if ordered_face_counts == vec![2, 3] {
+            self.total()
+        } else {
+            0
         }
     }
 
-    fn is_full_house(dice: &mut Dice) -> bool {
-        dice.sort();
-        dice[0] == dice[1] && dice[3] == dice[4] && (dice[2] == dice[1] || dice[2] == dice[3])
+    fn four_of_a_kind(&self) -> Score {
+        self.face_with_top_count()
+            .map_or(0, |(face, count)| if count >= 4 { face * 4 } else { 0 })
     }
 
-    fn is_yacht_like(dice: &mut Dice) -> bool {
-        false
-    }
-
-    fn score_singles(face: u8) -> ScorerFn {
-        Box::new(|dice| dice.iter().filter(|&&d| face == d).count() as u8 * face)
-    }
-}
-
-type CheckerFn = Box<dyn FnOnce(&Dice) -> bool>;
-type ScorerFn = Box<dyn FnOnce(&Dice) -> u8>;
-    
-struct Scoring {
-    checker: CheckerFn,
-    scorer: ScorerFn,
-}
-
-impl Scoring {
-    fn new(checker: CheckerFn, scorer: ScorerFn) -> Self {
-        Self {checker, scorer}
-    }
-}
-
-type Dice = [u8; 5];
-
-/*
-struct Throw<'a> {
-    dice: &'a Dice,
-    counts: Vec<(u8, u8)>,
-}
-
-impl<'a> Throw<'a> {
-    fn new(dice: &'a Dice) -> Self {
-        Self {
-            dice,
-            counts: vec![],
+    fn straight(&self, start: Face) -> Score {
+        if self
+            .counts
+            .split_at(start as usize)
+            .1
+            .iter()
+            .take(5)
+            .all(|c| *c == 1)
+        {
+            30
+        } else {
+            0
         }
     }
-           
-    fn score_singles(&self, face: u8) -> u8 {
-        self.dice.iter().filter(|&&d| face == d).count() as u8 * face
+
+    fn choice(&self) -> Score {
+        self.total()
     }
 
-    fn total(&self) -> u8 {
-        self.dice.iter().sum()
+    fn yacht(&self) -> Score {
+        self.face_with_top_count()
+            .map_or(0, |(_, c)| if c == 5 { 50 } else { 0 })
     }
 
-    fn is_full_house(&self) -> u8 {
-        0
+    fn total(&self) -> Score {
+        self.counts
+            .iter()
+            .enumerate()
+            .skip(1)
+            .fold(0, |acc, (i, c)| acc + (i as u8) * c)
+    }
+
+    fn face_with_top_count(&self) -> Option<(Face, u8)> {
+        self.counts
+            .iter()
+            .enumerate()
+            .max_by_key(|(_, &x)| x)
+            .map(|(top_face, &count)| (top_face as Face, count))
     }
 }
-*/
 
-pub fn score(dice: Dice, category: Category) -> u8 {
-    let Scoring { checker, scorer } = category.scoring();
-    checker(&dice).then_some(scorer(&dice)).unwrap_or(0) // TODO: is this the idiomatic way? should I rather use and if?
+pub fn score(dice: Dice, category: Category) -> Score {
+    let throw = Throw::new(dice);
+    match category {
+        Category::Ones => throw.singles(1),
+        Category::Twos => throw.singles(2),
+        Category::Threes => throw.singles(3),
+        Category::Fours => throw.singles(4),
+        Category::Fives => throw.singles(5),
+        Category::Sixes => throw.singles(6),
+        Category::FullHouse => throw.full_house(),
+        Category::FourOfAKind => throw.four_of_a_kind(),
+        Category::LittleStraight => throw.straight(1),
+        Category::BigStraight => throw.straight(2),
+        Category::Choice => throw.choice(),
+        Category::Yacht => throw.yacht(),
+    }
 }
