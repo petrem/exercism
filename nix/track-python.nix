@@ -24,6 +24,9 @@ let
       # reformatting
       black
       isort
+      # profiling
+      memray
+      # pytest-memray
       # bells and whistles
       rich
       icecream
