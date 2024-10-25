@@ -1,6 +1,6 @@
 import calendar
 from datetime import date, timedelta
-from functools import partial
+from functools import partialmethod
 
 
 class MeetupDayException(Exception):
@@ -10,45 +10,37 @@ class MeetupDayException(Exception):
 WEEK = timedelta(days=7)
 
 
-def _magic(base, skip, day_of_the_week):
-    daydiff = (7 + day_of_the_week - base.weekday()) % 7
-    return base + skip * WEEK + timedelta(days=daydiff)
+def meetup(year, month, which, day_of_the_week):
+    date_finder = DateFinder(which)
+    return date_finder(year, month, day_of_the_week)
 
 
-def _teenth(day_of_the_week, month1st):
-    return _magic(month1st + timedelta(days=12), 0, day_of_the_week)
+class DateFinder:
+    def __init__(self, which):
+        self.strategy = getattr(self, which)  # n.b. this is fragile
 
+    def __call__(self, year, month, day_of_week):
+        return self.strategy(getattr(calendar, day_of_week.upper()), year, month)
 
-def _last(day_of_the_week, month1st):
-    d = _magic(month1st, 4, day_of_the_week)
-    if d.month == month1st.month:
+    def teenth(self, day_of_week, year, month):
+        return self.days_until(date(year, month, 13), day_of_week)
+
+    def last(self, day_of_week, year, month):
+        d = self.days_until(date(year, month, 1), day_of_week) + 4 * WEEK
+        return d if d.month == month else d - WEEK
+
+    def nth(self, nth, day_of_week, year, month):
+        d = self.days_until(date(year, month, 1), day_of_week) + nth * WEEK
+        if d.month != month:
+            raise MeetupDayException("That day does not exist.")
         return d
-    else:
-        return d - WEEK
 
+    first = partialmethod(nth, 0)
+    second = partialmethod(nth, 1)
+    third = partialmethod(nth, 2)
+    fourth = partialmethod(nth, 3)
+    fifth = partialmethod(nth, 4)
 
-def _nth(nth, day_of_the_week, month1st):
-    d = _magic(month1st, nth, day_of_the_week)
-    if d.month != month1st.month:
-        raise MeetupDayException(
-            f"No {nth}th d.strftime('%A') in {month1st.strftime('%Y-%m')}")
-    return d
-
-
-STRATEGIES = {
-    "teenth": _teenth,
-    "last": _last,
-    "1st": partial(_nth, 0),
-    "2nd": partial(_nth, 1),
-    "3rd": partial(_nth, 2),
-    "4th": partial(_nth, 3),
-    "5th": partial(_nth, 4),
-}
-
-
-def meetup_day(year, month, day_of_the_week, which):
-    month1st = date(year, month, 1)
-    return STRATEGIES[which](
-        getattr(calendar, day_of_the_week.upper()),  # n.b.: dangerous
-        month1st
-    )
+    @staticmethod
+    def days_until(from_date, day_of_week):
+        return from_date + timedelta(days=(7 + day_of_week - from_date.weekday()) % 7)
