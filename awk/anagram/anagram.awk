@@ -2,7 +2,7 @@
 # - key
 
 BEGIN { normalized_key = sortw(key) }
-tolower($0) != tolower(key) && is_anagram($0) { print } # print normalized_key ";" sortw($0) }
+tolower($0) != tolower(key) && is_anagram($0) { print }
 
 function is_anagram(word) {
     return sortw(word) == normalized_key
