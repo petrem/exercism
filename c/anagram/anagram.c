@@ -29,6 +29,7 @@ static char *strtolower(const char *word);
 static void *calloc_or_die(size_t n_memb, size_t size);
 static inline unsigned int min(unsigned int a, unsigned int b);
 
+/*  In glibc and POSIX, but not in C99 */
 #define isascii(c) (((c) & 0x80) == 0)
 
 /* UTF-8 routines, taken from https://www.cprogramming.com/tutorial/unicode.html */
@@ -40,12 +41,12 @@ static inline unsigned int min(unsigned int a, unsigned int b);
 static uint32_t u8_nextchar(const char *s, int *i);
 
 
-void anagrams_for(const char *word, struct candidates *candidates) {
+void find_anagrams(const char *word, struct candidates *candidates) {
   char *lowword = strtolower(word);
   signature_t *word_signature = u8_signature(lowword);
   for (size_t i = 0; i < candidates->count; i++) {
     struct candidate *candidate = &candidates->candidate[i];
-    candidate->is_anagram = u8_is_anagram(lowword, word_signature, candidate->candidate);
+    candidate->is_anagram = u8_is_anagram(lowword, word_signature, candidate->word);
   }
   free(lowword);
   free_signature(word_signature);
@@ -56,10 +57,9 @@ static char *strtolower(const char *word) {
   int len = min(strlen(word), MAX_STR_LEN);
   int i = 0, prev_i = 0;
   char *dup = calloc_or_die(sizeof(char), len + 1);
-  uint32_t ch;
 
   while (word[i]) {
-    ch = u8_nextchar(word, &i);
+    uint32_t ch = u8_nextchar(word, &i);
     if (isascii(ch)) {
       dup[prev_i] = (char)tolower(ch);
     } else {
@@ -87,10 +87,9 @@ static void *calloc_or_die(size_t n_memb, size_t size) {
 static signature_t *u8_signature(const char *word) {
   signature_t *sig = calloc_or_die(1, sizeof(signature_t));
   int i = 0;
-  uint32_t ch;
 
   while (word[i]) {
-    ch = u8_nextchar(word, &i);
+    uint32_t ch = u8_nextchar(word, &i);
     if (isascii(ch) && islower(ch)) {
       sig->ascii_letters[ch - 'a']++;
     } else {
@@ -146,9 +145,9 @@ u8_is_anagram(const char *word, const signature_t *word_signature, const char *c
 
 static void free_signature(signature_t *sig) {
   if (sig != NULL) {
-    sig_entry_t *p = sig->utf_letters, *q;
+    sig_entry_t *p = sig->utf_letters;
     while (p != NULL) {
-      q = p;
+      sig_entry_t *q = p;
       p = p->next;
       free(q);
     }

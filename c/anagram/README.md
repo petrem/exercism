@@ -1,45 +1,59 @@
 # Anagram
 
-Given a word and a list of possible anagrams, select the correct sublist.
+Welcome to Anagram on Exercism's C Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-Given `"listen"` and a list of candidates like `"enlists" "google"
-"inlets" "banana"` the program should return a list containing
-`"inlets"`.
+## Introduction
 
-## Getting Started
+At a garage sale, you find a lovely vintage typewriter at a bargain price!
+Excitedly, you rush home, insert a sheet of paper, and start typing away.
+However, your excitement wanes when you examine the output: all words are garbled!
+For example, it prints "stop" instead of "post" and "least" instead of "stale."
+Carefully, you try again, but now it prints "spot" and "slate."
+After some experimentation, you find there is a random delay before each letter is printed, which messes up the order.
+You now understand why they sold it for so little money!
 
-Make sure you have read the "Guides" section of the
-[C track](https://exercism.io/my/tracks/c) on the Exercism site. This covers
-the basic information on setting up the development environment expected
-by the exercises.
+You realize this quirk allows you to generate anagrams, which are words formed by rearranging the letters of another word.
+Pleased with your finding, you spend the rest of the day generating hundreds of anagrams.
 
+## Instructions
 
-## Passing the Tests
+Your task is to, given a target word and a set of candidate words, to find the subset of the candidates that are anagrams of the target.
 
-Get the first test compiling, linking and passing by following the [three
-rules of test-driven development][3-tdd-rules].
+An anagram is a rearrangement of letters to form a new word: for example `"owns"` is an anagram of `"snow"`.
+A word is _not_ its own anagram: for example, `"stop"` is not an anagram of `"stop"`.
 
-The included makefile can be used to create and run the tests using the `test`
-task.
+The target and candidates are words of one or more ASCII alphabetic characters (`A`-`Z` and `a`-`z`).
+Lowercase and uppercase characters are equivalent: for example, `"PoTS"` is an anagram of `"sTOp"`, but `StoP` is not an anagram of `sTOp`.
+The anagram set is the subset of the candidate set that are anagrams of the target (in any order).
+Words in the anagram set should have the same letter case as in the candidate set.
 
-    make test
-
-Create just the functions you need to satisfy any compiler errors and get the
-test to fail. Then write just enough code to get the test to pass. Once you've
-done that, move onto the next test.
-
-[3-tdd-rules]: http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd
-
-As you progress through the tests, take the time to refactor your
-implementation for readability and expressiveness and then go on to the next
-test.
-
-Try to use standard C99 facilities in preference to writing your own
-low-level algorithms or facilities by hand.
+Given the target `"stone"` and candidates `"stone"`, `"tones"`, `"banana"`, `"tons"`, `"notes"`, `"Seton"`, the anagram set is `"tones"`, `"notes"`, `"Seton"`.
 
 ## Source
 
-Inspired by the Extreme Startup game [https://github.com/rchatley/extreme_startup](https://github.com/rchatley/extreme_startup)
+### Created by
 
-## Submitting Incomplete Solutions
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+- @kdar
+
+### Contributed to by
+
+- @bcc32
+- @Gamecock
+- @gea-migration
+- @h-3-0
+- @hintjens
+- @JacobMikkelsen
+- @kytrinyx
+- @lpil
+- @patricksjackson
+- @QLaille
+- @RealBarrettBrown
+- @ryanplusplus
+- @siebenschlaefer
+- @wolf99
+- @xihh87
+
+### Based on
+
+Inspired by the Extreme Startup game - https://github.com/rchatley/extreme_startup

@@ -4,7 +4,7 @@
 
 #include <stddef.h>
 
-#define MAX_STR_LEN 21
+#define MAX_STR_LEN 20
 
 enum anagram_status {
    UNCHECKED = -1,
@@ -14,7 +14,7 @@ enum anagram_status {
 
 struct candidate {
    enum anagram_status is_anagram;
-   const char *candidate;
+   const char *word;
 };
 
 struct candidates {
@@ -26,6 +26,6 @@ struct candidates {
  * @description - determines if any of the words in candidate are anagrams
  *                for word.  Word buffer and candidate structures may be modified.
  */
-void anagrams_for(const char *word, struct candidates *candidates);
+void find_anagrams(const char *word, struct candidates *candidates);
 
 #endif
