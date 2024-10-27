@@ -1,16 +1,14 @@
 use std::collections::HashSet;
 
-// First, let's try something quick to make it work...
+// A bit better. Still, sorting is not really necessary.
 
 pub fn anagrams_for<'a>(word: &str, possible_anagrams: &'a [&str]) -> HashSet<&'a str> {
-    let mut res = HashSet::new();
-    for anagram in possible_anagrams
-        .iter()
-        .filter(|w| Normalized::new(word).is_anagram(&Normalized::new(w)))
-    {
-        res.insert(*anagram);
-    }
-    res
+    HashSet::from_iter(
+        possible_anagrams
+            .iter()
+            .filter(|w| Normalized::new(word).is_anagram(&Normalized::new(w)))
+            .copied(),
+    )
 }
 
 #[derive(Debug)]
