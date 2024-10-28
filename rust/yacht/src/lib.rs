@@ -1,14 +1,15 @@
 /// Score computation and checking is more shambolic than in previous iteration, but
 /// here I played with functions and closures. And macros, yey!
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
+#[repr(u8)]
 pub enum Category {
-    Ones,
-    Twos,
-    Threes,
-    Fours,
-    Fives,
-    Sixes,
+    Ones = 1,
+    Twos = 2,
+    Threes = 3,
+    Fours = 4,
+    Fives = 5,
+    Sixes = 6,
     FullHouse,
     FourOfAKind,
     LittleStraight,
@@ -46,12 +47,14 @@ macro_rules! bool {
 impl Category {
     fn scoring(&self) -> Scoring {
         match self {
-            Category::Ones => Scoring::new(constant!(true), Box::new(Self::score_singles(1))),
-            Category::Twos => Scoring::new(constant!(true), Box::new(Self::score_singles(2))),
-            Category::Threes => Scoring::new(constant!(true), Box::new(Self::score_singles(3))),
-            Category::Fours => Scoring::new(constant!(true), Box::new(Self::score_singles(4))),
-            Category::Fives => Scoring::new(constant!(true), Box::new(Self::score_singles(5))),
-            Category::Sixes => Scoring::new(constant!(true), Box::new(Self::score_singles(6))),
+            Category::Ones
+            | Category::Twos
+            | Category::Threes
+            | Category::Fours
+            | Category::Fives
+            | Category::Sixes => {
+                Scoring::new(constant!(true), Box::new(Self::score_singles(*self as u8)))
+            }
             Category::FullHouse => {
                 Scoring::new(Box::new(Self::is_full_house), Box::new(Self::score_total))
             }
