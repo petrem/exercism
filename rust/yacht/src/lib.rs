@@ -1,4 +1,5 @@
-// we have to start somewhere...
+/// Score computation and checking is more shambolic than in previous iteration, but
+/// here I played with functions and closures. And macros, yey!
 
 #[derive(Debug)]
 pub enum Category {
@@ -16,100 +17,117 @@ pub enum Category {
     Yacht,
 }
 
-type Face = u8;
-type Score = u8;
-type Dice = [Face; 5];
+/*
+fn constant<A: Clone + 'static, B>(a: A) -> Box<dyn Fn(B) -> A> {
+    Box::new(move |_b| a.clone())
+}
+*/
 
-struct Throw {
-    counts: Vec<u8>,
+/// Poor person's `const`: returns a closure ignoring its argument and returning the
+/// pre-defined value.
+#[macro_export]
+macro_rules! constant {
+    ( $x:literal ) => {
+        Box::new(|_| $x)
+    };
 }
 
-impl Throw {
-    fn new(dice: Dice) -> Self {
-        let mut counts = vec![0 /*filler*/, 0, 0, 0, 0, 0, 0];
-
-        for face in dice {
-            assert!((1..=6).contains(&face)); // TODO: do we do this in Rust?
-            counts[face as usize] += 1;
-        }
-        Self { counts }
-    }
-
-    fn singles(&self, face: u8) -> Score {
-        self.counts[face as usize] * face
-    }
-
-    fn full_house(&self) -> Score {
-        let mut ordered_face_counts: Vec<u8> =
-            self.counts.iter().filter(|x| **x != 0).copied().collect();
-        ordered_face_counts.sort();
-        if ordered_face_counts == vec![2, 3] {
-            self.total()
+/// Bool type case analysis. Like a ternary operator.
+macro_rules! bool {
+    ( $test:expr, $on_false:expr, $on_true:expr ) => {
+        if $test {
+            $on_true
         } else {
-            0
+            $on_false
+        }
+    };
+}
+
+impl Category {
+    fn scoring(&self) -> Scoring {
+        match self {
+            Category::Ones => Scoring::new(constant!(true), Box::new(Self::score_singles(1))),
+            Category::Twos => Scoring::new(constant!(true), Box::new(Self::score_singles(2))),
+            Category::Threes => Scoring::new(constant!(true), Box::new(Self::score_singles(3))),
+            Category::Fours => Scoring::new(constant!(true), Box::new(Self::score_singles(4))),
+            Category::Fives => Scoring::new(constant!(true), Box::new(Self::score_singles(5))),
+            Category::Sixes => Scoring::new(constant!(true), Box::new(Self::score_singles(6))),
+            Category::FullHouse => {
+                Scoring::new(Box::new(Self::is_full_house), Box::new(Self::score_total))
+            }
+            Category::Choice => Scoring::new(constant!(true), Box::new(Self::score_total)),
+            Category::FourOfAKind => Scoring::new(
+                Box::new(Self::is_four_of_a_kind),
+                Box::new(Self::score_four_of_a_kind),
+            ),
+            Category::LittleStraight => Scoring::new(Box::new(Self::is_straight(1)), constant!(30)),
+            Category::BigStraight => Scoring::new(Box::new(Self::is_straight(2)), constant!(30)),
+            Category::Yacht => Scoring::new(Box::new(Self::is_yacht), constant!(50)),
         }
     }
 
-    fn four_of_a_kind(&self) -> Score {
-        self.face_with_top_count()
-            .map_or(0, |(face, count)| if count >= 4 { face * 4 } else { 0 })
+    fn is_full_house(dice: &Dice) -> bool {
+        let mut dice = *dice;
+        dice.sort_unstable();
+        dice[0] == dice[1]
+            && dice[3] == dice[4]
+            && (dice[2] == dice[1] || dice[2] == dice[3])
+            && dice[0] != dice[4]
     }
 
-    fn straight(&self, start: Face) -> Score {
-        if self
-            .counts
-            .split_at(start as usize)
-            .1
-            .iter()
-            .take(5)
-            .all(|c| *c == 1)
-        {
-            30
-        } else {
-            0
-        }
+    fn count_from(idx: usize, dice: &Dice) -> usize {
+        assert!(idx < N_FACES);
+        dice.iter().skip(idx).filter(|&&f| f == dice[idx]).count()
     }
 
-    fn choice(&self) -> Score {
-        self.total()
+    fn is_four_of_a_kind(dice: &Dice) -> bool {
+        Self::count_from(0, dice) >= 4 || Self::count_from(1, dice) == 4
     }
 
-    fn yacht(&self) -> Score {
-        self.face_with_top_count()
-            .map_or(0, |(_, c)| if c == 5 { 50 } else { 0 })
+    fn is_yacht(dice: &Dice) -> bool {
+        Self::count_from(0, dice) == 5
     }
 
-    fn total(&self) -> Score {
-        self.counts
-            .iter()
-            .enumerate()
-            .skip(1)
-            .fold(0, |acc, (i, c)| acc + (i as u8) * c)
+    fn is_straight(start: u8) -> CheckerFn {
+        Box::new(move |&dice| {
+            let mut dice = dice.to_vec();
+            dice.sort_unstable();
+            dice == (start..(start + 5)).collect::<Vec<_>>()
+        })
     }
 
-    fn face_with_top_count(&self) -> Option<(Face, u8)> {
-        self.counts
-            .iter()
-            .enumerate()
-            .max_by_key(|(_, &x)| x)
-            .map(|(top_face, &count)| (top_face as Face, count))
+    fn score_singles(face: u8) -> ScorerFn {
+        Box::new(move |dice| dice.iter().filter(|&&d| face == d).count() as u8 * face)
+    }
+
+    fn score_total(dice: &Dice) -> u8 {
+        dice.iter().sum()
+    }
+
+    fn score_four_of_a_kind(dice: &Dice) -> u8 {
+        // it's a shame we call `count_from` twice
+        4 * bool!(Self::count_from(0, dice) >= 4, dice[1], dice[0])
     }
 }
 
-pub fn score(dice: Dice, category: Category) -> Score {
-    let throw = Throw::new(dice);
-    match category {
-        Category::Ones => throw.singles(1),
-        Category::Twos => throw.singles(2),
-        Category::Threes => throw.singles(3),
-        Category::Fours => throw.singles(4),
-        Category::Fives => throw.singles(5),
-        Category::Sixes => throw.singles(6),
-        Category::FullHouse => throw.full_house(),
-        Category::FourOfAKind => throw.four_of_a_kind(),
-        Category::LittleStraight => throw.straight(1),
-        Category::BigStraight => throw.straight(2),
-        Category::Choice => throw.choice(),
-        Category::Yacht => throw.yacht(),
+type CheckerFn = Box<dyn Fn(&Dice) -> bool>;
+type ScorerFn = Box<dyn Fn(&Dice) -> u8>;
+
+struct Scoring {
+    checker: CheckerFn,
+    scorer: ScorerFn,
+}
+
+impl Scoring {
+    fn new(checker: CheckerFn, scorer: ScorerFn) -> Self {
+        Self { checker, scorer }
     }
+}
+
+const N_FACES: usize = 5;
+type Dice = [u8; N_FACES];
+
+pub fn score(dice: Dice, category: Category) -> u8 {
+    let Scoring { checker, scorer } = category.scoring();
+    bool!(checker(&dice), 0, scorer(&dice))
 }

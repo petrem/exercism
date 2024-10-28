@@ -14,48 +14,49 @@ pub enum Category {
     Yacht,
 }
 
-// fn constant1<'a, A, B>(a: &'a A) -> Box<dyn FnOnce(B) -> &'a A> {
-//     Box::new(|_b| a)
-// }
-
-fn constant<'a, A: Clone, B>(a: &'a A) -> (impl FnOnce(B) -> A + 'a)
-{
-    |_b| a.clone()
+fn constant<'a, A: Clone + 'static, B>(a: A) -> Box<dyn Fn(B) -> A> {
+    Box::new(move |_b| a.clone())
 }
-
-
 
 impl Category {
     fn scoring(&self) -> Scoring {
+        //let f = Box::new(constant::<bool, u32>(true.clone()));
+        //let g = Box::new(constant::<u32, String>(12.clone()));
+        
         match self {
-            Category::Ones => Scoring::new(Box::new(constant(&true)), Box::new(Self::score_singles(1))),
-            // Category::Twos => throw.score_singles(2),
-            // Category::Threes => throw.score_singles(3),
-            // Category::Fours => throw.score_singles(4),
-            // Category::Fives => throw.score_singles(5),
-            // Category::Sixes => throw.score_singles(6),
-            // Category::FullHouse => throw.full_house(),
+            Category::Ones => Scoring::new(Box::new(|_| true), Box::new(Self::score_singles(1))),
+            Category::Twos => Scoring::new(Box::new(|_| true), Box::new(Self::score_singles(2))),
+            Category::Threes => Scoring::new(Box::new(|_| true), Box::new(Self::score_singles(3))),
+            Category::Fours => Scoring::new(Box::new(|_| true), Box::new(Self::score_singles(4))),
+            Category::Fives => Scoring::new(Box::new(|_| true), Box::new(Self::score_singles(5))),
+            Category::Sixes => Scoring::new(Box::new(|_| true), Box::new(Self::score_singles(6))),
+            Category::FullHouse => Scoring::new(Box::new(Self::is_full_house), Box::new(Self::score_total)),
             // Category::Choice => throw.total(),
-            _ => Scoring::new(Box::new(constant(&true)), Box::new(constant(&255))),
+            _ => Scoring::new(Box::new(|_| true), Box::new(|_| 255)),
         }
     }
 
-    fn is_full_house(dice: &mut Dice) -> bool {
+    fn is_full_house(dice: &Dice) -> bool {
+        let mut dice = dice.clone();
         dice.sort();
         dice[0] == dice[1] && dice[3] == dice[4] && (dice[2] == dice[1] || dice[2] == dice[3])
     }
 
-    fn is_yacht_like(dice: &mut Dice) -> bool {
+    fn is_yacht_like(dice: &Dice) -> bool {
         false
     }
 
     fn score_singles(face: u8) -> ScorerFn {
-        Box::new(|dice| dice.iter().filter(|&&d| face == d).count() as u8 * face)
+        Box::new(move |dice| dice.iter().filter(|&&d| face == d).count() as u8 * face)
+    }
+
+    fn score_total(dice: &Dice) -> u8  {
+        dice.iter().sum()
     }
 }
 
-type CheckerFn = Box<dyn FnOnce(&Dice) -> bool>;
-type ScorerFn = Box<dyn FnOnce(&Dice) -> u8>;
+type CheckerFn = Box<dyn Fn(&Dice) -> bool>;
+type ScorerFn = Box<dyn Fn(&Dice) -> u8>;
     
 struct Scoring {
     checker: CheckerFn,
@@ -69,34 +70,6 @@ impl Scoring {
 }
 
 type Dice = [u8; 5];
-
-/*
-struct Throw<'a> {
-    dice: &'a Dice,
-    counts: Vec<(u8, u8)>,
-}
-
-impl<'a> Throw<'a> {
-    fn new(dice: &'a Dice) -> Self {
-        Self {
-            dice,
-            counts: vec![],
-        }
-    }
-           
-    fn score_singles(&self, face: u8) -> u8 {
-        self.dice.iter().filter(|&&d| face == d).count() as u8 * face
-    }
-
-    fn total(&self) -> u8 {
-        self.dice.iter().sum()
-    }
-
-    fn is_full_house(&self) -> u8 {
-        0
-    }
-}
-*/
 
 pub fn score(dice: Dice, category: Category) -> u8 {
     let Scoring { checker, scorer } = category.scoring();
