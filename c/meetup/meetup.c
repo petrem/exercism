@@ -5,9 +5,6 @@
 #include <time.h>
 
 
-#include <stdio.h>
-
-
 static int get_weekday(const char *dayname);
 static inline bool is_leap(unsigned int year);
 static inline unsigned int last_day_of_month(unsigned int year, unsigned int month);
@@ -27,7 +24,6 @@ int meetup_day_of_month(unsigned int year, unsigned int month, const char *week,
   if (base_weekday == (unsigned int)-1)
     goto fail;
   unsigned int day = base_day + (7 + weekday - base_weekday) % 7;
-  printf("weekday: %d base_day: %d base_weekday: %d day: %d\n", weekday, base_day, base_weekday, day);
   if (day > last_day_of_month(year, month))
     goto fail;
   return day;
