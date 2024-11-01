@@ -22,20 +22,26 @@ defmodule ListOps do
   def map([h|t], f), do: [f.(h) | map(t, f)]
 
   @spec filter(list, (any -> as_boolean(term))) :: list
-  def filter(l, f), do: foldr(l, [], &(if f.(&1), do: [&1|&2], else: &2))
-
+  # foldr based filter is slower; foldl then reverse is fast; this version is about the same
+  def filter([h|t], f), do: if( f.(h), do: [h|filter(t, f)], else: filter(t, f))
+  def filter([], _), do: []
+  
   @type acc :: any
   @spec foldl(list, acc, (any, acc -> acc)) :: acc
-  def foldl([], acc, _), do: acc
   def foldl([h|t], acc, f), do: foldl(t, f.(h, acc), f)
+  def foldl([], acc, _), do: acc
 
   @spec foldr(list, acc, (any, acc -> acc)) :: acc
-  def foldr([], acc, _), do: acc
   def foldr([h|t], acc, f), do: f.(h, foldr(t, acc, f))
+  def foldr([], acc, _), do: acc
 
   @spec append(list, list) :: list
   def append(a, b), do: foldr(a, b, &([&1|&2]))
 
   @spec concat([[any]]) :: [any]
-  def concat(ll), do: foldr(ll, [], &append/2)
+  # stolen from https://exercism.org/tracks/elixir/exercises/list-ops/solutions/Pul
+  def concat(ll), do: foldl(ll, [], &prepend(&2, &1)) |> reverse()
+  
+  defp prepend(b, [x | a]), do: prepend([x | b], a)
+  defp prepend(b, []), do: b
 end
