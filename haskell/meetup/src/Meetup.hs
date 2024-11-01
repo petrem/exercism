@@ -1,40 +1,12 @@
-module Meetup
-  ( Weekday (..),
-    Schedule (..),
-    meetupDay,
-  )
-where
+module Meetup (Weekday (..), Schedule (..), meetupDay) where
 
-import Data.Time.Calendar
-  ( Day,
-    MonthOfYear,
-    Year,
-    firstDayOfWeekOnAfter,
-    fromGregorian,
-    isLeapYear,
-  )
-import Data.Time.Calendar.MonthDay (monthLength)
+import Data.Time.Calendar (Day, firstDayOfWeekOnAfter, fromGregorian, gregorianMonthLength)
 
-data Weekday
-  = Monday
-  | Tuesday
-  | Wednesday
-  | Thursday
-  | Friday
-  | Saturday
-  | Sunday
-  deriving (Enum, Show)
+data Weekday = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday deriving Enum
 
-data Schedule
-  = First
-  | Second
-  | Third
-  | Fourth
-  | Last
-  | Teenth
-  deriving (Show)
+data Schedule = First | Second | Third | Fourth | Last | Teenth
 
-meetupDay :: Schedule -> Weekday -> Year -> MonthOfYear -> Day
+meetupDay :: Schedule -> Weekday -> Integer -> Int -> Day
 meetupDay schedule weekday year month =
   firstDayOfWeekOnAfter dayOfWeek (fromGregorian year month baseDayForSchedule)
   where
@@ -45,4 +17,4 @@ meetupDay schedule weekday year month =
       Third -> 15
       Fourth -> 22
       Teenth -> 13
-      Last -> subtract 6 . monthLength (isLeapYear year) $ month
+      Last -> gregorianMonthLength year month - 6
