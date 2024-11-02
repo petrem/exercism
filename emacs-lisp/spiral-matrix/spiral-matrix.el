@@ -4,6 +4,7 @@
 
 ;;; Code:
 
+(defsubst vpad (l m r) (vconcat `[,l] m `[,r]))
 
 (defun spiral-matrix (size &optional from)
   (let ((from (or from 1)))
@@ -21,8 +22,6 @@
                 (inner        (spiral-matrix (- size 2) top-left))
                 (middle       (seq-into (seq-mapn #'vpad left inner right) 'vector)))
            (vpad top middle bottom))))))
-
-(defsubst vpad (l m r) (vconcat `[,l] m `[,r]))
 
 (provide 'spiral-matrix)
 ;;; spiral-matrix.el ends here
