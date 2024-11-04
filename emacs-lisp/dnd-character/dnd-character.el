@@ -4,18 +4,22 @@
 
 ;;; Code:
 
+;; This macro is taken from https://exercism.org/tracks/emacs-lisp/exercises/dnd-character/solutions/leetwinski
+(defmacro rep (n form) `(cl-loop repeat ,n collect ,form))
+
 
 (defun modifier (score)
   (floor (/ (- score 10.0) 2)))
 
 
 (defun ability ()
-  (defsubst throw-dice () (1+ (random 6)))
-  (apply #'+ (cdr (sort (list (throw-dice) (throw-dice) (throw-dice) (throw-dice)) #'<))))
+  (apply #'+ (cdr (sort (rep 4 (1+ (random 6))) #'<))))
 
 
 (defun generate-dnd-character ()
-  (record 'dnd-character (ability) (ability) (ability) (ability) (ability) (ability) (ability)))
+  (let* ((attrs (rep 6 (ability)))
+         (hitpoints (+ 10 (modifier (nth 3 attrs)))))
+  (apply #'record 'dnd-character `(,@attrs ,hitpoints))))
 
 
 (provide 'dnd-character)
