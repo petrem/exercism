@@ -3,6 +3,7 @@ class School
   def add(name, grade)
     if not self.present?(name)
       @roster.push([grade, name])
+      @roster.sort!
       true
     else
       false
@@ -12,8 +13,7 @@ class School
   def grade(grade)
       @roster
         .filter { |(g, _)| g == grade }
-        .map { |(_, s)| s }
-        .sort
+        .map(&:last)
   end
 
   def present?(student)
@@ -21,15 +21,10 @@ class School
   end
 
   def roster
-    @roster.sort.map { |(_, s)| s }
+    @roster.map(&:last)
   end
   
   def initialize
     @roster = []
   end
 end
-
-s = School.new
-s.add("zuzu", 2)
-s.add("zuzu", 3)
-s.grade(2)
