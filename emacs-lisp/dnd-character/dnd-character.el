@@ -10,8 +10,8 @@
 
 
 (defun ability ()
-  (defsubst throw-dice () (1+ (random 7)))
-  (apply #'+ (cdr (sort (list (throw-dice) (throw-dice) (throw-dice) (throw-dice)) #'>))))
+  (defsubst throw-dice () (1+ (random 6)))
+  (apply #'+ (cdr (sort (list (throw-dice) (throw-dice) (throw-dice) (throw-dice)) #'<))))
 
 
 (defun generate-dnd-character ()
