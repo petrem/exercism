@@ -1,14 +1,11 @@
-from collections import deque
-
-FLIPPED = {"{": "}", "[": "]", "(": ")"}
+CLOSING = {"{": "}", "[": "]", "(": ")"}
 
 
 def is_paired(input_string):
-    stack = deque()
+    stack = []
     for c in filter(lambda c: c in "{[()]}", input_string):
         if c in "{[(":
             stack.append(c)
-        else:
-            if not stack or FLIPPED[stack.pop()] != c:
-                return False
-    return len(stack) == 0
+        elif not stack or CLOSING[stack.pop()] != c:
+            return False
+    return not stack
