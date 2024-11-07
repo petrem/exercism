@@ -28,6 +28,8 @@ init-track track backup='yes':
 # Clean up backup files of various sorts
 cleanup:
     find . \( -name \*~ -o -name \*.~* \) -delete
+    find . -maxdepth 1 -type d ! -name '_*' -exec just '{}'/clean \;
+
 
 # Search tracks for given exercise
 find exercise:
