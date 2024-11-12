@@ -1,5 +1,5 @@
 class Luhn:
-    __slots__ = "_digits"
+    __slots__ = ("_digits", )
 
     def __init__(self, card_num: str) -> None:
         if not isinstance(card_num, str):

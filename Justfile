@@ -39,3 +39,7 @@ missing exercise:
     #!/usr/bin/env python3
     from pathlib import Path
     print("\n".join(sorted(f.name for f in Path(".").iterdir() if f.is_dir() and (f / "track.just").exists() and not f.name.startswith("_") and not (f / "{{exercise}}").is_dir())))
+
+# Add .projectile files to exercises where it is missing
+add-projectile:
+    find . -type d -name .exercism -exec dirname '{}' \; | xargs -IXXX bash -c "[ ! -e XXX/.projectile ] && touch XXX/.projectile"
