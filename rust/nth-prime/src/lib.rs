@@ -4,8 +4,7 @@ pub fn nth(n: u32) -> u32 {
         return primes[n as usize];
     }
     for i in (5..).step_by(2) {
-        let sqrt_i = (i as f32).sqrt() as usize;
-        if is_pairwise_coprime_with(i, &primes[..sqrt_i]) {
+        if is_pairwise_coprime_with(i, &primes) {
             primes.push(i);
             if primes.len() == (n + 1) as usize {
                 break;
@@ -16,5 +15,5 @@ pub fn nth(n: u32) -> u32 {
 }
 
 fn is_pairwise_coprime_with(n: u32, ps: &[u32]) -> bool {
-    !ps.iter().any(|&p| n % p == 0)
+    !ps.iter().take_while(|&p| p * p <= n).any(|&p| n % p == 0)
 }

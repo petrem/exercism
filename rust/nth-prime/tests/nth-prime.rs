@@ -30,3 +30,10 @@ fn big_prime() {
     let expected = 104_743;
     assert_eq!(output, expected);
 }
+
+#[test]
+fn bigger_prime() {
+    let output = nth(70_851);
+    let expected = 894_119;
+    assert_eq!(output, expected);
+}
