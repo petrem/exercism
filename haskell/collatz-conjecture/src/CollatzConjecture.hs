@@ -15,10 +15,19 @@ module CollatzConjecture (collatz) where
 
 import Data.Bits (countTrailingZeros, shiftR)
 
+import Data.Maybe (isJust)
+
 type Steps = Int
 
+step n | n <= 0 = Nothing
+       | even n = Just $ n `quot` 2
+       | otherwise = Just $ 3*n +1
+
 collatz :: Integer -> Maybe Integer
-collatz x
+collatz = (toInteger . length <$>) . sequence . takeWhile (maybe False (>1)) . drop 1 . iterate (>>= step) . Just
+          
+collatz' :: Integer -> Maybe Integer
+collatz' x
   | x <= 0 = Nothing
   | otherwise = Just . toInteger . collatzOptimized . fromInteger $ x
 
