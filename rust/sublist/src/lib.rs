@@ -12,15 +12,15 @@ pub fn sublist<T: std::fmt::Debug + PartialEq + PartialOrd + Ord>(
     l1: &[T],
     l2: &[T],
 ) -> Comparison {
-    if dbg!(l1) == dbg!(l2) {
+    if l1 == l2 {
         Comparison::Equal
     } else {
         let sarray1 = SArray::new(l1);
-        if dbg!(sarray1).contains(l2) {
+        if sarray1.contains(l2) {
             Comparison::Superlist
         } else {
             let sarray2 = SArray::new(l2);
-            if dbg!(sarray2).contains(l1) {
+            if sarray2.contains(l1) {
                 Comparison::Sublist
             } else {
                 Comparison::Unequal
@@ -43,12 +43,13 @@ where
         for k in 0..list.len() {
             sarray.push(&list[k..]);
         }
+        // Note that this is inefficient, as we sort `list.len().pow(2)` elements
         sarray.sort();
         Self { sarray }
     }
 
     fn contains(&self, other: &[T]) -> bool {
-        match dbg!(self.sarray.binary_search(&other)) {
+        match self.sarray.binary_search(&other) {
             _ if self.sarray.is_empty() => false,
             _ if other.is_empty() => true,
             Ok(_) => true,
