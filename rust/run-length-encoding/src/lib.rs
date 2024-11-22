@@ -10,21 +10,18 @@ pub fn encode(source: &str) -> String {
 }
 
 pub fn decode(source: &str) -> String {
-    let tokenizer = Tokenize::new(source);
-    let mut times: usize = 1;
-    let mut result = String::new();
-    for token in tokenizer {
-        match token {
-            Token::Number(n) => {
-                times = n;
-            }
-            Token::Char(c) => {
-                result.push_str(c.repeat(times).as_ref());
-                times = 1;
-            }
-        }
-    }
-    result
+    Tokenize::new(source)
+        .fold(
+            (String::new(), 1),
+            |(mut decoded, times), token| match token {
+                Token::Number(n) => (decoded, n),
+                Token::Char(c) => {
+                    decoded += c.repeat(times).as_ref();
+                    (decoded, 1)
+                }
+            },
+        )
+        .0
 }
 
 /*
@@ -48,6 +45,7 @@ where T: Iterator<Item=U> + Default + FromIterator<U>,
 }
  */
 
+/// Split `s` at the first character not matching predicate `f`.
 fn span<P>(f: P, s: &str) -> (&str, &str)
 where
     P: Fn(char) -> bool,
@@ -56,6 +54,7 @@ where
     (&s[..split_at], &s[split_at..])
 }
 
+/// Group equal adjacent characters in `s`.
 fn group(s: &str) -> Vec<&str> {
     let mut result = vec![];
     let mut s = s;
@@ -86,20 +85,17 @@ impl<'a> Iterator for Tokenize<'a> {
     type Item = Token;
 
     fn next(&mut self) -> Option<Token> {
-        if self.source.is_empty() {
-            return None;
-        }
-        let (digits, rest) = span(|c| c.is_ascii_digit(), self.source);
-        match digits.parse::<usize>() {
-            Ok(num) => {
-                self.source = rest;
-                Some(Token::Number(num))
-            }
-            _ => {
+        match span(|c| c.is_ascii_digit(), self.source) {
+            ("", "") => None,
+            ("", _) => {
                 //TODO: what is a good way to split a str at unicode codepoints?
                 let first: String = self.source.chars().take(1).collect();
                 self.source = &self.source[first.len()..];
                 Some(Token::Char(first))
+            }
+            (digits, rest) => {
+                self.source = rest;
+                Some(Token::Number(digits.parse().unwrap()))
             }
         }
     }
