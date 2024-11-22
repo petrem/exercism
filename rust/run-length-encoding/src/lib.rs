@@ -28,6 +28,9 @@ pub fn decode(source: &str) -> String {
 }
 
 /*
+
+// TODO: Generalize span() to work over any Iterator
+
 trait Span {
     fn span(&mut self) -> (Box<Self>, Box<Self>);
 }
@@ -95,8 +98,6 @@ impl<'a> Iterator for Tokenize<'a> {
             _ => {
                 //TODO: what is a good way to split a str at unicode codepoints?
                 let first: String = self.source.chars().take(1).collect();
-                //let (c, rest) = self.source.split_at(1);
-                //self.source = rest;
                 self.source = &self.source[first.len()..];
                 Some(Token::Char(first))
             }
