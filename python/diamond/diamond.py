@@ -1,6 +1,5 @@
 """Let's use classes, why not."""
 
-from __future__ import annotations
 import typing
 from string import ascii_uppercase
 
@@ -13,35 +12,24 @@ class Diamond:
     def __init__(self, letter: str) -> None:
         if _isletter(letter):
             self.letter = letter.upper()
-            self.width = _offset(letter) * 2 + 1
+            self.offset = _offset(letter)
+            self.width = self.offset * 2 + 1
         else:
             raise ValueError(f"{letter} is not a letter")
 
     def __str__(self) -> str:
         return "\n".join(self.as_list())
 
-    def as_list(self) -> typing.List[str]:
-        letters = (
-            ascii_uppercase[:_offset(self.letter)]
-            + ascii_uppercase[_offset(self.letter)::-1]
-        )
-        return [f"{_make_diamond_line(letter)!s:^{self.width}}" for letter in letters]
+    def as_list(self) -> list[str]:
+        letters = ascii_uppercase[: self.offset] + ascii_uppercase[self.offset :: -1]
+        return [f"{diamondline(letter)!s:^{self.width}}" for letter in letters]
 
 
-def _make_diamond_line(letter: str) -> str | _DiamondLine:
+def diamondline(letter):
     if letter == "A":
         return "A"
-    return _DiamondLine(letter)
-
-
-class _DiamondLine:
-    def __init__(self, letter: str) -> None:
-        assert _isletter(letter)
-        self.letter = letter
-
-    def __str__(self) -> str:
-        mid_space = 2 * _offset(self.letter) - 1
-        return f"{self.letter}{'':{mid_space}}{self.letter}"
+    mid_space = " " * (2 * _offset(letter) - 1)
+    return f"{letter}{mid_space}{letter}"
 
 
 def _offset(c: str) -> int:
