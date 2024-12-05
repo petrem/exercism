@@ -1,27 +1,36 @@
 // Playing with iterators, this exploits the vertical and horizontal symmetry. It isn't efficient or elegant,
 // but Reflect is rather nice, I think.
+// Update: stopped using Reflect for creating each line, so just use the vertical symmetry.
 
 pub fn get_diamond(c: char) -> Vec<String> {
     assert!(c.is_ascii_uppercase());
     let offset = c as u8 - b'A';
-    Reflect::from((0..=offset).map(|i| row(c, i)).collect::<Vec<_>>())
-        .iter()
-        .cloned()
-        .collect()
+    Reflect::from(
+        (0..=offset)
+            .map(|i| {
+                format!(
+                    "{:^width$}",
+                    diamond_line(i),
+                    width = 1 + 2 * offset as usize
+                )
+            })
+            .collect::<Vec<_>>(),
+    )
+    .iter()
+    .cloned()
+    .collect()
 }
 
-fn row(c: char, pos: u8) -> String {
-    let offset = c as u8 - b'A';
-    let half = format!(
-        "{:>left_pad$}",
+fn diamond_line(pos: u8) -> String {
+    if pos == 0 {
+        String::from("A")
+    } else {
         format!(
-            "{:right_pad$}",
-            (b'A' + pos) as char,
-            right_pad = pos as usize + 1
-        ),
-        left_pad = offset as usize + 1
-    );
-    Reflect::from(half).iter().collect()
+            "{c}{space}{c}",
+            c = (b'A' + pos) as char,
+            space = " ".repeat(2 * pos as usize - 1)
+        )
+    }
 }
 
 struct Reflect<T> {
@@ -123,17 +132,17 @@ mod tests {
     }
 
     #[test]
-    fn first_row_for_e() {
-        assert_eq!(row('E', 0), "    A    ");
+    fn first_line() {
+        assert_eq!(diamond_line(0), "A");
     }
 
     #[test]
-    fn second_row_for_e() {
-        assert_eq!(row('E', 1), "   B B   ");
+    fn second_line() {
+        assert_eq!(diamond_line(1), "B B");
     }
 
     #[test]
-    fn middle_row_for_e() {
-        assert_eq!(row('E', 4), "E       E");
+    fn fifth_line() {
+        assert_eq!(diamond_line(4), "E       E");
     }
 }
