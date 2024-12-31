@@ -135,19 +135,15 @@ class Path:
 
     __slots__ = ["steps", "state"]
 
-    def __init__(self, steps: list[Action], state: State):
+    def __init__(self, steps: int, state: State):
         self.steps = steps
         self.state = state
 
     def __repr__(self):
-        steps = "->".join(str(action) for action in self.steps)
-        return f"[{steps}] => {self.state}"
+        return f"Path({self.steps}, {self.state}"
 
     def extend(self, action: Action) -> typing.Self:
-        steps = deepcopy(self.steps)
-        steps.append(action)
-        state = action.perform(self.state)
-        return self.__class__(steps, state)
+        return self.__class__(self.steps + 1, action.perform(self.state))
 
     @classmethod
     def paths_from(
@@ -165,8 +161,7 @@ class Path:
             yield from cls.paths_from(frontier, explored)
 
 
-# limit how many paths to inspect, to avoid exploring ad infinitum
-PATHS_LIMIT = 10000
+# limit how long paths can get, to avoid exploring ad infinitum
 PATHS_LEN_LIMIT = 100
 
 
@@ -179,7 +174,7 @@ def measure(
     if goal > capacity_one and goal > capacity_two:
         raise ValueError("No can do")
     empty_state = State(Bucket("one", capacity_one, 0), Bucket("two", capacity_two, 0))
-    empty_path = Path([], empty_state)
+    empty_path = Path(0, empty_state)
     start_path = empty_path.extend(ActionFill(start_bucket))
     # As per the instructions, "you may not arrive at a state where the initial
     # starting bucket is empty and the other bucket is full". Model this
@@ -191,16 +186,15 @@ def measure(
         (empty_path, start_path),
         Path.paths_from([start_path], {empty_state, start_path.state, invalid_state}),
     )
-    for count, path in enumerate(paths_iterator, start=1):
+    for path in paths_iterator:
         if (goal_bucket := path.state.goal_bucket(goal)) is not None:
             return (
-                len(path.steps),
+                path.steps,
                 goal_bucket,
                 path.state.buckets[the_other_bucket_id(goal_bucket)].volume,
             )
-        if count == PATHS_LIMIT or len(path.steps) > PATHS_LEN_LIMIT:
+        if path.steps > PATHS_LEN_LIMIT:
             raise RuntimeError(
-                "Maximum number of paths explored or reached paths that are too long"
-                "without finding a solution."
+                "Reached paths that are too long without finding a solution."
             )
     raise ValueError("No luck")
