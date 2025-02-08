@@ -4,7 +4,10 @@ let haskell_env = haskellPackages.ghcWithPackages (
       pkgs: with pkgs; [
         # stack
         # haddock
+        haskell-language-server
         hlint
+        ghcid
+        stack
         stack-clean-old
       ]);
 in
