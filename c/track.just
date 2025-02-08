@@ -37,3 +37,8 @@ _upgrade:
         echo "Removing old test dir 'test'"
         git rm -rf test/
     fi 
+
+# Run after getting exercise
+[no-cd]
+_get-exercise exercise:
+    # TODO: << track specific >>

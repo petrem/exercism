@@ -62,7 +62,7 @@ upgrade-exercise: && _upgrade
 
 # Download exercise
 [no-cd]
-get-exercise exercise:
+get-exercise exercise: && (_get-exercise exercise)
     #!/usr/bin/env bash
     echo "Downloading {{TRACK}}/{{exercise}} ..."
     exercism download --track={{TRACK}} --exercise={{exercise}}

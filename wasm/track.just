@@ -28,3 +28,8 @@ _upgrade:
     sed -i -e '/^ *xtest/s/xtest/test/' {{TEST_FILES}}
     git add {{TEST_FILES}}
 
+
+# Run after getting exercise
+[no-cd]
+_get-exercise exercise:
+    # TODO: << track specific >>

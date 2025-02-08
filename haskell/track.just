@@ -32,3 +32,8 @@ _test:
 [no-cd]
 _upgrade:
     # TODO: << track specific >>
+
+# Run after getting exercise
+[no-cd]
+_get-exercise exercise:
+    cp -f stack.yaml.template {{exercise}}/stack.yaml
