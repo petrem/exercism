@@ -25,3 +25,7 @@ peelApostrophes = dropWhile (== '\'') . foldr go ""
   where
     go '\'' [] = []
     go c acc = c : acc
+
+-- TODO:
+-- - use Data.Text
+-- - look into Multiset
