@@ -3,16 +3,13 @@
 module WordCount (wordCount) where
 
 import Data.Char (isAlphaNum)
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as M
+import Data.MultiSet (MultiSet, Occur)
+import qualified Data.MultiSet as M
 import Data.Text (Text)
 import qualified Data.Text as T
 
-wordCount :: Text -> Map Text Int
-wordCount = countWords . words' . T.toLower
-
-countWords :: [Text] -> Map Text Int
-countWords = foldr (\s r -> M.insertWith (+) s 1 r) M.empty
+wordCount :: Text -> [(Text, Occur)]
+wordCount = M.toOccurList . foldr M.insert M.empty . words' . T.toLower
 
 isSeparator :: Char -> Bool
 isSeparator = not . ((||) <$> Data.Char.isAlphaNum <*> (== '\''))
@@ -20,12 +17,6 @@ isSeparator = not . ((||) <$> Data.Char.isAlphaNum <*> (== '\''))
 words' :: Text -> [Text]
 words' s = case T.dropWhile isSeparator s of
   "" -> []
-  s' -> peelApostrophes w : words' s''
+  s' -> T.dropAround (== '\'') w : words' s''
     where
       (w, s'') = T.break isSeparator s'
-
-peelApostrophes :: Text -> Text
-peelApostrophes = T.dropAround (== '\'')
-
--- TODO:
--- - look into Multiset

@@ -18,7 +18,7 @@ library
   ghc-options: -Wall
   build-depends:
       base
-    , containers
+    , multiset
     , text
   default-language: Haskell2010
 
