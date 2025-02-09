@@ -16,7 +16,8 @@ type State = (Volume, Volume)
 type Steps = Int
 
 measure :: Capacities -> Volume -> Maybe (Steps, State)
-measure capacities targetVolume = (,) <$> pathSteps <*> pathState <$> asum (checkForTarget <$> generations)
+measure capacities targetVolume =
+  (,) <$> pathSteps <*> pathState <$> asum (checkForTarget <$> generations)
   where
     seed = Frontier [startPath] startSeen
     startPath = extendPath capacities (Path 0 emptyState) FillFirst
@@ -28,7 +29,7 @@ measure capacities targetVolume = (,) <$> pathSteps <*> pathState <$> asum (chec
     invalidState = pathState $ extendPath capacities (Path 0 emptyState) FillSecond
 
     checkForTarget = find (isGoalReached targetVolume . pathState)
-    generations = unfoldr (newFrontier' capacities) seed
+    generations = unfoldr (newFrontier capacities) seed
 
 isGoalReached :: Volume -> State -> Bool
 isGoalReached target (v1, v2) = v1 == target || v2 == target
@@ -69,23 +70,8 @@ extendPath c (Path steps state) a = Path (steps + 1) (perform c a state)
 
 data Frontier = Frontier [Path] (Set State) deriving (Show)
 
--- Find the new "frontier" in the state space from a given list of paths
-newFrontier :: Capacities -> Frontier -> Maybe Frontier
+newFrontier :: Capacities -> Frontier -> Maybe ([Path], Frontier)
 newFrontier c (Frontier ps seen) =
-  if null newPaths
-    then Nothing
-    else Just $ Frontier newPaths newSeen
-  where
-    newPaths =
-      [ extendPath c p a
-        | p <- ps,
-          a <- actions,
-          pathState (extendPath c p a) `Set.notMember` seen
-      ]
-    newSeen = Set.union seen (Set.fromList $ map pathState newPaths)
-
-newFrontier' :: Capacities -> Frontier -> Maybe ([Path], Frontier)
-newFrontier' c (Frontier ps seen) =
   if null newPaths
     then Nothing
     else Just (ps, Frontier newPaths newSeen)
