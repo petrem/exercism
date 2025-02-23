@@ -1,8 +1,7 @@
 -- turned out rather ugly, I'll have to redo from scratch
 {-# LANGUAGE StrictData #-}
 
--- module Bowling (score, BowlingError(..)) where
-module Bowling where
+module Bowling (score, BowlingError(..)) where
 
 import Control.Monad (foldM, (<=<))
 
