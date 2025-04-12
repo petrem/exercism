@@ -1,7 +1,5 @@
 use std::collections::{HashMap, HashSet};
 
-// A bit better. Still, sorting is not really necessary.
-
 pub fn anagrams_for<'a>(word: &str, possible_anagrams: &'a [&str]) -> HashSet<&'a str> {
     HashSet::from_iter(
         possible_anagrams
@@ -30,13 +28,12 @@ struct Counter(HashMap<char, usize>);
 
 impl FromIterator<char> for Counter {
     fn from_iter<T: IntoIterator<Item = char>>(iter: T) -> Self {
-        let mut letters = HashMap::new();
-        for ch in iter {
+        Self(iter.into_iter().fold(HashMap::new(), |mut letters, ch| {
             letters
                 .entry(ch)
-                .and_modify(|counter| *counter += 1)
+                .and_modify(|count| *count += 1)
                 .or_insert(1);
-        }
-        Self(letters)
+            letters
+        }))
     }
 }
