@@ -6,11 +6,7 @@ from functools import partial, reduce, wraps
 
 def parse(markdown):
     line_parser = compose(
-        _parse_paragraph,
-        _parse_italic,
-        _parse_bold,
-        _parse_heading,
-        _parse_list_item
+        _parse_paragraph, _parse_italic, _parse_bold, _parse_heading, _parse_list_item
     )
     return "".join(value for value in _parse(markdown, line_parser))
 
@@ -35,11 +31,7 @@ def _parse(markdown, line_parser):
 def parse2(markdown):
     parsed_results = []
     line_parser = compose(
-        _parse_paragraph,
-        _parse_italic,
-        _parse_bold,
-        _parse_heading,
-        _parse_list_item
+        _parse_paragraph, _parse_italic, _parse_bold, _parse_heading, _parse_list_item
     )
     outside = outside_list(line_parser)
     next(outside)
@@ -66,7 +58,7 @@ def inside_list(line_parser, starter_line):
     line = yield f"<ul>{starter_line}"
     while True:
         if line is None:
-            return "</ul2>"
+            return "</ul>"
         parsed_line = line_parser(ParserText(line))
         if ParserAttrs.LIST_ITEM not in parsed_line.attrs:
             return f"</ul>{parsed_line.text}"
@@ -77,6 +69,7 @@ def inside_list(line_parser, starter_line):
 
 
 # Line parsing
+
 
 class ParserAttrs(Flag):
     NONE = 0
@@ -92,17 +85,15 @@ def parser(regex=None):
 
     def outer(fn):
         @wraps(fn)
-        def inner(src, match=None):
+        def inner(src, _match=None):
             if regex:
-                m = re.match(regex, src.text)
-                if m:
-                    result = fn(src, m)
-                else:
-                    result = src
+                result = src if (m := re.match(regex, src.text)) is None else fn(src, m)
             else:
                 result = fn(src)
             return ParserText(result.text, result.attrs | src.attrs)
+
         return inner
+
     return outer
 
 
@@ -110,37 +101,35 @@ def parser(regex=None):
 def _parse_paragraph(parsertxt):
     if ParserAttrs.HAS_CONTAINER not in parsertxt.attrs:
         return ParserText(_p(parsertxt.text), ParserAttrs.HAS_CONTAINER)
-    else:
-        return parsertxt
+    return parsertxt
 
 
 @parser(r"(?P<hashes>#|##|######) (?P<title>.*)")
-def _parse_heading(parsertxt, match=None):
+def _parse_heading(_parsertxt, match=None):
     return ParserText(
-        _heading(len(match["hashes"]), match["title"]),
-        ParserAttrs.HAS_CONTAINER
+        _heading(len(match["hashes"]), match["title"]), ParserAttrs.HAS_CONTAINER
     )
 
 
 @parser(r"\* (?P<item>.*)")
-def _parse_list_item(parsertxt, match=None):
+def _parse_list_item(_parsertxt, match=None):
     return ParserText(
-        _li(match["item"]),
-        ParserAttrs.HAS_CONTAINER | ParserAttrs.LIST_ITEM
+        _li(match["item"]), ParserAttrs.HAS_CONTAINER | ParserAttrs.LIST_ITEM
     )
 
 
 @parser(r"(.*)__(.*)__(.*)")
-def _parse_bold(parsertxt, match=None):
+def _parse_bold(_parsertxt, match=None):
     return ParserText(_bold(*match.groups()))
 
 
 @parser(r"(.*)_(.*)_(.*)")
-def _parse_italic(line, match=None):
+def _parse_italic(_line, match=None):
     return ParserText(_italic(*match.groups()))
 
 
 # Compose
+
 
 def compose(*functions):
     """Compose given functions of one (mandatory) argument.
@@ -151,6 +140,7 @@ def compose(*functions):
 
 
 # HTML tag helpers
+
 
 def _tagged(tag, text):
     return f"<{tag}>{text}</{tag}>"
