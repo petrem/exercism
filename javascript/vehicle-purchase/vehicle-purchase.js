@@ -36,7 +36,7 @@ const AGE_RANGE_DISCOUNT = [
   [11, 0.5],
 ];
 
-const get_discount = (age) => AGE_RANGE_DISCOUNT.filter((x) => x[0] <= age).pop()[1];
+const get_discount = (age) => AGE_RANGE_DISCOUNT.filter((x) => x[0] <= age).at(-1)[1];
 
 export function calculateResellPrice(originalPrice, age) {
   return originalPrice * get_discount(age);
