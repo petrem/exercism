@@ -32,8 +32,8 @@ const BILLABLE_DAYS_IN_MONTH = 22;
  * @returns {number} the rounded up discounted rate
  */
 export function priceWithMonthlyDiscount(ratePerHour, numDays, discount) {
-  var fullDays = numDays % BILLABLE_DAYS_IN_MONTH;
-  var discountedDays = numDays - fullDays;
+  const fullDays = numDays % BILLABLE_DAYS_IN_MONTH;
+  const discountedDays = numDays - fullDays;
   return Math.ceil(
     dayRate(ratePerHour * (1-discount)) * discountedDays
       + dayRate(ratePerHour) * fullDays);
