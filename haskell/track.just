@@ -6,6 +6,10 @@ SRC_FILES := "`jq --raw-output '[ .files.solution | .[] | match(\"^.*[.]hs$\").s
 #EXTRA_SRC_FILES :=
 
 [no-cd]
+_init:
+    # TODO: << track specific >>
+
+[no-cd]
 _clean:
     stack-clean-old delete-work -d -r -y
 

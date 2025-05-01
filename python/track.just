@@ -1,6 +1,10 @@
 # track-specific tasks
 
 [no-cd]
+_init:
+    # TODO: << track specific >>
+
+[no-cd]
 _clean:
     find . -name \*.pyc -delete
     find . \( -name __pycache__  -o -name .pytest_cache \) -type d -prune -exec rm -rf \{\} \;

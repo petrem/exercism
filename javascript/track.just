@@ -1,23 +1,30 @@
 # track-specific tasks
 
 [no-cd]
+_init:
+    # installing module and dependencies
+    pnpm install
+    # install corepack@latest is a workaround for versions mismatch
+    pnpm install corepack@latest
+
+[no-cd]
 _clean:
     find . -name node_modules -type d -prune -exec rm -rf \{\} \;
 
 [no-cd]
-_lint:
-    npm run lint -- --max-warnings 0 --ignore-pattern *.spec.* {{SOLUTION_FILES}}
+_lint: _init
+    pnpm run lint --max-warnings 0 --ignore-pattern \*.spec.\* {{SOLUTION_FILES}}
 
 
 # Auto-format code files
 [no-cd]
-_style:
+_style: _init
     # TODO: << track specific >>
 
 # Run tests
 [no-cd]
-_test:
-    npm install && npm run test
+_test: _init
+    pnpm run test
 
 # Track-specific exercise upgrade steps
 [no-cd]

@@ -81,9 +81,9 @@ submit:
     # Submitting...
     exercism submit {{SOLUTION_FILES}}
 
-# Style, lint, test, commit, submit and clean
+# Initialise, style, lint, test, commit, submit and clean
 [no-cd]
-all: && style lint test commit submit clean
+all: && _init style lint test commit submit clean
     # The Full Monty
 
 

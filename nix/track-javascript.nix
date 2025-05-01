@@ -2,5 +2,6 @@ pkgs:
 with pkgs;
 {
   build_pkgs = [];
-  shell_pkgs = [nodejs nodePackages.npm];
+  shell_pkgs = [nodejs nodejs.pkgs.pnpm];
+  # shell_pkgs = [nodejs nodejs.pkgs.pnpm nodePackages.npm];
 }

@@ -1,6 +1,10 @@
 # track-specific tasks
 
 [no-cd]
+_init:
+    # TODO: << track specific >>
+
+[no-cd]
 _clean:
     make clean
 
