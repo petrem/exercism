@@ -1,14 +1,14 @@
 export const parse = (acronym) =>
-[...acronym]
+  [...acronym]
     .reduce(([prev, acc], c) =>
-        [c, acc + (isInitial(prev, c) ? c : "")],
-        [" ", ""])[1]
+      [c, acc + (isInitial(prev, c) ? c : "")],
+      [" ", ""])[1]
     .toUpperCase();
 
 const isInitial = (prev, c) =>
-      isAlpha(c) && (
-          (prev !== "'" && (prev === " " || isPunctuation(prev)))
-              || (isLower(prev) && isUpper(c)))
+  isAlpha(c) && (
+    (prev !== "'" && (prev === " " || isPunctuation(prev)))
+          || (isLower(prev) && isUpper(c)))
 
 const isPunctuation = (c) => [".", ",", ":", "!", "?", "-"].indexOf(c) > 0;
 const isLower = (c) => c.toLowerCase() === c;
