@@ -4,13 +4,13 @@
 
 import Data.Foldable     (for_)
 import Test.Hspec        (Spec, describe, it, shouldBe)
-import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
+import Test.Hspec.Runner (configFailFast, defaultConfig, hspecWith)
 import Data.String       (fromString)
 
 import ResistorColors (Color(..), Resistor(..), label, ohms)
 
 main :: IO ()
-main = hspecWith defaultConfig {configFastFail = True} specs
+main = hspecWith defaultConfig {configFailFast = True} specs
 
 specs :: Spec
 specs = do
@@ -103,5 +103,3 @@ cases = [ Case { input         = Resistor (Black, Black, Black)
                }
         -}
         ]
-
--- a9ca831fade0507365a75ea2a3819dca8b38e53b
