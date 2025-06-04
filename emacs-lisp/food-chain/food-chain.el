@@ -28,14 +28,16 @@
 
 (defsubst utter (animal)
   (if (is-qualified animal)
-      (concat "It " (cadr animal) ".")
+      (format "It %s." (cadr animal))
     (cadr animal)))
 
-(defsubst qualify (animal)
-  (when (is-qualified animal) (concat " that " (cadr animal))))
-
 (defsubst explain (animal1 animal2)
-  (concat "She swallowed the " (name animal1) " to catch the " (name animal2) (qualify animal2) "."))
+  (format
+   "She swallowed the %s to catch the %s."
+   (name animal1)
+   (if (is-qualified animal2)
+       (format "%s that %s" (name animal2) (cadr animal2))
+     (name animal2))))
 
 (defsubst take-until (testp seq)
   (let ((not-test-p (lambda (x) (not (funcall testp x)))))
@@ -47,7 +49,7 @@
          (accretion (seq-mapn #'explain  animals (seq-rest animals))))
     (nconc
      (list ""
-           (concat "I know an old lady who swallowed a " (name animal) ".")
+           (format"I know an old lady who swallowed a %s." (name animal))
            (utter animal))
      (unless (is-last animal)
        (nconc accretion (list (utter (car (last animals)))))))))
