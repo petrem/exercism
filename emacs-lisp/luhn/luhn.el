@@ -23,7 +23,7 @@
                                   (aref luhn-doubles digit)
                                 digit))
                   n-luhn-digits (1+ n-luhn-digits))))
-         ((/= c ? ) (error "Found character that is not digit or space: %c" c)))
+         ((/= c ?\s) (error "Found character that is not digit or space: %c" c)))
         (setq i (1- i))))
     (if (< n-luhn-digits 2)
         nil
