@@ -1,6 +1,6 @@
 //! Count hailstone steps to 1.
-//! This version should be noticably faster than your run-of-the-mill solution,
-//! but I didn't benchmark it.
+//! This version should be noticably faster than your run-of-the-mill solution.
+//! Included benchmarking code, thanks to backdevjung's help.
 
 pub fn collatz(n: u64) -> Option<u64> {
     match n {

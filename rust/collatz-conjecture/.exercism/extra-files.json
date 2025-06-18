@@ -1,0 +1,6 @@
+{
+  "files": {
+    "solution": [
+      "benches/collatz_bench.rs"
+    ]
+}
