@@ -3,4 +3,5 @@
     "solution": [
       "benches/collatz_bench.rs"
     ]
+  }
 }
