@@ -4,7 +4,10 @@ name = "collatz_conjecture"
 version = "1.2.1"
 
 [dev-dependencies]
-criterion = "0.6.0"
+# commented out because it brings in lots of dependencies
+# and compilation time takes longer, causing tests to timeout
+
+# criterion = "0.6.0"
 
 [[bench]]
 name = "collatz_bench"
