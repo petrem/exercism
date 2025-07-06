@@ -35,7 +35,7 @@ where
 {
     let pos = STUDENTS
         .binary_search(&student)
-        .unwrap_or_else(|_| panic!("Student {} not found", student));
+        .unwrap_or_else(|_| panic!("Student {student} not found"));
     move |row: &str| Box::new(row[pos * 2..(pos + 1) * 2].chars().map(f))
 }
 
