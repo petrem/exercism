@@ -4,7 +4,7 @@
 pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
     diagram
         .lines()
-        .flat_map(student_plants_getter(student))
+        .flat_map(student_plants_mapper(student, &get_plant_name))
         .collect()
 }
 
@@ -26,13 +26,17 @@ fn get_plant_name(repr: char) -> &'static str {
 
 // I learned this way of typing the return type of this function from my mentor.
 // Thank you!
-fn student_plants_getter<'a>(
+fn student_plants_mapper<'a, F>(
     student: &str,
-) -> impl FnMut(&'a str) -> Box<dyn Iterator<Item = &'static str> + 'a> {
+    f: &'a F,
+) -> impl FnMut(&'a str) -> Box<dyn Iterator<Item = &'static str> + 'a>
+where
+    F: Fn(char) -> &'static str + 'a,
+{
     let pos = STUDENTS
         .binary_search(&student)
         .unwrap_or_else(|_| panic!("Student {} not found", student));
-    move |row: &str| Box::new(row[pos * 2..(pos + 1) * 2].chars().map(get_plant_name))
+    move |row: &str| Box::new(row[pos * 2..(pos + 1) * 2].chars().map(f))
 }
 
 #[cfg(test)]
@@ -40,8 +44,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn student_plants_getter_for_existing_student() {
-        let mut ileana_getter = student_plants_getter("Ileana");
+    fn student_plants_mapper_get_plants_for_existing_student() {
+        let mut ileana_getter = student_plants_mapper("Ileana", &get_plant_name);
         let plants_row = "RRRRRRRRRRRRRRRRCVRRRRRR";
         let ileanas_plants: Vec<&str> = ileana_getter(&plants_row).collect();
         let expected = vec!["clover", "violets"];
@@ -51,6 +55,6 @@ mod tests {
     #[test]
     #[should_panic(expected = "Student Lucreția not found")]
     fn student_plants_getter_panics_for_unknown_student() {
-        let _ = student_plants_getter("Lucreția");
+        let _ = student_plants_mapper("Lucreția", &|_| "not used");
     }
 }
