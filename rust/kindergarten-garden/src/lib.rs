@@ -24,23 +24,29 @@ fn get_plant_name(repr: char) -> &'static str {
     }
 }
 
-use std::iter::Map;
-use std::str::Chars;
-
-// In terms of the return type, I don't really understand this.
-// I've let the compiler error guide me.
-fn student_plants_getter(
+// I learned this way of typing the return type of this function from my mentor.
+// Thank you!
+fn student_plants_getter<'a>(
     student: &str,
-) -> impl FnMut(&str) -> Map<Chars<'_>, fn(char) -> &'static str> {
+) -> impl FnMut(&'a str) -> Box<dyn Iterator<Item = &'static str> + 'a> {
     let pos = STUDENTS
         .binary_search(&student)
         .unwrap_or_else(|_| panic!("Student {} not found", student));
-    move |row: &str| row[pos * 2..(pos + 1) * 2].chars().map(get_plant_name)
+    move |row: &str| Box::new(row[pos * 2..(pos + 1) * 2].chars().map(get_plant_name))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn student_plants_getter_for_existing_student() {
+        let mut ileana_getter = student_plants_getter("Ileana");
+        let plants_row = "RRRRRRRRRRRRRRRRCVRRRRRR";
+        let ileanas_plants: Vec<&str> = ileana_getter(&plants_row).collect();
+        let expected = vec!["clover", "violets"];
+        assert_eq!(expected, ileanas_plants);
+    }
 
     #[test]
     #[should_panic(expected = "Student Lucreția not found")]
