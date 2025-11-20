@@ -1,6 +1,6 @@
 module Pangram (isPangram) where
 
-import Data.Char (toLower, isAlpha)
+import Data.Char (toLower, isAlpha, toUpper, ord)
 import Data.List (all, group, nub, sort)
 import Data.Set (Set)
 import qualified Data.Set as Set
@@ -9,6 +9,9 @@ import Control.Exception
 import Control.Monad
 import System.Time.Extra
 
+import Data.Bits
+
+isPangram = isPangram5
 
 isPangram1 :: String -> Bool
 isPangram1 = (26 == ) . length . nub . sort . map toLower . filter isAlpha
@@ -23,8 +26,8 @@ isPangram3 :: String -> Bool
 isPangram3 = (26 == ) . Set.size . Set.fromList . map toLower . filter isAlpha
 
 -- a more straight-forward approach
-isPangram :: String -> Bool
-isPangram xs = all (`elem` map toLower xs) alphabet
+isPangram0 :: String -> Bool
+isPangram0 xs = all (`elem` map toLower xs) alphabet
   where alphabet = ['a'..'z']
 
 -- a classic recursive solution
@@ -39,6 +42,21 @@ isPangram_ s (x:xs)
 
 isPangram4 :: String -> Bool
 isPangram4 = isPangram_ Set.empty
+
+
+-- bit field based, from max-min-median user
+isPangram5 :: String -> Bool
+isPangram5 text =
+    let bitset = zeroBits :: Int
+        h bs s 26 = True
+        h bs "" count = False
+        h bs (x:xs) count
+            | ch < 0 || ch > 25 = h bs xs count
+            | otherwise = h (setBit bs ch) xs (count + if testBit bs ch then 0 else 1)
+            where ch = ord (toUpper x) - 65
+    in h bitset text 0
+
+
 
 
 -- benchmark functions, based on code in http://neilmitchell.blogspot.com/2015/02/nub-considered-harmful.html

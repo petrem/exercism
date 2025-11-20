@@ -1,0 +1,26 @@
+{
+  "authors": [
+    "canweriotnow"
+  ],
+  "contributors": [
+    "cyborgsphinx",
+    "guygastineau",
+    "jitwit",
+    "kytrinyx"
+  ],
+  "files": {
+    "solution": [
+      "leap.scm"
+    ],
+    "test": [
+      "test.scm",
+      "test-util.ss"
+    ],
+    "example": [
+      ".meta/example.scm"
+    ]
+  },
+  "blurb": "Determine whether a given year is a leap year.",
+  "source": "CodeRanch Cattle Drive, Assignment 3",
+  "source_url": "https://coderanch.com/t/718816/Leap"
+}
