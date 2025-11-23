@@ -1,5 +1,7 @@
 (import (rnrs))
 
+;; Changed inner helper function in `list-counter` with a recursive-let.
+
 (define (anagram target words)
   (filter (anagram-checker-for target) words))
 
@@ -17,14 +19,12 @@
   (list-counter (string->list word)))
 
 (define (list-counter lst)
-  ;; how do I do folds?
-  (define (go elems counts)
+  (let go ((elems lst) (counts '()))
     (if (null? elems)
         counts
         (let* ((head (car elems))
                (head-count (1+ (assv-ref-default counts head 0))))
-          (go (cdr elems) (assv-set! counts head head-count)))))
-  (go lst '()))
+          (go (cdr elems) (assv-set! counts head head-count))))))
 
 (define (assv-ref-default alist key default)
   (let ((ent (assv key alist)))
