@@ -5,7 +5,6 @@
          (row (make-array 0 capacity+1)))
     (for-each
      (lambda (weight value)
-       (display (format #f "~s ~s: ~s\n" weight value row))
        (let ((update-from (min weight capacity+1))
              (row-copy (make-array 0 capacity+1)))
          (array-copy! row row-copy)
@@ -19,7 +18,6 @@
          (set! row row-copy)))
      weights
      values)
-    (display (format #f "last: ~s\n" row))
     (array-ref row capacity)))
 
 (define (range a b) (iota (max 0 (- b a)) a))
