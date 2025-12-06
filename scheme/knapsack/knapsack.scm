@@ -2,25 +2,20 @@
 
 (define (knapsack capacity weights values)
   (let* ((capacity+1 (1+ capacity))
-         (row (make-array 0 capacity+1)))
-    (for-each
-     (lambda (weight value)
-       (let ((update-from (min weight capacity+1))
-             (row-copy (make-array 0 capacity+1)))
-         (array-copy! row row-copy)
-         (for-each
-          (lambda (i)
-            (array-set!
-             row-copy
-             (max (array-ref row i) (+ value (array-ref row (- i weight))))
-             i))
-          (range update-from capacity+1))
-         (set! row row-copy)))
-     weights
-     values)
-    (array-ref row capacity)))
+         (max-values-tbl (make-array 0 capacity+1)))
+    (define (find-max-value-for weight value)
+      (let ((update-from (min weight capacity+1)))
+        (let update-max-values ((i capacity))
+          (when (>= i update-from)
+            (array-set! max-values-tbl
+                        (max (array-ref max-values-tbl i)
+                             (+ value (array-ref max-values-tbl (- i weight))))
+                        i)
+            (update-max-values (1- i))))))
+    (define (get-max-value-for-capacity) (array-ref max-values-tbl capacity))
 
-(define (range a b) (iota (max 0 (- b a)) a))
+    (for-each find-max-value-for weights values)
+    (get-max-value-for-capacity)))
 
 
 ;; Initial recursive solution, expectedly slow.
