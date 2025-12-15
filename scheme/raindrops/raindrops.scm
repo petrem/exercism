@@ -1,13 +1,11 @@
 (import (rnrs))
 
 (define (convert number)
-  (let ((rainspeak
-         (apply string-append
-                (map (lambda (rainword)
-                       (if (divisible number (rainword-number rainword))
-                           (rainword-sound rainword)
-                           ""))
-                     rainwords))))
+  (define (make-sound rainword)
+    (if (divisible-by? number (rainword-number rainword))
+        (rainword-sound rainword)
+        ""))
+  (let ((rainspeak (string-concatenate (map make-sound rainwords))))
     (if (string-null? rainspeak)
         (number->string number)
         rainspeak)))
@@ -18,4 +16,4 @@
 
 (define rainword-number car)
 (define rainword-sound cdr)
-(define (divisible n m) (= (remainder n m) 0))
+(define (divisible-by? n m) (= (remainder n m) 0))
