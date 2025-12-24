@@ -21,7 +21,7 @@ _style:
 # Run tests
 [no-cd]
 _test:
-    # TODO: << track specific >>
+        make guile
 
 # Track-specific exercise upgrade steps
 [no-cd]

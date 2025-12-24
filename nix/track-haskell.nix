@@ -4,16 +4,17 @@ let haskell_env = haskellPackages.ghcWithPackages (
       pkgs: with pkgs; [
         # stack
         # haddock
-        haskell-language-server
-        hlint
-        ghcid
-        stack
-        stack-clean-old
+        # haskell-language-server
+        #hlint
+        #ghcid
+        # stack
+        # stack-clean-old
       ]);
 in
 {
   build_pkgs = [];
-  shell_pkgs = [haskell_env ormolu];
+  #shell_pkgs = [haskell_env ormolu];
+  shell_pkgs = [];
 }
 
   # Further read:
