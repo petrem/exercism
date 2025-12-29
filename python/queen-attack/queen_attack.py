@@ -1,16 +1,25 @@
+# pylint: disable=too-few-public-methods
 class Queen:
     def __init__(self, row, column):
-        if 0 <= row <= 7 and 0 <= column <= 7:
-            self._row = row
-            self._col = column
-        else:
-            raise ValueError(f"Queen(row, column) not on board")
+        self.row = row
+        self.col = column
+        self._validate()
+
+    def _validate(self):
+        if self.row > 7:
+            raise ValueError("row not on board")
+        if self.row < 0:
+            raise ValueError("row not positive")
+        if self.col > 7:
+            raise ValueError("column not on board")
+        if self.col < 0:
+            raise ValueError("column not positive")
 
     def can_attack(self, other):
-        if self._row == other._row and self._col == other._col:
-            raise ValueError("The other queen has same position")
+        if self.row == other.row and self.col == other.col:
+            raise ValueError("Invalid queen position: both queens in the same square")
         return (
-            self._row == other._row
-            or self._col == other._col
-            or abs(self._col - other._col) == abs(self._row - other._row)
+            self.row == other.row
+            or self.col == other.col
+            or abs(self.col - other.col) == abs(self.row - other.row)
         )
