@@ -11,7 +11,7 @@
     (unless (string->number digits)
       (error "non-digits in phone number"))
     (when (or (> (string-length digits) 11)
-               (< (string-length digits) 10))
+              (< (string-length digits) 10))
       (error "Too long or too short"))
     (let ((digits10
            (if (= (string-length digits) 11)
