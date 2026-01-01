@@ -2,7 +2,7 @@
 
 (define (proper-divisors n)
   (filter (lambda (m) (= (remainder n m) 0))
-          (iota (- n 2) 1)))
+          (iota (quotient n 2) 1)))
 
 (define (classify n)
   (cond ((<= n 0)
