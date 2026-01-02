@@ -1,0 +1,20 @@
+{
+  "authors": [
+    "jitwit"
+  ],
+  "files": {
+    "solution": [
+      "pangram.scm"
+    ],
+    "test": [
+      "test.scm",
+      "test-util.ss"
+    ],
+    "example": [
+      ".meta/example.scm"
+    ]
+  },
+  "blurb": "Determine if a sentence is a pangram.",
+  "source": "Wikipedia",
+  "source_url": "https://en.wikipedia.org/wiki/Pangram"
+}
