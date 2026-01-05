@@ -1,0 +1,24 @@
+{
+  "authors": [
+    "wwest4"
+  ],
+  "contributors": [
+    "guygastineau",
+    "jitwit",
+    "yurrriq"
+  ],
+  "files": {
+    "solution": [
+      "word-count.scm"
+    ],
+    "test": [
+      "test.scm",
+      "test-util.ss"
+    ],
+    "example": [
+      ".meta/example.scm"
+    ]
+  },
+  "blurb": "Given a phrase, count the occurrences of each word in that phrase.",
+  "source": "This is a classic toy problem, but we were reminded of it by seeing it in the Go Tour."
+}
