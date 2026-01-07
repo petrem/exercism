@@ -7,4 +7,4 @@
           (else (loop (cdr seq) res)))))
 
 (define (discard pred seq)
-  (keep (negate pred) seq))
+  (keep (lambda (x) (not (pred x))) seq))
