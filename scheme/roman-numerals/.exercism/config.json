@@ -1,0 +1,20 @@
+{
+  "authors": [
+    "tongkiat"
+  ],
+  "files": {
+    "solution": [
+      "roman-numerals.scm"
+    ],
+    "test": [
+      "test.scm",
+      "test-util.ss"
+    ],
+    "example": [
+      ".meta/example.scm"
+    ]
+  },
+  "blurb": "Convert modern Arabic numbers into Roman numerals.",
+  "source": "The Roman Numeral Kata",
+  "source_url": "https://codingdojo.org/kata/RomanNumerals/"
+}
