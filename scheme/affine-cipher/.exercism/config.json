@@ -1,0 +1,23 @@
+{
+  "authors": [
+    "guygastineau"
+  ],
+  "contributors": [
+    "jitwit"
+  ],
+  "files": {
+    "solution": [
+      "affine-cipher.scm"
+    ],
+    "test": [
+      "test.scm",
+      "test-util.ss"
+    ],
+    "example": [
+      ".meta/example.scm"
+    ]
+  },
+  "blurb": "Create an implementation of the Affine cipher, an ancient encryption algorithm from the Middle East.",
+  "source": "Wikipedia",
+  "source_url": "https://en.wikipedia.org/wiki/Affine_cipher"
+}
