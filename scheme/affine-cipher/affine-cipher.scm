@@ -6,8 +6,8 @@
 
   (define (encode-char ch)
     (index->letter (modulo (+ (* (car key) (letter->index ch))
-                                 (cdr key))
-                              26)))
+                              (cdr key))
+                           26)))
 
   (let fold-text ((pos 0) (acc '()))
     (if (>= pos (string-length text))
