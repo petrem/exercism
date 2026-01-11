@@ -3,10 +3,10 @@
 (define (square n)
   (when (or (< n 1) (> n 64))
     (error "Wrong input"))
-  ;; TODO: find out the bit shift operation
-  (if (eq? n 1)
-      1
-    (* 2 (square (1- n)))))
+  (let loop ((n n) (acc 1))
+    (if (= n 1)
+        acc
+        (loop (1- n) (ash acc 1)))))
 
 (define total
   #xffffffffffffffff)
