@@ -31,10 +31,11 @@ cleanup:
     find . -maxdepth 1 -type d ! -name '_*' -exec just '{}'/clean \;
 
 
-# Search tracks for given exercise
+# Search tracks for given EXERCISE
 find exercise:
     find . -maxdepth 2 -mindepth 2 -ipath "./*/{{exercise}}" | sort
 
+# Find tracks where EXERCISE is missing
 missing exercise:
     #!/usr/bin/env python3
     from pathlib import Path
