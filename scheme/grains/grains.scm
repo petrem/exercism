@@ -10,4 +10,3 @@
 
 (define total
   #xffffffffffffffff)
-
