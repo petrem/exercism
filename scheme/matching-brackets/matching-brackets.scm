@@ -3,16 +3,17 @@
 (use-modules (srfi srfi-1))  ; for alist-copy
 
 (define (balanced? string)
-   (define (bracket-shape bracket)
-     (case bracket
-       ((#\( #\)) 'round)
-       ((#\[ #\]) 'square)
-       ((#\{ #\}) 'curly)))
-
-  (define (counts-update! counts shape op)
-    (assoc-set! counts shape (op (assoc-ref counts shape))))
-
-  (let ((null-counts (alist-copy '((round . 0) (square . 0) (curly . 0))))
+  (let ((bracket-shape
+         (lambda (bracket)
+           (case bracket
+             ((#\( #\)) 'round)
+             ((#\[ #\]) 'square)
+             ((#\{ #\}) 'curly))))
+        (counts-update!
+         (lambda (counts shape op)
+           (assoc-set! counts shape (op (assoc-ref counts shape)))))
+        (null-counts
+         (alist-copy '((round . 0) (square . 0) (curly . 0))))
         (after-last-pos (string-length string)))
     (let loop ((counts null-counts) (par-stack '()) (pos 0))
       (if (= pos after-last-pos)
