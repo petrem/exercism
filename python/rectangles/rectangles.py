@@ -1,46 +1,36 @@
-"""For simplicity, I'm assuming correct input -- no dangling lines,
-no stray corners.
-"""
-
-from collections.abc import Iterable
-from itertools import chain, combinations
+_V_SET = set("+|")
+_H_SET = set("+-")
 
 
-def rectangles(strings):
+def rectangles(strings: list[str]) -> int:
+    corners = [
+        (x, y)
+        for x, row in enumerate(strings)
+        for y, col in enumerate(row)
+        if col == "+"
+    ]
+    print(corners)
+
+    def _are_connected(tl, br) -> bool:
+        # top side
+        if set(strings[tl[0]][tl[1] : br[1]]) - _H_SET:
+            return False
+        # bottom side
+        if set(strings[br[0]][tl[1] : br[1]]) - _H_SET:
+            return False
+        # left side
+        if {strings[col][tl[1]] for col in range(tl[0], br[0] + 1)} - _V_SET:
+            return False
+        # right side
+        return not ({strings[col][br[1]] for col in range(tl[0], br[0] + 1)} - _V_SET)
+
     found = 0
-    potentials = []
-    for line in strings:
-        vertical_lines = [pos for pos, char in enumerate(line) if char in "+|"]
-        sides = list(_horizontal_sides(line))
-        for side in potentials:
-            if side in sides:
-                # count finished rectangles
+    for pos, top_left in enumerate(corners):
+        for bottom_right in corners[pos + 1 :]:
+            if (
+                top_left[0] != bottom_right[0]
+                and top_left[1] < bottom_right[1]
+                and _are_connected(top_left, bottom_right)
+            ):
                 found += 1
-        # eliminate potentials without vertical continuation
-        potentials = [
-            side
-            for side in potentials
-            if side[0] in vertical_lines and side[1] in vertical_lines
-        ]
-        # add new potential squares
-        potentials.extend(sides)
     return found
-
-
-def _horizontal_sides(line) -> Iterable[tuple[int, int]]:
-    def _horizontal_segments() -> Iterable[tuple[int, str]]:
-        right = 0
-        while (left := line.find("+", right)) >= 0:
-            right = line.find(" ", left + 1)
-            if right < 0:
-                yield left, line[left:]
-                break
-            yield left, line[left:right]
-            left = right + 1
-
-    return chain.from_iterable(
-        combinations(
-            (start + pos for pos, char in enumerate(segment) if char == "+"), 2
-        )
-        for start, segment in _horizontal_segments()
-    )
