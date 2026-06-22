@@ -19,10 +19,12 @@ def rectangles(strings: list[str]) -> int:
         if set(strings[br[0]][tl[1] : br[1]]) - _H_SET:
             return False
         # left side
-        if {strings[col][tl[1]] for col in range(tl[0], br[0] + 1)} - _V_SET:
+        if not {strings[col][tl[1]] for col in range(tl[0], br[0] + 1)}.issubset(
+            _V_SET
+        ):
             return False
         # right side
-        return not ({strings[col][br[1]] for col in range(tl[0], br[0] + 1)} - _V_SET)
+        return {strings[col][br[1]] for col in range(tl[0], br[0] + 1)}.issubset(_V_SET)
 
     found = 0
     for pos, top_left in enumerate(corners):
